@@ -1,0 +1,32 @@
+{
+  "task_id": "LINKS-008",
+  "title": "`links theme` — switch and list themes",
+  "status": "todo",
+  "priority": "medium",
+  "description": "Implement the `links theme` command for switching the active theme and listing available themes.",
+  "requirements": {
+    "features": [
+      "Implement src/commands/theme.js with two subcommands:",
+      "  `links theme set <name>` — updates the theme field in links.yaml to the given theme name. Validates that the theme exists via listThemes(). Prints: '✓ Theme set to: <name>. Rebuild with: links deploy --self'",
+      "  `links theme list` — lists all available themes, marking the currently active one with a ✓ checkmark. Uses listThemes() from src/themes/loader.js.",
+      "  `links theme` with no subcommand — defaults to `links theme list` behavior",
+      "If theme name not found in listThemes(), print: 'Unknown theme: <name>. Run: links theme list' and exit 1"
+    ],
+    "outputs": [
+      "src/commands/theme.js (implemented)"
+    ]
+  },
+  "context_scope": {
+    "read_only": [
+      ".kntic/adrs/",
+      "src/config.js",
+      "src/themes/loader.js",
+      "src/cli.js"
+    ],
+    "write_access": [
+      "src/commands/theme.js",
+      ".kntic/manifests/LINKS-008.json"
+    ]
+  },
+  "created_at": "2026-03-16T19:10:00Z"
+}

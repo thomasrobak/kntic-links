@@ -1,0 +1,58 @@
+{
+  "task_id": "LINKS-001",
+  "title": "Repo scaffold — package.json, CLI entry point, project structure",
+  "status": "todo",
+  "priority": "high",
+  "description": "Bootstrap the @kntic/links npm CLI package. Create the full src/ directory layout, package.json (bin entry, dependencies, MIT license), and the main CLI entry point. This is the foundation all subsequent tasks build on.",
+  "requirements": {
+    "features": [
+      "Create package.json with name '@kntic/links', version '0.1.0', license 'MIT', bin entry 'links' pointing to 'src/cli.js'",
+      "Add runtime dependencies: js-yaml (config parsing), commander (CLI framework), chalk (terminal colors), open (browser opener), qrcode (QR generation)",
+      "Add devDependencies: none required for MVP",
+      "Create src/cli.js — main CLI entry point using commander, registers all subcommands (stubs ok), includes --version and --help",
+      "Create src/ subdirectory structure: src/commands/ (one file per command), src/themes/ (CSS files), src/utils.js (shared helpers)",
+      "Create src/commands/ stub files: init.js, add.js, remove.js, list.js, deploy.js, theme.js, qr.js, config-cmd.js, open-cmd.js, status.js — each exports an async function",
+      "Create MIT LICENSE file at repo root",
+      "Create .npmignore excluding: .kntic/, .git/, kntic.yml, Dockerfile.agent, skills/",
+      "Create .gitignore additions: node_modules/, dist/, *.log",
+      "Ensure src/cli.js has a shebang line: #!/usr/bin/env node",
+      "Run npm install to generate package-lock.json"
+    ],
+    "outputs": [
+      "package.json",
+      "package-lock.json",
+      "LICENSE",
+      ".npmignore",
+      "src/cli.js",
+      "src/utils.js",
+      "src/commands/init.js",
+      "src/commands/add.js",
+      "src/commands/remove.js",
+      "src/commands/list.js",
+      "src/commands/deploy.js",
+      "src/commands/theme.js",
+      "src/commands/qr.js",
+      "src/commands/config-cmd.js",
+      "src/commands/open-cmd.js",
+      "src/commands/status.js",
+      "src/themes/.gitkeep"
+    ]
+  },
+  "context_scope": {
+    "read_only": [
+      ".kntic/adrs/",
+      ".kntic/MEMORY.MD"
+    ],
+    "write_access": [
+      "src/",
+      "package.json",
+      "package-lock.json",
+      "LICENSE",
+      ".npmignore",
+      ".gitignore",
+      ".kntic/manifests/LINKS-001.json"
+    ]
+  },
+  "notes": "Commander v12+. Use ES modules (type: module in package.json). Keep cli.js thin — just wires commands together. All logic lives in src/commands/.",
+  "created_at": "2026-03-16T19:10:00Z"
+}

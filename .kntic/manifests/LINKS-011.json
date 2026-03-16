@@ -1,0 +1,43 @@
+{
+  "task_id": "LINKS-011",
+  "title": "`links config / open / status` — utility commands",
+  "status": "todo",
+  "priority": "low",
+  "description": "Implement three utility commands that round out the CLI experience: config (edit links.yaml in $EDITOR), open (open the deployed page in browser), and status (show current config summary).",
+  "requirements": {
+    "features": [
+      "Implement src/commands/config-cmd.js: `links config`",
+      "  Find links.yaml via findConfig(), open it in $EDITOR (fallback to $VISUAL, then 'nano', then 'vi')",
+      "  Uses child_process.spawnSync to open editor in the current terminal (inherit stdio)",
+      "  If links.yaml not found: print 'No links.yaml found. Run: links init' and exit 1",
+      "Implement src/commands/open-cmd.js: `links open [options]`",
+      "  Default: open config.domain in browser using the 'open' npm package",
+      "  --local: open dist/index.html (or --out path from last deploy) as a file:// URL instead",
+      "  If no domain set and no --local: print 'No domain set. Use --local to preview, or set domain in links.yaml' and exit 1",
+      "Implement src/commands/status.js: `links status`",
+      "  Read links.yaml, display a summary: name, bio (truncated), theme, domain (or 'not set'), total links, scheduled links count, avatar (set/not set)",
+      "  Also show: last modified timestamp of links.yaml",
+      "  Output: clean formatted text, no table library needed, chalk for label coloring"
+    ],
+    "outputs": [
+      "src/commands/config-cmd.js (implemented)",
+      "src/commands/open-cmd.js (implemented)",
+      "src/commands/status.js (implemented)"
+    ]
+  },
+  "context_scope": {
+    "read_only": [
+      ".kntic/adrs/",
+      "src/config.js",
+      "src/utils.js",
+      "src/cli.js"
+    ],
+    "write_access": [
+      "src/commands/config-cmd.js",
+      "src/commands/open-cmd.js",
+      "src/commands/status.js",
+      ".kntic/manifests/LINKS-011.json"
+    ]
+  },
+  "created_at": "2026-03-16T19:10:00Z"
+}

@@ -1,0 +1,33 @@
+{
+  "task_id": "LINKS-003",
+  "title": "`links init` — scaffold a new link page project",
+  "status": "todo",
+  "priority": "high",
+  "description": "Implement the `links init` command. When run in an empty or new directory, it creates a links.yaml with sensible defaults and prints a helpful getting-started message. Should be safe to run — never overwrite an existing links.yaml without confirmation.",
+  "requirements": {
+    "features": [
+      "Implement src/commands/init.js — async function that creates links.yaml in cwd",
+      "If links.yaml already exists in cwd: print warning 'links.yaml already exists. Use --force to overwrite.' and exit 1 unless --force flag is passed",
+      "Generated links.yaml content: name field (prompted from user or uses system username as default), bio field (empty placeholder with comment), avatar field (commented out example), theme field (minimal-dark), domain field (commented out example), links array with two example entries (one placeholder social, one placeholder website)",
+      "Use YAML comments in the generated file to guide the user (e.g., '# Your page URL once deployed')",
+      "After writing, print success message with next steps: 'Created links.yaml', 'Next: links add <label> <url>', 'Deploy: links deploy --self --out ./dist'",
+      "Accept optional positional argument: `links init [directory]` — if provided, init in that directory (create if not exists)"
+    ],
+    "outputs": [
+      "src/commands/init.js (implemented)"
+    ]
+  },
+  "context_scope": {
+    "read_only": [
+      ".kntic/adrs/",
+      "src/config.js",
+      "src/cli.js"
+    ],
+    "write_access": [
+      "src/commands/init.js",
+      ".kntic/manifests/LINKS-003.json"
+    ]
+  },
+  "notes": "No interactive prompts for MVP — just create the file with defaults. Prompts can be a future enhancement. YAML comment syntax via js-yaml dump options or manual string template.",
+  "created_at": "2026-03-16T19:10:00Z"
+}

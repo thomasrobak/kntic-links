@@ -1,0 +1,33 @@
+{
+  "task_id": "LINKS-009",
+  "title": "`links qr` — QR code generation",
+  "status": "todo",
+  "priority": "medium",
+  "description": "Implement `links qr` to generate a QR code for the link page URL. Output to terminal (ASCII) by default, with an option to save as PNG.",
+  "requirements": {
+    "features": [
+      "Implement src/commands/qr.js: `links qr [url] [options]`",
+      "  If url is omitted: use config.domain from links.yaml. If config.domain is also not set, print error: 'No URL specified and no domain set in links.yaml. Run: links qr <url>' and exit 1",
+      "  --out <file>: save QR code as PNG to specified file path using qrcode package (qrcode.toFile())",
+      "  Default (no --out): render QR code as ASCII/unicode blocks in the terminal using qrcode.toString() with type 'terminal'",
+      "  Print the URL below the QR code so the user knows what it encodes",
+      "  --link <label>: generate QR for a specific link's URL (looks up label in config) instead of the page URL"
+    ],
+    "outputs": [
+      "src/commands/qr.js (implemented)"
+    ]
+  },
+  "context_scope": {
+    "read_only": [
+      ".kntic/adrs/",
+      "src/config.js",
+      "src/cli.js"
+    ],
+    "write_access": [
+      "src/commands/qr.js",
+      ".kntic/manifests/LINKS-009.json"
+    ]
+  },
+  "notes": "The 'qrcode' npm package supports both terminal ASCII output and PNG file output. Use qrcode.toString(url, {type:'terminal'}) for terminal output and qrcode.toFile(path, url) for PNG.",
+  "created_at": "2026-03-16T19:10:00Z"
+}

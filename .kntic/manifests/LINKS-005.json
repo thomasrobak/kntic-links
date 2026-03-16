@@ -1,0 +1,47 @@
+{
+  "task_id": "LINKS-005",
+  "title": "`links deploy --self` — static HTML generator",
+  "status": "todo",
+  "priority": "high",
+  "description": "Implement the static site generator — the core feature of the MVP. `links deploy --self` reads links.yaml and generates a fully self-contained static HTML+CSS page that can be dropped on any host. No backend required. No JavaScript required for the basic version. Sub-100ms page load target.",
+  "requirements": {
+    "features": [
+      "Implement src/generator.js — core HTML generation module, exported as generatePage(config, options)",
+      "Implement src/commands/deploy.js: `links deploy --self [options]`",
+      "  --out <dir>: output directory (default: ./dist)",
+      "  --open: open the generated index.html in browser after build (uses 'open' package)",
+      "generatePage(config) produces a single index.html with all CSS inlined (no external dependencies)",
+      "HTML structure: <head> with meta charset, viewport, title (config.name), description (config.bio), og: tags; <body> with profile section (avatar if set, name, bio) and link list",
+      "Each link renders as a full-width button/anchor element with label, optional icon prefix, optional description below",
+      "Respect scheduling: links with scheduled_from/scheduled_until are included only if current date is within range (evaluated at build time, not runtime JS)",
+      "Load the active theme CSS (from src/themes/<theme>.css) and inline it into the <style> tag",
+      "If config.avatar is set (local file path), base64-encode and inline it as a data URI in the <img> src",
+      "Footer: subtle 'Powered by KNTIC Links' text linking to https://kntic.ai",
+      "Output: write index.html to --out directory, create directory if not exists",
+      "Print summary on completion: '✓ Built to ./dist/index.html' with file size",
+      "Copy any referenced local assets (avatar image) to the output directory as well (as fallback in case inlining fails)"
+    ],
+    "outputs": [
+      "src/generator.js",
+      "src/commands/deploy.js (implemented)"
+    ],
+    "files_to_create": [
+      "src/generator.js"
+    ]
+  },
+  "context_scope": {
+    "read_only": [
+      ".kntic/adrs/",
+      "src/config.js",
+      "src/themes/",
+      "src/cli.js"
+    ],
+    "write_access": [
+      "src/generator.js",
+      "src/commands/deploy.js",
+      ".kntic/manifests/LINKS-005.json"
+    ]
+  },
+  "notes": "No JS framework — pure HTML string generation. Template literals are fine. Inline all CSS. No runtime JavaScript in the output HTML (optional JS for enhancements later). The generated page must work with JS disabled. Avatar inlining: use fs.readFileSync + Buffer.toString('base64').",
+  "created_at": "2026-03-16T19:10:00Z"
+}

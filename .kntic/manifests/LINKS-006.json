@@ -1,0 +1,39 @@
+{
+  "task_id": "LINKS-006",
+  "title": "Theme system — CSS-based, pluggable",
+  "status": "todo",
+  "priority": "high",
+  "description": "Build the theme infrastructure: a CSS-based theme loader, a consistent set of CSS custom properties (design tokens) that all themes must implement, and the integration with the generator. Themes are plain CSS files in src/themes/ — no build step, no preprocessor.",
+  "requirements": {
+    "features": [
+      "Define the standard CSS custom property contract that every theme must implement (document in src/themes/README.md): --bg-color, --bg-secondary, --text-primary, --text-secondary, --text-muted, --accent-color, --accent-hover, --link-bg, --link-bg-hover, --link-border, --link-radius, --link-padding, --font-body, --font-mono, --avatar-radius, --page-max-width, --footer-opacity",
+      "Implement src/themes/loader.js: loadTheme(themeName) — resolves theme name to CSS file path, reads and returns CSS string, throws descriptive error if theme not found",
+      "Implement src/themes/loader.js: listThemes() — returns array of available theme names (reads src/themes/*.css filenames)",
+      "The generator (src/generator.js) calls loadTheme(config.theme) and inlines the CSS into the <style> block",
+      "Theme CSS files must define all custom properties on :root and use them throughout — no hardcoded colors outside :root",
+      "Create src/themes/README.md documenting the custom property contract and how to create a new theme"
+    ],
+    "outputs": [
+      "src/themes/loader.js",
+      "src/themes/README.md"
+    ],
+    "files_to_create": [
+      "src/themes/loader.js",
+      "src/themes/README.md"
+    ]
+  },
+  "context_scope": {
+    "read_only": [
+      ".kntic/adrs/",
+      "src/generator.js",
+      "src/config.js"
+    ],
+    "write_access": [
+      "src/themes/loader.js",
+      "src/themes/README.md",
+      ".kntic/manifests/LINKS-006.json"
+    ]
+  },
+  "notes": "Theme loader uses import.meta.url + fileURLToPath to resolve src/themes/ relative to the module — works with ES modules. listThemes() uses fs.readdirSync filtering for .css extension.",
+  "created_at": "2026-03-16T19:10:00Z"
+}

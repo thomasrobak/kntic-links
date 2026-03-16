@@ -1,0 +1,39 @@
+{
+  "task_id": "LINKS-012",
+  "title": "npm publish prep — README, .npmignore, MIT license, package.json polish",
+  "status": "todo",
+  "priority": "low",
+  "description": "Prepare @kntic/links for public npm publish. Write a complete README.md, polish package.json metadata, verify .npmignore is correct, and do a dry-run publish check. The README is the product's first impression — make it good.",
+  "requirements": {
+    "features": [
+      "Write README.md at repo root with: project tagline, install command (npm install -g @kntic/links), quick start (5 commands to go from zero to deployed), full command reference table, links.yaml schema reference, theme screenshots section (placeholder for now — add note: 'screenshots coming soon'), contributing section, MIT license badge",
+      "README tone: developer-first, direct, no corporate fluff. Show the commands, not adjectives.",
+      "README quick start should work end-to-end: links init → links add → links deploy --self → open dist/index.html",
+      "Polish package.json: add 'description' field, 'keywords' array (linktree, link-page, cli, privacy, self-hosted, developer), 'homepage' (https://kntic.ai), 'repository' (GitLab URL), 'bugs' URL, 'engines' (node >= 18), ensure 'files' array matches what should be published (src/, LICENSE, README.md — exclude .kntic/, skills/, Dockerfile.agent, kntic.yml)",
+      "Verify .npmignore or package.json 'files' field correctly excludes KNTIC orchestration files from the published package",
+      "Run `npm pack --dry-run` and verify the file list looks correct — only src/, package.json, README.md, LICENSE should be in the tarball",
+      "Add a `prepublishOnly` script in package.json that runs a basic sanity check (e.g., node -e 'import(\"./src/cli.js\")'  or a simple lint)"
+    ],
+    "outputs": [
+      "README.md (complete)",
+      "package.json (polished)",
+      ".npmignore (verified)"
+    ]
+  },
+  "context_scope": {
+    "read_only": [
+      ".kntic/adrs/",
+      "src/",
+      "package.json",
+      ".npmignore"
+    ],
+    "write_access": [
+      "README.md",
+      "package.json",
+      ".npmignore",
+      ".kntic/manifests/LINKS-012.json"
+    ]
+  },
+  "notes": "This task should be the last one executed. It depends on all LINKS-00X tasks being merged. The agent should run npm pack --dry-run and include the output in the actions log to confirm the tarball contents are correct.",
+  "created_at": "2026-03-16T19:10:00Z"
+}

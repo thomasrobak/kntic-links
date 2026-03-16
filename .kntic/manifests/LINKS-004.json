@@ -1,0 +1,47 @@
+{
+  "task_id": "LINKS-004",
+  "title": "`links add / remove / list` — link management commands",
+  "status": "todo",
+  "priority": "high",
+  "description": "Implement the three core link management commands. These read and write links.yaml and are the primary day-to-day interface for managing a link page.",
+  "requirements": {
+    "features": [
+      "Implement src/commands/add.js: `links add <label> <url> [options]`",
+      "  add: reads config via findConfig()+readConfig(), appends new link, writes back with writeConfig()",
+      "  add: validates url with validateUrl() — exit 1 with error if invalid",
+      "  add: if a link with the same label already exists, error: 'A link with label <label> already exists. Use --update to replace it.'",
+      "  add options: --icon <emoji>, --description <text>, --from <date>, --until <date>",
+      "  add: print confirmation: '✓ Added: <label> → <url>'",
+      "Implement src/commands/remove.js: `links remove <label>`",
+      "  remove: finds link by label (case-insensitive match), removes it, writes back",
+      "  remove: if not found, print 'No link with label <label> found.' and exit 1",
+      "  remove: print confirmation: '✓ Removed: <label>'",
+      "Implement src/commands/list.js: `links list [options]`",
+      "  list: reads config, prints all links in a formatted table using chalk for colors",
+      "  list: columns: index, label, url, icon (if set), scheduled status",
+      "  list: if no links defined, print 'No links yet. Use: links add <label> <url>'",
+      "  list: --json flag outputs raw JSON array of links",
+      "  list: marks scheduled links with a clock icon and shows the date range"
+    ],
+    "outputs": [
+      "src/commands/add.js (implemented)",
+      "src/commands/remove.js (implemented)",
+      "src/commands/list.js (implemented)"
+    ]
+  },
+  "context_scope": {
+    "read_only": [
+      ".kntic/adrs/",
+      "src/config.js",
+      "src/cli.js"
+    ],
+    "write_access": [
+      "src/commands/add.js",
+      "src/commands/remove.js",
+      "src/commands/list.js",
+      ".kntic/manifests/LINKS-004.json"
+    ]
+  },
+  "notes": "Case-insensitive label matching for remove. No fuzzy matching — exact label (case-insensitive). Keep output clean and human-readable without external table libraries.",
+  "created_at": "2026-03-16T19:10:00Z"
+}

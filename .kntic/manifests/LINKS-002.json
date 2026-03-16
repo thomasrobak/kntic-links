@@ -1,0 +1,39 @@
+{
+  "task_id": "LINKS-002",
+  "title": "links.yaml config schema and parser",
+  "status": "todo",
+  "priority": "high",
+  "description": "Implement the config layer: the links.yaml schema definition, a parser that reads and validates it, and a writer that updates it safely. This module is imported by all commands that read or modify the user's link page config.",
+  "requirements": {
+    "features": [
+      "Define the full links.yaml schema in src/config.js with these top-level fields: name (string, required), bio (string, optional), avatar (string path, optional), theme (string, default 'minimal-dark'), domain (string, optional), links (array of link objects)",
+      "Link object fields: label (string, required), url (string, required), icon (string emoji, optional), description (string, optional), scheduled_from (ISO date string, optional), scheduled_until (ISO date string, optional)",
+      "Implement readConfig(filePath) — reads and parses links.yaml using js-yaml, validates required fields, returns parsed object or throws descriptive error",
+      "Implement writeConfig(filePath, config) — serializes config back to YAML and writes atomically (write to temp file, rename)",
+      "Implement findConfig() — walks up from cwd to find the nearest links.yaml, throws if not found",
+      "Implement validateConfig(config) — validates schema, collects all errors, returns { valid: boolean, errors: string[] }",
+      "Implement validateUrl(url) — basic URL validation (must start with http:// or https://)",
+      "Export all functions as named exports from src/config.js",
+      "Add schema constant DEFAULT_CONFIG with sensible defaults for new projects"
+    ],
+    "outputs": [
+      "src/config.js"
+    ],
+    "files_to_create": [
+      "src/config.js"
+    ]
+  },
+  "context_scope": {
+    "read_only": [
+      ".kntic/adrs/",
+      ".kntic/MEMORY.MD",
+      "src/cli.js"
+    ],
+    "write_access": [
+      "src/config.js",
+      ".kntic/manifests/LINKS-002.json"
+    ]
+  },
+  "notes": "Atomic write pattern: write to links.yaml.tmp then fs.rename(). No external validation library — keep it lean. Throw errors with actionable messages like 'links.yaml: missing required field name'.",
+  "created_at": "2026-03-16T19:10:00Z"
+}

@@ -1,0 +1,50 @@
+{
+  "task_id": "LINKS-007",
+  "title": "5 launch themes — minimal-dark, minimal-light, terminal, glass, developer",
+  "status": "todo",
+  "priority": "high",
+  "description": "Design and implement the 5 launch themes. These define the aesthetic identity of @kntic/links. Quality over quantity — each theme should feel complete and polished, not half-baked. All themes implement the full CSS custom property contract from LINKS-006.",
+  "requirements": {
+    "features": [
+      "Create src/themes/minimal-dark.css — DEFAULT theme. Clean, modern dark. Background ~#0f0f0f, white text, subtle zinc borders, soft rounded links. Accent: a muted blue or violet. No gradients, no gimmicks. This is what most users will ship.",
+      "Create src/themes/minimal-light.css — Mirror of minimal-dark in light mode. Off-white background (#f9f9f9), near-black text, same clean aesthetic. Comfortable for daylight reading.",
+      "Create src/themes/terminal.css — Classic terminal green-on-black. Background #0a0a0a, foreground #00ff41 (matrix green), monospace font (JetBrains Mono, Fira Code, Courier fallback). Link hover effect: green glow. ASCII-style border characters on links via CSS (or simple 1px solid green borders). Cursor blink animation on the name.",
+      "Create src/themes/glass.css — Glassmorphism. Semi-transparent backdrop-filter blur cards on a dark gradient background (#0a0a1a → #1a0a2e). Links are frosted glass panels: rgba white background at low opacity + border: 1px solid rgba(255,255,255,0.1). Soft purple/blue accent. Subtle glow on hover.",
+      "Create src/themes/developer.css — Developer/hacker aesthetic. Dark background, monospace everywhere (system-ui fallback to Menlo/Monaco/Courier), links styled as code blocks or terminal commands. Accent: orange (#FF4500, KNTIC orange). Left border bar on links (like VSCode sidebar). Filename-style labels in the link buttons.",
+      "Every theme file: full CSS reset at top, :root block with all required custom properties, complete styling for: body, .page-container, .profile-section, .avatar, .name, .bio, .links-list, .link-item, .link-item:hover, .link-icon, .link-label, .link-description, .footer. No external font imports (use system fonts or Google Fonts via @import only — no JS)",
+      "Verify all 5 themes work with the theme loader (correct filename convention)"
+    ],
+    "outputs": [
+      "src/themes/minimal-dark.css",
+      "src/themes/minimal-light.css",
+      "src/themes/terminal.css",
+      "src/themes/glass.css",
+      "src/themes/developer.css"
+    ],
+    "files_to_create": [
+      "src/themes/minimal-dark.css",
+      "src/themes/minimal-light.css",
+      "src/themes/terminal.css",
+      "src/themes/glass.css",
+      "src/themes/developer.css"
+    ]
+  },
+  "context_scope": {
+    "read_only": [
+      ".kntic/adrs/",
+      "src/themes/README.md",
+      "src/themes/loader.js",
+      "src/generator.js"
+    ],
+    "write_access": [
+      "src/themes/minimal-dark.css",
+      "src/themes/minimal-light.css",
+      "src/themes/terminal.css",
+      "src/themes/glass.css",
+      "src/themes/developer.css",
+      ".kntic/manifests/LINKS-007.json"
+    ]
+  },
+  "notes": "KNTIC orange is #FF4500 — use it sparingly as accent in the developer theme. Each theme should be self-contained (no theme imports another). Aim for roughly 80-150 lines of CSS per theme — enough to be polished, not enough to be bloated. Google Fonts @import is allowed for terminal/developer themes (JetBrains Mono).",
+  "created_at": "2026-03-16T19:10:00Z"
+}

@@ -1,0 +1,41 @@
+{
+  "task_id": "LINKS-010",
+  "title": "Link scheduling — scheduled_from and scheduled_until support",
+  "status": "todo",
+  "priority": "medium",
+  "description": "Implement link scheduling: links in links.yaml can have optional scheduled_from and/or scheduled_until date fields. The static generator evaluates scheduling at build time and only includes links that are currently active. The `links list` command shows scheduling status.",
+  "requirements": {
+    "features": [
+      "Implement src/utils.js: isLinkActive(link) — returns true if the link should be included in the current build based on today's date vs scheduled_from and scheduled_until. Rules: no dates = always active; only scheduled_from = active from that date onwards; only scheduled_until = active until that date; both = active within the window",
+      "Update src/generator.js to call isLinkActive(link) and filter out inactive links before rendering",
+      "The generator should add an HTML comment in the output like <!-- built at 2026-03-16, X of Y links active --> for debugging",
+      "Update src/commands/list.js to show scheduling status for each link: '⏰ from 2026-04-01' or '⏰ until 2026-12-31' or '⏰ 2026-04-01 → 2026-12-31' or nothing if always active",
+      "Update src/config.js validateConfig() to validate scheduled_from and scheduled_until as ISO date strings (YYYY-MM-DD or full ISO 8601) if present. Add to validateUrl-style helper: validateDate(str)",
+      "Update src/commands/add.js --from and --until flags to set scheduled_from and scheduled_until on the new link object"
+    ],
+    "outputs": [
+      "src/utils.js (implemented with isLinkActive)",
+      "src/generator.js (updated)",
+      "src/commands/list.js (updated)",
+      "src/config.js (updated with validateDate)"
+    ]
+  },
+  "context_scope": {
+    "read_only": [
+      ".kntic/adrs/",
+      "src/config.js",
+      "src/generator.js",
+      "src/commands/list.js",
+      "src/commands/add.js"
+    ],
+    "write_access": [
+      "src/utils.js",
+      "src/generator.js",
+      "src/commands/list.js",
+      "src/config.js",
+      ".kntic/manifests/LINKS-010.json"
+    ]
+  },
+  "notes": "Date comparison uses Date.now() vs Date.parse(scheduled_from). All comparisons in UTC. scheduled_from is inclusive (>=), scheduled_until is inclusive (<=). This task depends on LINKS-002, LINKS-004, and LINKS-005 being completed first.",
+  "created_at": "2026-03-16T19:10:00Z"
+}
