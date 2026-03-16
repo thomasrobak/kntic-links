@@ -1,7 +1,7 @@
 # MEMORY.MD — Persistent Working Memory
 
 >
-> **Last Updated:** 2026-03-16 (LINKS-014 completed)
+> **Last Updated:** 2026-03-16 (LINKS-015 completed)
 
 ---
 
@@ -25,6 +25,7 @@
 | LINKS-012 | npm publish prep — README, .npmignore, MIT license, package.json polish | `README.md` — complete with quick start, command reference, schema reference, themes section; `package.json` — keywords, homepage, repository, bugs, engines, files whitelist, prepublishOnly script; `.npmignore` verified; `npm pack --dry-run` confirmed 26 files / 19.4 kB tarball |
 | LINKS-013 | `links reorder` — reorder links in links.yaml | `src/commands/reorder.js` — subcommands: (no args) print order, move/up/down/set; case-insensitive label matching; `src/cli.js` updated to register reorder command |
 | LINKS-014 | `links edit` — edit an existing link's properties | `src/commands/edit.js` — flag-driven editing: --label, --url, --icon, --description, --from, --until + --no-* variants to remove fields; case-insensitive lookup; rename collision detection; `src/cli.js` updated |
+| LINKS-015 | Favicon — inline SVG favicon in generated page | `src/generator.js` — extractAccentColor(css) helper; two-tier favicon: Strategy A reuses avatar base64 data URI, Strategy B generates 64x64 SVG letter favicon with theme accent color; both `<link rel="icon">` + `sizes="32x32"` fallback; all inlined, no extra files |
 
 ### Active Services
 - **Dashboard** → `http://localhost:8000`

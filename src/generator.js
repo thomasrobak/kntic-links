@@ -28,6 +28,15 @@ function esc(str) {
     .replace(/'/g, '&#39;');
 }
 
+/**
+ * Extract the --accent-color value from a CSS string.
+ * Falls back to '#6366f1' (indigo) if not found.
+ */
+export function extractAccentColor(css) {
+  const match = css.match(/--accent-color:\s*([^;]+);/);
+  return match ? match[1].trim() : '#6366f1';
+}
+
 /** MIME type lookup for common image formats. */
 function imageMime(filePath) {
   const ext = extname(filePath).toLowerCase();
@@ -104,14 +113,35 @@ export function generatePage(config, options = {}) {
 
   // Avatar handling
   let avatarHTML = '';
+  let avatarDataUri = null;
   if (config.avatar && config.avatar.trim().length > 0) {
     try {
-      const dataUri = inlineImage(config.avatar, configDir);
-      avatarHTML = `<img class="profile__avatar" src="${dataUri}" alt="${esc(name)}" width="88" height="88">`;
+      avatarDataUri = inlineImage(config.avatar, configDir);
+      avatarHTML = `<img class="profile__avatar" src="${avatarDataUri}" alt="${esc(name)}" width="88" height="88">`;
     } catch {
       // Fallback: reference the file directly (it will be copied to output dir)
       avatarHTML = `<img class="profile__avatar" src="${esc(config.avatar)}" alt="${esc(name)}" width="88" height="88">`;
     }
+  }
+
+  // Favicon handling — Strategy A (avatar) or Strategy B (SVG letter)
+  let faviconHTML = '';
+  if (avatarDataUri) {
+    // Strategy A: reuse the already-computed avatar data URI
+    const avatarMime = avatarDataUri.startsWith('data:image/svg') ? 'image/svg+xml' : 'image/png';
+    faviconHTML = `  <link rel="icon" type="${avatarMime}" href="${avatarDataUri}">\n`
+               + `  <link rel="icon" type="${avatarMime}" sizes="32x32" href="${avatarDataUri}">`;
+  } else {
+    // Strategy B: generate SVG favicon from first letter of name
+    const firstChar = name[0].toUpperCase();
+    const accent = extractAccentColor(css);
+    const svg = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'>`
+              + `<rect width='64' height='64' rx='12' fill='${accent}'/>`
+              + `<text x='32' y='32' text-anchor='middle' dominant-baseline='central' font-family='system-ui,sans-serif' font-size='32' font-weight='700' fill='white'>${firstChar}</text>`
+              + `</svg>`;
+    const svgDataUri = `data:image/svg+xml;base64,${Buffer.from(svg).toString('base64')}`;
+    faviconHTML = `  <link rel="icon" type="image/svg+xml" href="${svgDataUri}">\n`
+               + `  <link rel="icon" type="image/svg+xml" sizes="32x32" href="${svgDataUri}">`;
   }
 
   // Build link list HTML
@@ -142,6 +172,7 @@ export function generatePage(config, options = {}) {
   <meta property="og:title" content="${esc(name)}">
   <meta property="og:description" content="${esc(ogDescription)}">
   <meta property="og:type" content="website">
+${faviconHTML}
   <style>
 ${css}
   </style>

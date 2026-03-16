@@ -1,6 +1,6 @@
 {
   "name": "@kntic/links",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "CLI for building and deploying self-hosted link-in-bio pages. No accounts, no tracking — just HTML.",
   "type": "module",
   "license": "MIT",
