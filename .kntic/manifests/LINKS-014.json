@@ -1,0 +1,49 @@
+{
+  "task_id": "LINKS-014",
+  "title": "`links edit` — edit an existing link's properties",
+  "status": "todo",
+  "priority": "high",
+  "description": "Implement `links edit <label> [options]` to modify any property of an existing link in-place. Complements `links add --update` by providing a focused, flag-driven editing experience without having to re-specify unchanged fields.",
+  "requirements": {
+    "features": [
+      "Implement src/commands/edit.js: `links edit <label> [options]`",
+      "Find the link by label (case-insensitive) via findConfig() + readConfig(). If not found, exit 1: 'No link with label \"<label>\" found.'",
+      "Supported options (all optional — only specified flags are changed, everything else is left untouched):",
+      "  --label <new-label>: rename the link. If a link with the new label already exists, exit 1: 'A link with label \"<new-label>\" already exists.'",
+      "  --url <url>: update the URL. Validate with validateUrl() — exit 1 if invalid.",
+      "  --icon <emoji>: set or update the icon.",
+      "  --no-icon: remove the icon field entirely.",
+      "  --description <text>: set or update the description.",
+      "  --no-description: remove the description field.",
+      "  --from <date>: set or update scheduled_from. Validate with validateDate() — exit 1 if invalid.",
+      "  --no-from: remove scheduled_from.",
+      "  --until <date>: set or update scheduled_until. Validate with validateDate() — exit 1 if invalid.",
+      "  --no-until: remove scheduled_until.",
+      "If no options are provided at all, print usage hint and exit 0: 'Usage: links edit <label> [--url <url>] [--label <new>] [--icon <emoji>] [--description <text>] [--from <date>] [--until <date>]'",
+      "After applying changes, write back via writeConfig() and print: '✓ Updated: <label>' (use new label if renamed, show both if renamed: '✓ Renamed \"old\" → \"new\" and updated.')",
+      "Register the edit command in src/cli.js"
+    ],
+    "outputs": [
+      "src/commands/edit.js (new)",
+      "src/cli.js (updated to register edit command)"
+    ],
+    "files_to_create": [
+      "src/commands/edit.js"
+    ]
+  },
+  "context_scope": {
+    "read_only": [
+      ".kntic/adrs/",
+      "src/config.js",
+      "src/commands/add.js",
+      "src/cli.js"
+    ],
+    "write_access": [
+      "src/commands/edit.js",
+      "src/cli.js",
+      ".kntic/manifests/LINKS-014.json"
+    ]
+  },
+  "notes": "Commander's --no-<flag> negation syntax automatically creates a boolean false value for the flag. Use opts.icon === false to detect --no-icon (as opposed to opts.icon being undefined meaning flag not passed). Same pattern for --no-description, --no-from, --no-until. Check for this carefully — the distinction between 'not passed' and 'explicitly removed' is load-bearing.",
+  "created_at": "2026-03-16T22:17:00Z"
+}
