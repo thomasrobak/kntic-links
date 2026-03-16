@@ -1,19 +1,6 @@
-import { readFileSync, writeFileSync, renameSync } from 'node:fs';
+import { readFileSync, writeFileSync, renameSync, existsSync } from 'node:fs';
 import { resolve, dirname, join } from 'node:path';
 import yaml from 'js-yaml';
-
-// ---------------------------------------------------------------------------
-// Schema defaults
-// ---------------------------------------------------------------------------
-
-export const DEFAULT_CONFIG = {
-  name: 'My Links',
-  bio: '',
-  avatar: '',
-  theme: 'minimal-dark',
-  domain: '',
-  links: [],
-};
 
 // ---------------------------------------------------------------------------
 // Validation helpers
@@ -154,7 +141,12 @@ export function findConfig(startDir = process.cwd()) {
       readFileSync(candidate); // existence check
       return candidate;
     } catch {
-      // not found — go up
+      // not found — check for git root boundary before climbing
+      if (existsSync(join(dir, '.git'))) {
+        throw new Error(
+          'links.yaml not found (stopped at git root). Run "links init" to create a new project.',
+        );
+      }
     }
 
     const parent = dirname(dir);

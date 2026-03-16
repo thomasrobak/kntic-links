@@ -1,26 +1,10 @@
 /**
  * Shared utility helpers for @kntic/links.
+ *
+ * Exports:
+ *   - fatal(message, code) — pretty-print error and exit
+ *   - isLinkActive(link, now) — schedule-aware link visibility check
  */
-
-import { readFile } from 'node:fs/promises';
-import { resolve } from 'node:path';
-import yaml from 'js-yaml';
-
-/**
- * Default config filename.
- */
-export const CONFIG_FILE = 'links.yml';
-
-/**
- * Load and parse the links YAML config from the current directory.
- * @param {string} [dir=process.cwd()] - Directory to look in.
- * @returns {Promise<object>} Parsed config object.
- */
-export async function loadConfig(dir = process.cwd()) {
-  const filePath = resolve(dir, CONFIG_FILE);
-  const raw = await readFile(filePath, 'utf8');
-  return yaml.load(raw);
-}
 
 /**
  * Pretty-print an error and exit.

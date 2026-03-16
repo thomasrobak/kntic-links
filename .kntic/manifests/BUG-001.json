@@ -1,22 +1,22 @@
 {
   "task_id": "BUG-001",
-  "title": "Code review fixes — date validation, dead code, theme loader duplication, findConfig boundary",
-  "status": "todo",
+  "title": "Code review fixes \u2014 date validation, dead code, theme loader duplication, findConfig boundary",
+  "status": "merged",
   "priority": "high",
   "description": "Fix all issues identified in the post-MVP code review. One bug is user-visible (invalid dates written silently), the rest are dead code and structural cleanup.",
   "requirements": {
     "features": [
-      "FIX 1 — src/commands/add.js: validate --from and --until before writing. After parsing opts.from / opts.until, call validateDate() from config.js on each. If invalid, print 'Error: --from: not a valid ISO 8601 date — got \"<value>\"' and exit 1. Do not write to links.yaml.",
-      "FIX 2 — src/generator.js: remove the local loadThemeCSS() function and replace it with an import of loadTheme() from ./themes/loader.js. The two functions are identical — use the single source of truth.",
-      "FIX 3 — src/utils.js: remove the dead loadConfig() function and CONFIG_FILE constant (never imported anywhere, CONFIG_FILE uses wrong .yml extension). Keep only isLinkActive() and the fatal() helper. Update the file JSDoc header to reflect the reduced scope.",
-      "FIX 4 — src/config.js: remove the DEFAULT_CONFIG export (defined but never imported anywhere). If a default config object is needed in future it should be introduced alongside the code that uses it.",
-      "FIX 5 — src/config.js: update findConfig() to stop climbing at a git root boundary. After resolving the candidate path, also check if a .git directory or .git file exists in the current dir — if so and links.yaml is not found there, stop and throw instead of continuing upward. This prevents silently picking up a parent project's links.yaml."
+      "FIX 1 \u2014 src/commands/add.js: validate --from and --until before writing. After parsing opts.from / opts.until, call validateDate() from config.js on each. If invalid, print 'Error: --from: not a valid ISO 8601 date \u2014 got \"<value>\"' and exit 1. Do not write to links.yaml.",
+      "FIX 2 \u2014 src/generator.js: remove the local loadThemeCSS() function and replace it with an import of loadTheme() from ./themes/loader.js. The two functions are identical \u2014 use the single source of truth.",
+      "FIX 3 \u2014 src/utils.js: remove the dead loadConfig() function and CONFIG_FILE constant (never imported anywhere, CONFIG_FILE uses wrong .yml extension). Keep only isLinkActive() and the fatal() helper. Update the file JSDoc header to reflect the reduced scope.",
+      "FIX 4 \u2014 src/config.js: remove the DEFAULT_CONFIG export (defined but never imported anywhere). If a default config object is needed in future it should be introduced alongside the code that uses it.",
+      "FIX 5 \u2014 src/config.js: update findConfig() to stop climbing at a git root boundary. After resolving the candidate path, also check if a .git directory or .git file exists in the current dir \u2014 if so and links.yaml is not found there, stop and throw instead of continuing upward. This prevents silently picking up a parent project's links.yaml."
     ],
     "outputs": [
-      "src/commands/add.js (updated — date validation)",
-      "src/generator.js (updated — uses loader.js)",
-      "src/utils.js (cleaned — dead code removed)",
-      "src/config.js (cleaned — DEFAULT_CONFIG removed, findConfig git-boundary added)"
+      "src/commands/add.js (updated \u2014 date validation)",
+      "src/generator.js (updated \u2014 uses loader.js)",
+      "src/utils.js (cleaned \u2014 dead code removed)",
+      "src/config.js (cleaned \u2014 DEFAULT_CONFIG removed, findConfig git-boundary added)"
     ]
   },
   "context_scope": {
@@ -33,6 +33,27 @@
       ".kntic/manifests/BUG-001.json"
     ]
   },
-  "notes": "FIX 5 boundary logic: in the while loop, after failing to find links.yaml in `dir`, check if `path.join(dir, '.git')` exists (existsSync). If it does, throw — do not climb further. This is the standard git-root-stop pattern. Do not throw if .git exists AND links.yaml also exists in the same dir (that case is fine).",
-  "created_at": "2026-03-16T22:17:00Z"
+  "notes": "FIX 5 boundary logic: in the while loop, after failing to find links.yaml in `dir`, check if `path.join(dir, '.git')` exists (existsSync). If it does, throw \u2014 do not climb further. This is the standard git-root-stop pattern. Do not throw if .git exists AND links.yaml also exists in the same dir (that case is fine).",
+  "created_at": "2026-03-16T22:17:00Z",
+  "updated_at": "2026-03-16T23:20:39.312405",
+  "actions": [
+    {
+      "timestamp": "2026-03-16T22:19:08.445026Z",
+      "status": "ready_for_merge",
+      "files": [
+        ".kntic/MEMORY.MD",
+        ".kntic/gia/state.json",
+        ".kntic/manifests/BUG-001.json",
+        ".kntic/manifests/LINKS-014.json",
+        ".pi/agent/sessions/--app--/2026-03-16T22-17-31-301Z_c3d4255d-afd0-4503-985f-7072cdc85620.jsonl",
+        ".pi/agent/sessions/--app--/2026-03-16T22-19-11-403Z_66a404ff-3a53-4593-9ad2-fe3cbdf4dd4a.jsonl",
+        "src/cli.js",
+        "src/commands/add.js",
+        "src/commands/edit.js",
+        "src/config.js",
+        "src/generator.js",
+        "src/utils.js"
+      ]
+    }
+  ]
 }

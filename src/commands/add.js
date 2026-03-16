@@ -5,7 +5,7 @@
  * atomically. Validates the URL and rejects duplicate labels.
  */
 
-import { findConfig, readConfig, writeConfig, validateUrl } from '../config.js';
+import { findConfig, readConfig, writeConfig, validateUrl, validateDate } from '../config.js';
 
 export function registerAdd(program) {
   program
@@ -23,6 +23,24 @@ export function registerAdd(program) {
         console.error(`Error: ${urlCheck.error}`);
         process.exitCode = 1;
         return;
+      }
+
+      // Validate schedule dates (if provided)
+      if (opts.from) {
+        const fromCheck = validateDate(opts.from);
+        if (!fromCheck.valid) {
+          console.error(`Error: --from: ${fromCheck.error}`);
+          process.exitCode = 1;
+          return;
+        }
+      }
+      if (opts.until) {
+        const untilCheck = validateDate(opts.until);
+        if (!untilCheck.valid) {
+          console.error(`Error: --until: ${untilCheck.error}`);
+          process.exitCode = 1;
+          return;
+        }
       }
 
       // Find and read config

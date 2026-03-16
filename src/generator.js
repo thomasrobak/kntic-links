@@ -9,6 +9,7 @@ import { readFileSync } from 'node:fs';
 import { resolve, dirname, extname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { isLinkActive } from './utils.js';
+import { loadTheme } from './themes/loader.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -71,27 +72,6 @@ export function filterScheduled(links, now = new Date()) {
 }
 
 // ---------------------------------------------------------------------------
-// Theme CSS loading
-// ---------------------------------------------------------------------------
-
-/**
- * Load theme CSS from the themes directory.
- * @param {string} themeName — name without .css extension
- * @returns {string} CSS content
- */
-export function loadThemeCSS(themeName) {
-  const themePath = resolve(__dirname, 'themes', `${themeName}.css`);
-  try {
-    return readFileSync(themePath, 'utf8');
-  } catch {
-    throw new Error(
-      `Theme "${themeName}" not found at ${themePath}. ` +
-      'Available themes live in src/themes/.',
-    );
-  }
-}
-
-// ---------------------------------------------------------------------------
 // HTML generation
 // ---------------------------------------------------------------------------
 
@@ -113,7 +93,7 @@ export function generatePage(config, options = {}) {
   const theme = config.theme || 'minimal-dark';
 
   // Load and inline CSS
-  const css = loadThemeCSS(theme);
+  const css = loadTheme(theme);
 
   // Filter links by schedule
   const allLinks = config.links || [];
