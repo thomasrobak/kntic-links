@@ -188,7 +188,7 @@ ${linksHTML}
   </ul>
 
   <footer class="footer">
-    <a class="footer__link" href="https://kntic.ai">Powered by KNTIC Links</a>
+    <a class="footer__link" href="https://github.com/thomasrobak/kntic-links">Powered by KNTIC Links</a>
   </footer>
 </body>
 </html>

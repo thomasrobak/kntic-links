@@ -1,9 +1,7 @@
 {
   "status": "pass",
   "files_validated": [
-    ".kntic/MEMORY.MD",
-    ".kntic/manifests/LINKS-015.json",
-    "package.json",
+    ".kntic/manifests/LINKS-016.json",
     "src/generator.js"
   ],
   "alignment_score": 1.0,
@@ -29,8 +27,8 @@
       "weighted": 0.1
     }
   },
-  "change_delta": 4,
+  "change_delta": 2,
   "merge_threshold": 1.0,
   "drift_items": [],
-  "last_checked": "2026-03-16T22:54:25.323435+00:00"
+  "last_checked": "2026-03-16T23:55:08.744117+00:00"
 }

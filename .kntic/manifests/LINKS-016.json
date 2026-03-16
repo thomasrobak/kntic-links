@@ -1,13 +1,13 @@
 {
   "task_id": "LINKS-016",
   "title": "Update footer link to GitHub mirror repository",
-  "status": "todo",
+  "status": "merged",
   "priority": "high",
   "description": "The 'Powered by KNTIC Links' footer in the generated page currently links to https://kntic.ai. Update it to link to the public GitHub mirror at https://github.com/thomasrobak/kntic-links instead.",
   "requirements": {
     "features": [
       "In src/generator.js, update the footer anchor href from 'https://kntic.ai' to 'https://github.com/thomasrobak/kntic-links'.",
-      "The link text 'Powered by KNTIC Links' stays the same — only the href changes."
+      "The link text 'Powered by KNTIC Links' stays the same \u2014 only the href changes."
     ],
     "outputs": [
       "src/generator.js (updated)"
@@ -23,5 +23,17 @@
     ]
   },
   "notes": "Do NOT clone or interact with the GitHub repository (https://github.com/thomasrobak/kntic-links) at any point. It is a read-only mirror. All work stays on GitLab.",
-  "created_at": "2026-03-16T23:57:00Z"
+  "created_at": "2026-03-16T23:57:00Z",
+  "updated_at": "2026-03-17T00:55:08.744677",
+  "actions": [
+    {
+      "timestamp": "2026-03-16T23:55:02.713770Z",
+      "status": "ready_for_merge",
+      "files": [
+        ".kntic/gia/state.json",
+        ".kntic/manifests/LINKS-016.json",
+        "src/generator.js"
+      ]
+    }
+  ]
 }
