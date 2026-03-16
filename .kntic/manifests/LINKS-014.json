@@ -1,7 +1,7 @@
 {
   "task_id": "LINKS-014",
   "title": "`links edit` \u2014 edit an existing link's properties",
-  "status": "ready_for_merge",
+  "status": "merged",
   "priority": "high",
   "description": "Implement `links edit <label> [options]` to modify any property of an existing link in-place. Complements `links add --update` by providing a focused, flag-driven editing experience without having to re-specify unchanged fields.",
   "requirements": {
@@ -46,11 +46,15 @@
   },
   "notes": "Commander's --no-<flag> negation syntax automatically creates a boolean false value for the flag. Use opts.icon === false to detect --no-icon (as opposed to opts.icon being undefined meaning flag not passed). Same pattern for --no-description, --no-from, --no-until. Check for this carefully \u2014 the distinction between 'not passed' and 'explicitly removed' is load-bearing.",
   "created_at": "2026-03-16T22:17:00Z",
-  "updated_at": "2026-03-16T22:20:32.892073Z",
+  "updated_at": "2026-03-16T23:20:39.988780",
   "actions": [
     {
       "timestamp": "2026-03-16T22:20:32.892073Z",
-      "status": "ready_for_merge"
+      "status": "ready_for_merge",
+      "files": [
+        ".kntic/gia/state.json",
+        ".kntic/manifests/LINKS-014.json"
+      ]
     }
   ]
 }
