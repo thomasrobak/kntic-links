@@ -1,0 +1,34 @@
+{
+  "task_id": "LINKS-015",
+  "title": "Favicon — inline SVG favicon in generated page",
+  "status": "todo",
+  "priority": "high",
+  "description": "The generated index.html has no favicon. Add one. Two-tier approach: if the user has an avatar set, reuse the already-inlined base64 image as the favicon. If no avatar, generate a minimal SVG favicon from the first letter of config.name, styled with the active theme's accent color. All inlined — no extra files.",
+  "requirements": {
+    "features": [
+      "Update src/generator.js — generatePage() to add a <link rel='icon'> tag in the <head> using one of two strategies:",
+      "STRATEGY A — Avatar favicon: if config.avatar is set and inlining succeeds, add <link rel='icon' type='image/png' href='<same-base64-data-uri-as-the-img-src>'>. Reuse the already-computed dataUri — do not read the file a second time.",
+      "STRATEGY B — SVG letter favicon: if no avatar (or avatar inlining failed), generate an inline SVG favicon as a data URI. The SVG is 64x64, a rounded square background using the theme's accent color, with the first character of config.name centered in white. Encode it as a data: URI (btoa or Buffer.from().toString('base64')). Add <link rel='icon' type='image/svg+xml' href='data:image/svg+xml;base64,...'>.",
+      "SVG template for Strategy B: <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='12' fill='<accent-color>'/><text x='32' y='32' text-anchor='middle' dominant-baseline='central' font-family='system-ui,sans-serif' font-size='32' font-weight='700' fill='white'><first-char></text></svg>",
+      "The accent color used in Strategy B must be extracted from the theme. Add a small helper extractAccentColor(css) in generator.js that reads the --accent-color value from the CSS string via regex: /--accent-color:\\s*([^;]+);/. Falls back to '#6366f1' if not found.",
+      "Place the <link rel='icon'> tag in <head> immediately after the <meta> tags and before <style>.",
+      "Also add <link rel='icon' type='image/png' sizes='32x32'> as a secondary fallback using the same source — some browsers prefer explicit sizes."
+    ],
+    "outputs": [
+      "src/generator.js (updated)"
+    ]
+  },
+  "context_scope": {
+    "read_only": [
+      ".kntic/adrs/",
+      "src/themes/",
+      "src/utils.js"
+    ],
+    "write_access": [
+      "src/generator.js",
+      ".kntic/manifests/LINKS-015.json"
+    ]
+  },
+  "notes": "Keep it pure Node — Buffer.from(svgString).toString('base64') for the SVG encoding (no btoa, not available in Node). The SVG first-char should be config.name[0].toUpperCase(). HTML-escape is not needed inside the SVG data URI since it's base64-encoded. Do not add a second file read — reuse the dataUri variable already computed for the avatar <img> tag.",
+  "created_at": "2026-03-16T22:54:00Z"
+}
