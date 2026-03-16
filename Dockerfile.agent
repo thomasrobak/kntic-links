@@ -1,0 +1,68 @@
+# Dockerfile.agent — KNTIC Pulse Orchestrator (bootstrap template)
+#
+# Builds the kntic-engine container image. This Dockerfile is self-contained
+# and does not depend on a pre-built base image.
+#
+# Build args:
+#   USER_ID  — host user UID (default 1000)
+#   GROUP_ID — host user GID (default 1000)
+#   GIT_HOST — GitLab hostname for SSH keyscan (required)
+#
+# Usage:
+#   Built automatically by `docker compose -f kntic.yml up --build`.
+#   You do not need to run `docker build` manually.
+
+FROM node:22-slim
+
+# ── Base dependencies ─────────────────────────────────────────────────────
+RUN apt-get update && apt-get install -y \
+    python3 \
+    python3-pip \
+    fd-find \
+    ripgrep \
+    git \
+    curl \
+    openssh-client \
+    && rm -rf /var/lib/apt/lists/*
+
+# Global npm tooling (pi coding-agent + ast-grep)
+RUN npm install -g @ast-grep/cli @mariozechner/pi-coding-agent
+
+ENV PATH="/usr/local/lib/node_modules/.bin:/usr/local/bin:${PATH}"
+
+RUN git config --global --add safe.directory /app
+
+WORKDIR /app
+
+# ── Non-root user matching host UID/GID ───────────────────────────────────
+ARG USER_ID=1000
+ARG GROUP_ID=1000
+ARG GIT_HOST
+
+RUN if getent group ${GROUP_ID}; then \
+        group_name=$(getent group ${GROUP_ID} | cut -d: -f1); \
+        groupmod -n knticuser $group_name; \
+    else \
+        groupadd -g ${GROUP_ID} knticuser; \
+    fi && \
+    if getent passwd ${USER_ID}; then \
+        user_name=$(getent passwd ${USER_ID} | cut -d: -f1); \
+        usermod -l knticuser -d /home/knticuser -m $user_name; \
+    else \
+        useradd -l -u ${USER_ID} -g knticuser -m knticuser; \
+    fi
+
+USER knticuser
+
+RUN mkdir -p -m 0700 /home/knticuser/.ssh && \
+    ssh-keyscan ${GIT_HOST} >> /home/knticuser/.ssh/known_hosts && \
+    chown -R knticuser:knticuser /home/knticuser/.ssh
+
+# Git identity used by the orchestrator for automated commits
+RUN git config --global user.email "agent-zero@kntic.ai" && \
+    git config --global user.name "Kinetic Agent Zero"
+
+# PYTHONPATH: /app for skills/ symlink, /app/.kntic/lib for agent_runner
+ENV PYTHONPATH=/app:/app/.kntic/lib
+
+CMD ["python3", ".kntic/lib/orchestrator.py"]

@@ -1,0 +1,53 @@
+# kntic.yml — KNTIC Pulse rollout template
+#
+# ⚠️  ACTION REQUIRED before use:
+#   1. Replace the dashboard image: placeholder below with a real URI from your registry.
+#   2. Create a .kntic.env file with your project-specific credentials (see README.md § Setup).
+#   3. Run: docker compose -f kntic.yml up --build
+#
+# The orchestrator (kntic-engine) is built locally from Dockerfile.agent because it
+# requires project-specific build args (GIT_HOST for SSH keyscan, UID/GID for host
+# user mapping). The dashboard image is pre-built and pulled from the registry.
+
+services:
+  dashboard:
+    image: kntic/dashboard:latest   # ← replace with real image URI
+    container_name: ${KNTIC_PRJ_PREFIX}-dashboard
+    env_file: .kntic.env
+    user: "${UID}:${GID}"
+    ports:
+      - "${KNTIC_UI_PORT}:${KNTIC_UI_PORT}"
+    volumes:
+      - ./.kntic/gia:/app/.kntic/gia:ro                    # read-only — GIA state file
+      - ./.kntic/lib/skills:/app/.kntic/lib/skills:ro       # read-only — skill modules
+      - ./.kntic/manifests:/app/.kntic/manifests            # write access required for task management
+      - ./.kntic/MEMORY.MD:/app/.kntic/MEMORY.MD:ro
+      - ./.kntic/adrs:/app/.kntic/adrs:ro
+      - ./.kntic/docs:/app/.kntic/docs                   # Docs viewer
+    environment:
+      - PYTHONPATH=/app
+      - HOST=0.0.0.0
+      - PORT=${KNTIC_UI_PORT}
+      - GIT_HOST=${GIT_HOST}
+    restart: unless-stopped
+
+  orchestrator:
+    build:
+      context: .
+      dockerfile: Dockerfile.agent
+      args:
+        - USER_ID=${UID:-1000}
+        - GROUP_ID=${GID:-1000}
+        - GIT_HOST=${GIT_HOST}
+    container_name: ${KNTIC_PRJ_PREFIX}-engine
+    env_file: .kntic.env
+    user: "${UID}:${GID}"
+    volumes:
+      - .:/app                          # full project mount — Orchestrator needs read/write to all project files
+      - ./.pi:/home/knticuser/.pi       # pi coding-agent runtime directory
+    environment:
+      - KNTIC_ENV=docker
+      - GIT_HOST=${GIT_HOST}
+    stdin_open: true
+    tty: true
+    restart: "no"

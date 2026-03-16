@@ -1,0 +1,31 @@
+{
+  "status": "pass",
+  "files_validated": [],
+  "alignment_score": 1.0,
+  "dimensions": {
+    "bootstrap_integrity": {
+      "score": 1.0,
+      "weight": 0.3,
+      "weighted": 0.3
+    },
+    "hook_results": {
+      "score": 1.0,
+      "weight": 0.5,
+      "weighted": 0.5
+    },
+    "schema_compliance": {
+      "score": 1.0,
+      "weight": 0.1,
+      "weighted": 0.1
+    },
+    "security_isolation": {
+      "score": 1.0,
+      "weight": 0.1,
+      "weighted": 0.1
+    }
+  },
+  "change_delta": 1,
+  "merge_threshold": 1.0,
+  "drift_items": [],
+  "last_checked": "2026-03-16T19:03:55.978109+00:00"
+}

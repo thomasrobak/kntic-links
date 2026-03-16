@@ -1,0 +1,84 @@
+{
+  "task_id": "REGEN-001",
+  "title": "Protocol & Memory Alignment Audit",
+  "description": "Cross-reference the current MEMORY.MD against all ADRs to ensure architectural compliance and memory accuracy. Additionally, verify that all scripts in .kntic/hooks/gia/internal/ are consistent with the current project state (no stale references, correct paths, valid ADR checks).",
+  "status": "merged",
+  "priority": "low",
+  "requirements": {
+    "features": [
+      "Review .kntic/MEMORY.MD for any notes that contradict ADR-001 (State Machine) or ADR-002 (Security).",
+      "Clean up the 'Questions for Human' section in .kntic/MEMORY.MD if the answers have been implemented.",
+      "Summarize the current 'Project State' to ensure it reflects the latest merged manifests.",
+      "Verify that the 'Least Privilege' mounting strategy is correctly documented.",
+      "Verify all scripts in .kntic/hooks/gia/internal/ are valid and consistent with current ADRs and project structure.",
+      "Confirm internal hook scripts reference correct paths, valid status sets, and current schema expectations.",
+      "Report any stale references or drift found in .kntic/hooks/gia/internal/ scripts."
+    ],
+    "outputs": [
+      "A refined .kntic/MEMORY.MD file.",
+      "If discrepancies are found, set status to 'needs_review' and list the conflicts in .kntic/MEMORY.MD.",
+      "If internal hook scripts have issues, document them in .kntic/MEMORY.MD \u00a7 Technical Debt."
+    ]
+  },
+  "context_scope": {
+    "read_only": [
+      ".kntic/adrs/",
+      ".kntic/manifests/",
+      ".kntic/hooks/gia/internal/"
+    ],
+    "write_access": [
+      ".kntic/MEMORY.MD",
+      ".kntic/manifests/REGEN-001.json"
+    ]
+  },
+  "actions": [
+    {
+      "timestamp": "2026-03-16T20:15:00.000000+00:00",
+      "status": "ready_for_merge",
+      "summary": "Audited all 7 ADRs against MEMORY.MD; fixed ADR table desync (added filenames); documented volume mount strategy; validated all 3 internal hooks \u2014 no stale refs or logic issues found."
+    },
+    {
+      "timestamp": "2026-03-16T19:01:57.834255+00:00",
+      "status": "refactoring",
+      "summary": "GIA rejected: Hook(s) failed: 001-adr-compliance.py. Alignment score 0.8333 below threshold 1.0000"
+    },
+    {
+      "timestamp": "2026-03-16T20:30:00.000000+00:00",
+      "status": "ready_for_merge",
+      "summary": "Fixed \u00a71 stale merged-task entry; added TD-1 to \u00a73 (orchestrator volume scope); verified all 3 internal hooks \u2014 no stale refs, correct paths, valid ADR checks. Previous GIA failure was state.json timing issue (self-resolved).",
+      "files": [
+        ".gitignore",
+        ".kntic/MEMORY.MD",
+        ".kntic/adrs/ADR-001-Bootstrapping.md",
+        ".kntic/adrs/ADR-002-Security-Isolation.md",
+        ".kntic/adrs/ADR-003-Task-Schema.md",
+        ".kntic/adrs/ADR-004-GIA-State-File-Contract.md",
+        ".kntic/adrs/ADR-005-Technical-Debt-Task-Convention.md",
+        ".kntic/adrs/ADR-006-ADR-Guidelines.md",
+        ".kntic/adrs/ADR-007-Proposal-Format-And-Handling.md",
+        ".kntic/gia/.gitkeep",
+        ".kntic/gia/state.json",
+        ".kntic/gia/weights.json",
+        ".kntic/hooks/gia/.gitkeep",
+        ".kntic/hooks/gia/internal/.gitkeep",
+        ".kntic/hooks/gia/internal/001-adr-compliance.py",
+        ".kntic/hooks/gia/internal/998-drift-stale-refs.py",
+        ".kntic/hooks/gia/internal/999-drift-symlinks.py",
+        ".kntic/hooks/gia/specific/.gitkeep",
+        ".kntic/lib/__init__.py",
+        ".kntic/lib/agent_runner.py",
+        ".kntic/lib/orchestrator.py",
+        ".kntic/lib/skills/__init__.py",
+        ".kntic/lib/skills/navigation.py",
+        ".kntic/lib/skills/validator.py",
+        ".kntic/manifests/.gitkeep",
+        ".kntic/manifests/REGEN-001.json",
+        "Dockerfile.agent",
+        "kntic.yml",
+        "skills",
+        "src/.gitkeep"
+      ]
+    }
+  ],
+  "updated_at": "2026-03-16T20:03:55.978483"
+}

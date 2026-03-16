@@ -1,0 +1,9 @@
+{
+  "weights": {
+    "bootstrap_integrity": 0.30,
+    "hook_results": 0.50,
+    "schema_compliance": 0.10,
+    "security_isolation": 0.10
+  },
+  "merge_threshold": 1.0
+}

@@ -1,0 +1,6 @@
+__pycache__/
+.pi/
+.agent/test_env/
+.coverage
+*.tmp
+.kntic.env
