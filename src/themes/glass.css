@@ -1,0 +1,215 @@
+/* glass — glassmorphism theme for KNTIC Links
+ *
+ * Frosted-glass cards on a dark gradient. Soft purple/blue accent.
+ * Subtle glow on hover.
+ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  /* Backgrounds */
+  --bg-color: #0a0a1a;
+  --bg-secondary: rgba(255, 255, 255, 0.06);
+
+  /* Text */
+  --text-primary: #f0eef6;
+  --text-secondary: #c4bfda;
+  --text-muted: #8a839e;
+
+  /* Accent — soft periwinkle */
+  --accent-color: #a78bfa;
+  --accent-hover: #c4b5fd;
+
+  /* Link cards */
+  --link-bg: var(--bg-secondary);
+  --link-bg-hover: rgba(255, 255, 255, 0.1);
+  --link-border: rgba(255, 255, 255, 0.1);
+  --link-radius: 14px;
+  --link-padding: 0.875rem 1.25rem;
+
+  /* Typography */
+  --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+
+  /* Avatar */
+  --avatar-radius: 50%;
+
+  /* Layout */
+  --page-max-width: 480px;
+
+  /* Footer */
+  --footer-opacity: 0.45;
+}
+
+/* ── Base ────────────────────────────────────────────────────────── */
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  background: linear-gradient(160deg, #0a0a1a 0%, #1a0a2e 40%, #0d1033 70%, #0a0a1a 100%);
+  background-attachment: fixed;
+  color: var(--text-primary);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 3rem 1rem 1rem;
+  line-height: 1.5;
+  position: relative;
+}
+
+/* Ambient glow orbs */
+body::before,
+body::after {
+  content: '';
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(80px);
+  opacity: 0.3;
+}
+
+body::before {
+  width: 400px;
+  height: 400px;
+  background: #7c3aed;
+  top: -100px;
+  right: -100px;
+}
+
+body::after {
+  width: 350px;
+  height: 350px;
+  background: #2563eb;
+  bottom: -80px;
+  left: -80px;
+}
+
+/* ── Profile ─────────────────────────────────────────────────────── */
+
+.profile {
+  text-align: center;
+  margin-bottom: 2rem;
+  max-width: var(--page-max-width);
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+.profile__avatar {
+  width: 92px;
+  height: 92px;
+  border-radius: var(--avatar-radius);
+  object-fit: cover;
+  margin-bottom: 0.75rem;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 20px rgba(124, 58, 237, 0.2);
+}
+
+.profile__name {
+  font-size: 1.35rem;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.profile__bio {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  max-width: 320px;
+  margin: 0 auto;
+}
+
+/* ── Links ───────────────────────────────────────────────────────── */
+
+.links {
+  list-style: none;
+  width: 100%;
+  max-width: var(--page-max-width);
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  position: relative;
+  z-index: 1;
+}
+
+.links__item {
+  display: block;
+  width: 100%;
+}
+
+.links__anchor {
+  display: block;
+  width: 100%;
+  padding: var(--link-padding);
+  background: var(--link-bg);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  backdrop-filter: blur(16px) saturate(140%);
+  border: 1px solid var(--link-border);
+  border-radius: var(--link-radius);
+  color: var(--accent-color);
+  text-decoration: none;
+  text-align: center;
+  transition: background 0.25s ease, border-color 0.25s ease,
+              box-shadow 0.25s ease, color 0.25s ease;
+}
+
+.links__anchor:hover,
+.links__anchor:focus {
+  background: var(--link-bg-hover);
+  color: var(--accent-hover);
+  border-color: rgba(167, 139, 250, 0.3);
+  box-shadow: 0 4px 24px rgba(124, 58, 237, 0.15),
+              0 0 0 1px rgba(167, 139, 250, 0.1);
+  outline: none;
+}
+
+.links__label {
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.links__icon {
+  margin-right: 0.4em;
+}
+
+.links__description {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-top: 0.2rem;
+}
+
+/* ── Footer ──────────────────────────────────────────────────────── */
+
+.footer {
+  margin-top: auto;
+  padding-top: 2rem;
+  padding-bottom: 1rem;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.footer__link {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  opacity: var(--footer-opacity);
+  transition: opacity 0.2s ease;
+}
+
+.footer__link:hover {
+  opacity: 1;
+}

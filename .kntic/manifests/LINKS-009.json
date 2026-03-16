@@ -1,7 +1,7 @@
 {
   "task_id": "LINKS-009",
-  "title": "`links qr` — QR code generation",
-  "status": "todo",
+  "title": "`links qr` \u2014 QR code generation",
+  "status": "ready_for_merge",
   "priority": "medium",
   "description": "Implement `links qr` to generate a QR code for the link page URL. Output to terminal (ASCII) by default, with an option to save as PNG.",
   "requirements": {
@@ -28,6 +28,49 @@
       ".kntic/manifests/LINKS-009.json"
     ]
   },
-  "notes": "The 'qrcode' npm package supports both terminal ASCII output and PNG file output. Use qrcode.toString(url, {type:'terminal'}) for terminal output and qrcode.toFile(path, url) for PNG.",
-  "created_at": "2026-03-16T19:10:00Z"
+  "notes": "[GIA REJECTED] Hook(s) failed: 001-adr-compliance.py. Alignment score 0.8333 below threshold 1.0000\nThe 'qrcode' npm package supports both terminal ASCII output and PNG file output. Use qrcode.toString(url, {type:'terminal'}) for terminal output and qrcode.toFile(path, url) for PNG.",
+  "created_at": "2026-03-16T19:10:00Z",
+  "updated_at": "2026-03-16T20:49:03.726180Z",
+  "actions": [
+    {
+      "timestamp": "2026-03-16T20:32:43.129816Z",
+      "status": "ready_for_merge"
+    },
+    {
+      "timestamp": "2026-03-16T20:38:46.534114+00:00",
+      "status": "refactoring",
+      "summary": "GIA rejected: Hook(s) failed: 001-adr-compliance.py. Alignment score 0.8333 below threshold 1.0000"
+    },
+    {
+      "timestamp": "2026-03-16T20:49:03.726180Z",
+      "status": "ready_for_merge"
+    }
+  ],
+  "gia_failure": {
+    "reason": "Hook(s) failed: 001-adr-compliance.py. Alignment score 0.8333 below threshold 1.0000",
+    "alignment_score": 0.8333,
+    "dimensions": {
+      "bootstrap_integrity": {
+        "score": 1.0,
+        "weight": 0.3,
+        "weighted": 0.3
+      },
+      "hook_results": {
+        "score": 0.6667,
+        "weight": 0.5,
+        "weighted": 0.3333
+      },
+      "schema_compliance": {
+        "score": 1.0,
+        "weight": 0.1,
+        "weighted": 0.1
+      },
+      "security_isolation": {
+        "score": 1.0,
+        "weight": 0.1,
+        "weighted": 0.1
+      }
+    },
+    "logs": "=== 001-adr-compliance.py ===\n  \u2717 LINKS-001.json: actions[0] missing required 'status'\n[hook:001-adr-compliance] Running ADR compliance checks...\n  (17 file(s) changed relative to main)\n\n[003] ADR-001: Checking manifest statuses...\n  \u2713 All manifests have valid ADR-001 statuses\n\n[003] ADR-002: Checking dashboard volume mount :ro enforcement...\n  \u2713 kntic.yml not in change set \u2014 skipping ADR-002 mount check\n\n[003] ADR-003: Checking manifest schema and omission rule...\n\n[003] ADR-004: Checking GIA state file schema...\n  \u2713 GIA state file conforms to ADR-004 schema\n\n[003] ADR-005: Checking TD- manifest naming and MEMORY.MD entries...\n  \u2713 No TD- manifests in change set \u2014 skipping ADR-005 check\n\n[003] ADR-006: Checking ADR structure compliance...\n  \u2713 No ADR files in change set \u2014 skipping ADR-006 check\n\n[003] ADR-007: Checking proposal format compliance...\n  \u2713 No proposal files in change set \u2014 skipping ADR-007 check\n\n[hook:001-adr-compliance] FAILED \u2014 1 compliance issue(s) found."
+  }
 }

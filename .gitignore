@@ -1,6 +1,3 @@
-__pycache__/
-.pi/
-.agent/test_env/
-.coverage
-*.tmp
-.kntic.env
+node_modules/
+dist/
+*.log

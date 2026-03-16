@@ -1,17 +1,17 @@
 {
   "task_id": "LINKS-003",
-  "title": "`links init` — scaffold a new link page project",
-  "status": "todo",
+  "title": "`links init` \u2014 scaffold a new link page project",
+  "status": "ready_for_merge",
   "priority": "high",
-  "description": "Implement the `links init` command. When run in an empty or new directory, it creates a links.yaml with sensible defaults and prints a helpful getting-started message. Should be safe to run — never overwrite an existing links.yaml without confirmation.",
+  "description": "Implement the `links init` command. When run in an empty or new directory, it creates a links.yaml with sensible defaults and prints a helpful getting-started message. Should be safe to run \u2014 never overwrite an existing links.yaml without confirmation.",
   "requirements": {
     "features": [
-      "Implement src/commands/init.js — async function that creates links.yaml in cwd",
+      "Implement src/commands/init.js \u2014 async function that creates links.yaml in cwd",
       "If links.yaml already exists in cwd: print warning 'links.yaml already exists. Use --force to overwrite.' and exit 1 unless --force flag is passed",
       "Generated links.yaml content: name field (prompted from user or uses system username as default), bio field (empty placeholder with comment), avatar field (commented out example), theme field (minimal-dark), domain field (commented out example), links array with two example entries (one placeholder social, one placeholder website)",
       "Use YAML comments in the generated file to guide the user (e.g., '# Your page URL once deployed')",
       "After writing, print success message with next steps: 'Created links.yaml', 'Next: links add <label> <url>', 'Deploy: links deploy --self --out ./dist'",
-      "Accept optional positional argument: `links init [directory]` — if provided, init in that directory (create if not exists)"
+      "Accept optional positional argument: `links init [directory]` \u2014 if provided, init in that directory (create if not exists)"
     ],
     "outputs": [
       "src/commands/init.js (implemented)"
@@ -28,6 +28,49 @@
       ".kntic/manifests/LINKS-003.json"
     ]
   },
-  "notes": "No interactive prompts for MVP — just create the file with defaults. Prompts can be a future enhancement. YAML comment syntax via js-yaml dump options or manual string template.",
-  "created_at": "2026-03-16T19:10:00Z"
+  "notes": "[GIA REJECTED] Hook(s) failed: 001-adr-compliance.py. Alignment score 0.8333 below threshold 1.0000\nNo interactive prompts for MVP \u2014 just create the file with defaults. Prompts can be a future enhancement. YAML comment syntax via js-yaml dump options or manual string template.",
+  "created_at": "2026-03-16T19:10:00Z",
+  "updated_at": "2026-03-16T20:40:48.496552Z",
+  "actions": [
+    {
+      "timestamp": "2026-03-16T20:23:29.206129Z",
+      "status": "ready_for_merge"
+    },
+    {
+      "timestamp": "2026-03-16T20:38:45.944657+00:00",
+      "status": "refactoring",
+      "summary": "GIA rejected: Hook(s) failed: 001-adr-compliance.py. Alignment score 0.8333 below threshold 1.0000"
+    },
+    {
+      "timestamp": "2026-03-16T20:40:48.496552Z",
+      "status": "ready_for_merge"
+    }
+  ],
+  "gia_failure": {
+    "reason": "Hook(s) failed: 001-adr-compliance.py. Alignment score 0.8333 below threshold 1.0000",
+    "alignment_score": 0.8333,
+    "dimensions": {
+      "bootstrap_integrity": {
+        "score": 1.0,
+        "weight": 0.3,
+        "weighted": 0.3
+      },
+      "hook_results": {
+        "score": 0.6667,
+        "weight": 0.5,
+        "weighted": 0.3333
+      },
+      "schema_compliance": {
+        "score": 1.0,
+        "weight": 0.1,
+        "weighted": 0.1
+      },
+      "security_isolation": {
+        "score": 1.0,
+        "weight": 0.1,
+        "weighted": 0.1
+      }
+    },
+    "logs": "=== 001-adr-compliance.py ===\n  \u2717 LINKS-001.json: actions[0] missing required 'status'\n[hook:001-adr-compliance] Running ADR compliance checks...\n  (17 file(s) changed relative to main)\n\n[003] ADR-001: Checking manifest statuses...\n  \u2713 All manifests have valid ADR-001 statuses\n\n[003] ADR-002: Checking dashboard volume mount :ro enforcement...\n  \u2713 kntic.yml not in change set \u2014 skipping ADR-002 mount check\n\n[003] ADR-003: Checking manifest schema and omission rule...\n\n[003] ADR-004: Checking GIA state file schema...\n  \u2713 GIA state file conforms to ADR-004 schema\n\n[003] ADR-005: Checking TD- manifest naming and MEMORY.MD entries...\n  \u2713 No TD- manifests in change set \u2014 skipping ADR-005 check\n\n[003] ADR-006: Checking ADR structure compliance...\n  \u2713 No ADR files in change set \u2014 skipping ADR-006 check\n\n[003] ADR-007: Checking proposal format compliance...\n  \u2713 No proposal files in change set \u2014 skipping ADR-007 check\n\n[hook:001-adr-compliance] FAILED \u2014 1 compliance issue(s) found."
+  }
 }

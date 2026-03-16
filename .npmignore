@@ -1,0 +1,7 @@
+.kntic/
+.git/
+kntic.yml
+Dockerfile.agent
+skills/
+node_modules/
+*.log

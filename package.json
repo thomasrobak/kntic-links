@@ -1,0 +1,46 @@
+{
+  "name": "@kntic/links",
+  "version": "0.1.0",
+  "description": "CLI for building and deploying self-hosted link-in-bio pages. No accounts, no tracking — just HTML.",
+  "type": "module",
+  "license": "MIT",
+  "bin": {
+    "links": "src/cli.js"
+  },
+  "files": [
+    "src/",
+    "LICENSE",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "linktree",
+    "link-page",
+    "link-in-bio",
+    "cli",
+    "privacy",
+    "self-hosted",
+    "developer",
+    "static-site"
+  ],
+  "homepage": "https://kntic.ai",
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.kommune7.wien/kommune7/apps/links.git"
+  },
+  "bugs": {
+    "url": "https://gitlab.kommune7.wien/kommune7/apps/links/-/issues"
+  },
+  "scripts": {
+    "prepublishOnly": "node -e \"import('./src/config.js').then(() => console.log('prepublish check passed'))\""
+  },
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "commander": "^12.1.0",
+    "js-yaml": "^4.1.0",
+    "open": "^10.1.0",
+    "qrcode": "^1.5.4"
+  }
+}

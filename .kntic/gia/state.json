@@ -1,6 +1,24 @@
 {
   "status": "pass",
-  "files_validated": [],
+  "files_validated": [
+    ".gitignore",
+    ".kntic/MEMORY.MD",
+    ".kntic/gia/state.json",
+    ".kntic/lib/agent_runner.py",
+    ".kntic/manifests/LINKS-001.json",
+    ".kntic/manifests/LINKS-002.json",
+    ".kntic/manifests/LINKS-003.json",
+    ".kntic/manifests/LINKS-004.json",
+    ".kntic/manifests/LINKS-005.json",
+    ".kntic/manifests/LINKS-006.json",
+    ".kntic/manifests/LINKS-007.json",
+    ".kntic/manifests/LINKS-008.json",
+    ".kntic/manifests/LINKS-009.json",
+    ".kntic/manifests/LINKS-010.json",
+    ".kntic/manifests/LINKS-011.json",
+    ".kntic/manifests/LINKS-012.json",
+    "README.md"
+  ],
   "alignment_score": 1.0,
   "dimensions": {
     "bootstrap_integrity": {
@@ -24,8 +42,8 @@
       "weighted": 0.1
     }
   },
-  "change_delta": 1,
+  "change_delta": 17,
   "merge_threshold": 1.0,
   "drift_items": [],
-  "last_checked": "2026-03-16T19:03:55.978109+00:00"
+  "last_checked": "2026-03-16T20:53:13.626969+00:00"
 }

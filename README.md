@@ -1,93 +1,149 @@
+# @kntic/links
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![npm version](https://img.shields.io/npm/v/@kntic/links)](https://www.npmjs.com/package/@kntic/links)
+[![Node >= 18](https://img.shields.io/badge/node-%3E%3D18-brightgreen)](https://nodejs.org)
+
+A CLI for building and deploying link-in-bio pages. No accounts, no tracking, no third-party servers. You own the HTML.
+
+---
+
+## Quick Start
+
+Five commands from zero to a deployed page:
+
+```bash
+# 1. Install
+npm install -g @kntic/links
+
+# 2. Scaffold a new project
+links init my-page && cd my-page
+
+# 3. Add some links
+links add "GitHub" "https://github.com/you"
+links add "Blog"   "https://your-blog.dev"
+
+# 4. Build a self-contained HTML file
+links deploy --self
+
+# 5. Open it
+open dist/index.html
+```
+
+That's it. `dist/index.html` is a single file — inline CSS, base64 avatar, no external requests. Drop it on any static host.
+
+---
+
+## Install
+
+```bash
+npm install -g @kntic/links
+```
+
+Requires Node.js 18 or later.
+
+---
+
+## Command Reference
+
+| Command | Description |
+|---------|-------------|
+| `links init [directory]` | Scaffold a new `links.yaml` project. `--force` to overwrite. |
+| `links add <label> <url>` | Add a link. `--from`/`--until` for scheduling, `--update` to replace. |
+| `links remove <label>` | Remove a link by label (case-insensitive). |
+| `links list` | List all links. `--json` for machine-readable output. |
+| `links deploy --self` | Generate a self-contained HTML page to `dist/`. `--out <dir>` to change output, `--open` to open in browser. |
+| `links theme list` | List available themes. |
+| `links theme set <name>` | Set the active theme in `links.yaml`. |
+| `links qr` | Generate a QR code for your page URL. |
+| `links config` | Open `links.yaml` in your `$EDITOR`. |
+| `links open` | Open your deployed page URL in the browser. `--local` for `dist/index.html`. |
+| `links status` | Show project config summary. |
+
+---
+
+## `links.yaml` Schema
+
+```yaml
+# Required
+name: "Your Name"
+url: "https://your-site.com"
+
+# Optional
+bio: "A short bio line."
+avatar: "avatar.png"          # Path to image — gets base64-inlined on build
+theme: "minimal-dark"          # Any theme name from src/themes/
+
 # Links
-
-
-
-## Getting started
-
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
-
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
-
-## Add your files
-
-* [Create](https://docs.gitlab.com/user/project/repository/web_editor/#create-a-file) or [upload](https://docs.gitlab.com/user/project/repository/web_editor/#upload-a-file) files
-* [Add files using the command line](https://docs.gitlab.com/topics/git/add_files/#add-files-to-a-git-repository) or push an existing Git repository with the following command:
-
-```
-cd existing_repo
-git remote add origin https://gitlab.kommune7.wien/kommune7/apps/links.git
-git branch -M main
-git push -uf origin main
+links:
+  - label: "GitHub"
+    url: "https://github.com/you"
+  - label: "Blog"
+    url: "https://your-blog.dev"
+    scheduled_from: "2026-04-01"    # Optional: link becomes visible on this date
+    scheduled_until: "2026-12-31"   # Optional: link hidden after this date
 ```
 
-## Integrate with your tools
+### Scheduling
 
-* [Set up project integrations](https://gitlab.kommune7.wien/kommune7/apps/links/-/settings/integrations)
+Links support `scheduled_from` and `scheduled_until` fields (ISO 8601 date strings). The generator filters links at build time — only active links appear in the output HTML.
 
-## Collaborate with your team
+---
 
-* [Invite team members and collaborators](https://docs.gitlab.com/user/project/members/)
-* [Create a new merge request](https://docs.gitlab.com/user/project/merge_requests/creating_merge_requests/)
-* [Automatically close issues from merge requests](https://docs.gitlab.com/user/project/issues/managing_issues/#closing-issues-automatically)
-* [Enable merge request approvals](https://docs.gitlab.com/user/project/merge_requests/approvals/)
-* [Set auto-merge](https://docs.gitlab.com/user/project/merge_requests/auto_merge/)
+## Themes
 
-## Test and Deploy
+Five built-in themes ship with Links:
 
-Use the built-in continuous integration in GitLab.
+| Theme | Description |
+|-------|-------------|
+| `minimal-dark` | Default. Muted violet accent on dark background. |
+| `minimal-light` | Clean off-white with indigo accent. |
+| `terminal` | Green-on-black with cursor blink and scanlines. |
+| `glass` | Glassmorphism with backdrop-filter blur and purple/blue gradient. |
+| `developer` | IDE-inspired aesthetic with KNTIC orange and left border bar. |
 
-* [Get started with GitLab CI/CD](https://docs.gitlab.com/ci/quick_start/)
-* [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/user/application_security/sast/)
-* [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/topics/autodevops/requirements/)
-* [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/user/clusters/agent/)
-* [Set up protected environments](https://docs.gitlab.com/ci/environments/protected_environments/)
+```bash
+# List themes
+links theme list
 
-***
+# Switch theme
+links theme set terminal
 
-# Editing this README
+# Rebuild
+links deploy --self
+```
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
+### Custom Themes
 
-## Suggestions for a good README
+Themes are plain CSS files. Copy any built-in theme and override the 17 CSS custom properties. See [`src/themes/README.md`](src/themes/README.md) for the full token contract.
 
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+> 📸 **Screenshots coming soon.**
 
-## Name
-Choose a self-explaining name for your project.
+---
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+## Self-Hosted by Default
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+`links deploy --self` generates a single HTML file with everything inlined:
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+- CSS is embedded in a `<style>` tag
+- Avatar is base64-encoded into an `<img>` src
+- Zero external requests — no fonts CDN, no analytics, no tracking
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+Upload `dist/index.html` anywhere: Nginx, S3, GitHub Pages, Netlify, a Raspberry Pi — it doesn't matter.
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+---
 
 ## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+1. Fork the repo
+2. Create a feature branch
+3. Make your changes (themes are a great first contribution)
+4. Submit a merge request
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+Please keep the zero-dependency-on-external-services philosophy. If it can be done with a single HTML file, it should be.
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+---
 
 ## License
-For open source projects, say how it is licensed.
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+[MIT](LICENSE) © 2026 KNTIC

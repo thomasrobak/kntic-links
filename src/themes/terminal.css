@@ -1,0 +1,229 @@
+/* terminal — classic green-on-black terminal theme for KNTIC Links
+ *
+ * Matrix-inspired. Monospace everything. Green glow on hover.
+ * Cursor blink on the name.
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  /* Backgrounds */
+  --bg-color: #0a0a0a;
+  --bg-secondary: #0f0f0f;
+
+  /* Text */
+  --text-primary: #00ff41;
+  --text-secondary: #00cc33;
+  --text-muted: #008f22;
+
+  /* Accent */
+  --accent-color: #00ff41;
+  --accent-hover: #33ff66;
+
+  /* Link cards */
+  --link-bg: var(--bg-secondary);
+  --link-bg-hover: #0d1a0f;
+  --link-border: #00ff41;
+  --link-radius: 0;
+  --link-padding: 0.75rem 1rem;
+
+  /* Typography */
+  --font-body: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', 'Courier New', Courier, monospace;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', 'Courier New', Courier, monospace;
+
+  /* Avatar */
+  --avatar-radius: 0;
+
+  /* Layout */
+  --page-max-width: 520px;
+
+  /* Footer */
+  --footer-opacity: 0.5;
+}
+
+/* ── Animations ──────────────────────────────────────────────────── */
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0; }
+}
+
+@keyframes scanline {
+  0%   { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+/* ── Base ────────────────────────────────────────────────────────── */
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 3rem 1rem 1rem;
+  line-height: 1.6;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Subtle scanline overlay */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: rgba(0, 255, 65, 0.06);
+  animation: scanline 8s linear infinite;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+/* ── Profile ─────────────────────────────────────────────────────── */
+
+.profile {
+  text-align: left;
+  margin-bottom: 1.5rem;
+  max-width: var(--page-max-width);
+  width: 100%;
+}
+
+.profile__avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: var(--avatar-radius);
+  object-fit: cover;
+  margin-bottom: 0.75rem;
+  border: 1px solid var(--link-border);
+  filter: grayscale(100%) brightness(1.1);
+}
+
+.profile__name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 0.3rem;
+  color: var(--text-primary);
+  text-shadow: 0 0 8px rgba(0, 255, 65, 0.4);
+}
+
+/* Blinking cursor after name */
+.profile__name::after {
+  content: '█';
+  animation: blink 1s step-end infinite;
+  margin-left: 2px;
+  font-weight: 400;
+}
+
+.profile__bio {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.profile__bio::before {
+  content: '// ';
+  color: var(--text-muted);
+}
+
+/* ── Links ───────────────────────────────────────────────────────── */
+
+.links {
+  list-style: none;
+  width: 100%;
+  max-width: var(--page-max-width);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.links__item {
+  display: block;
+  width: 100%;
+}
+
+.links__anchor {
+  display: block;
+  width: 100%;
+  padding: var(--link-padding);
+  background-color: var(--link-bg);
+  border: 1px solid var(--link-border);
+  border-radius: var(--link-radius);
+  color: var(--accent-color);
+  text-decoration: none;
+  text-align: left;
+  font-family: var(--font-mono);
+  transition: background-color 0.15s ease, box-shadow 0.15s ease,
+              text-shadow 0.15s ease;
+}
+
+.links__anchor::before {
+  content: '> ';
+  color: var(--text-muted);
+}
+
+.links__anchor:hover,
+.links__anchor:focus {
+  background-color: var(--link-bg-hover);
+  color: var(--accent-hover);
+  box-shadow: 0 0 12px rgba(0, 255, 65, 0.15), inset 0 0 12px rgba(0, 255, 65, 0.03);
+  text-shadow: 0 0 6px rgba(0, 255, 65, 0.5);
+  outline: none;
+}
+
+.links__label {
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.links__icon {
+  margin-right: 0.4em;
+}
+
+.links__description {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  margin-top: 0.15rem;
+  padding-left: 1.15em;
+}
+
+/* ── Footer ──────────────────────────────────────────────────────── */
+
+.footer {
+  margin-top: auto;
+  padding-top: 2rem;
+  padding-bottom: 1rem;
+  text-align: center;
+  max-width: var(--page-max-width);
+  width: 100%;
+}
+
+.footer__link {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  opacity: var(--footer-opacity);
+  font-family: var(--font-mono);
+  transition: opacity 0.2s ease;
+}
+
+.footer__link:hover {
+  opacity: 1;
+  text-shadow: 0 0 6px rgba(0, 255, 65, 0.4);
+}

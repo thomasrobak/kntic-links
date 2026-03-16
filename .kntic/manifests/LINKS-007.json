@@ -1,17 +1,17 @@
 {
   "task_id": "LINKS-007",
-  "title": "5 launch themes — minimal-dark, minimal-light, terminal, glass, developer",
-  "status": "todo",
+  "title": "5 launch themes \u2014 minimal-dark, minimal-light, terminal, glass, developer",
+  "status": "ready_for_merge",
   "priority": "high",
-  "description": "Design and implement the 5 launch themes. These define the aesthetic identity of @kntic/links. Quality over quantity — each theme should feel complete and polished, not half-baked. All themes implement the full CSS custom property contract from LINKS-006.",
+  "description": "Design and implement the 5 launch themes. These define the aesthetic identity of @kntic/links. Quality over quantity \u2014 each theme should feel complete and polished, not half-baked. All themes implement the full CSS custom property contract from LINKS-006.",
   "requirements": {
     "features": [
-      "Create src/themes/minimal-dark.css — DEFAULT theme. Clean, modern dark. Background ~#0f0f0f, white text, subtle zinc borders, soft rounded links. Accent: a muted blue or violet. No gradients, no gimmicks. This is what most users will ship.",
-      "Create src/themes/minimal-light.css — Mirror of minimal-dark in light mode. Off-white background (#f9f9f9), near-black text, same clean aesthetic. Comfortable for daylight reading.",
-      "Create src/themes/terminal.css — Classic terminal green-on-black. Background #0a0a0a, foreground #00ff41 (matrix green), monospace font (JetBrains Mono, Fira Code, Courier fallback). Link hover effect: green glow. ASCII-style border characters on links via CSS (or simple 1px solid green borders). Cursor blink animation on the name.",
-      "Create src/themes/glass.css — Glassmorphism. Semi-transparent backdrop-filter blur cards on a dark gradient background (#0a0a1a → #1a0a2e). Links are frosted glass panels: rgba white background at low opacity + border: 1px solid rgba(255,255,255,0.1). Soft purple/blue accent. Subtle glow on hover.",
-      "Create src/themes/developer.css — Developer/hacker aesthetic. Dark background, monospace everywhere (system-ui fallback to Menlo/Monaco/Courier), links styled as code blocks or terminal commands. Accent: orange (#FF4500, KNTIC orange). Left border bar on links (like VSCode sidebar). Filename-style labels in the link buttons.",
-      "Every theme file: full CSS reset at top, :root block with all required custom properties, complete styling for: body, .page-container, .profile-section, .avatar, .name, .bio, .links-list, .link-item, .link-item:hover, .link-icon, .link-label, .link-description, .footer. No external font imports (use system fonts or Google Fonts via @import only — no JS)",
+      "Create src/themes/minimal-dark.css \u2014 DEFAULT theme. Clean, modern dark. Background ~#0f0f0f, white text, subtle zinc borders, soft rounded links. Accent: a muted blue or violet. No gradients, no gimmicks. This is what most users will ship.",
+      "Create src/themes/minimal-light.css \u2014 Mirror of minimal-dark in light mode. Off-white background (#f9f9f9), near-black text, same clean aesthetic. Comfortable for daylight reading.",
+      "Create src/themes/terminal.css \u2014 Classic terminal green-on-black. Background #0a0a0a, foreground #00ff41 (matrix green), monospace font (JetBrains Mono, Fira Code, Courier fallback). Link hover effect: green glow. ASCII-style border characters on links via CSS (or simple 1px solid green borders). Cursor blink animation on the name.",
+      "Create src/themes/glass.css \u2014 Glassmorphism. Semi-transparent backdrop-filter blur cards on a dark gradient background (#0a0a1a \u2192 #1a0a2e). Links are frosted glass panels: rgba white background at low opacity + border: 1px solid rgba(255,255,255,0.1). Soft purple/blue accent. Subtle glow on hover.",
+      "Create src/themes/developer.css \u2014 Developer/hacker aesthetic. Dark background, monospace everywhere (system-ui fallback to Menlo/Monaco/Courier), links styled as code blocks or terminal commands. Accent: orange (#FF4500, KNTIC orange). Left border bar on links (like VSCode sidebar). Filename-style labels in the link buttons.",
+      "Every theme file: full CSS reset at top, :root block with all required custom properties, complete styling for: body, .page-container, .profile-section, .avatar, .name, .bio, .links-list, .link-item, .link-item:hover, .link-icon, .link-label, .link-description, .footer. No external font imports (use system fonts or Google Fonts via @import only \u2014 no JS)",
       "Verify all 5 themes work with the theme loader (correct filename convention)"
     ],
     "outputs": [
@@ -45,6 +45,49 @@
       ".kntic/manifests/LINKS-007.json"
     ]
   },
-  "notes": "KNTIC orange is #FF4500 — use it sparingly as accent in the developer theme. Each theme should be self-contained (no theme imports another). Aim for roughly 80-150 lines of CSS per theme — enough to be polished, not enough to be bloated. Google Fonts @import is allowed for terminal/developer themes (JetBrains Mono).",
-  "created_at": "2026-03-16T19:10:00Z"
+  "notes": "[GIA REJECTED] Hook(s) failed: 001-adr-compliance.py. Alignment score 0.8333 below threshold 1.0000\nKNTIC orange is #FF4500 \u2014 use it sparingly as accent in the developer theme. Each theme should be self-contained (no theme imports another). Aim for roughly 80-150 lines of CSS per theme \u2014 enough to be polished, not enough to be bloated. Google Fonts @import is allowed for terminal/developer themes (JetBrains Mono).",
+  "created_at": "2026-03-16T19:10:00Z",
+  "updated_at": "2026-03-16T20:46:48.789880Z",
+  "actions": [
+    {
+      "timestamp": "2026-03-16T20:30:56.493136Z",
+      "status": "ready_for_merge"
+    },
+    {
+      "timestamp": "2026-03-16T20:38:46.349787+00:00",
+      "status": "refactoring",
+      "summary": "GIA rejected: Hook(s) failed: 001-adr-compliance.py. Alignment score 0.8333 below threshold 1.0000"
+    },
+    {
+      "timestamp": "2026-03-16T20:46:48.789880Z",
+      "status": "ready_for_merge"
+    }
+  ],
+  "gia_failure": {
+    "reason": "Hook(s) failed: 001-adr-compliance.py. Alignment score 0.8333 below threshold 1.0000",
+    "alignment_score": 0.8333,
+    "dimensions": {
+      "bootstrap_integrity": {
+        "score": 1.0,
+        "weight": 0.3,
+        "weighted": 0.3
+      },
+      "hook_results": {
+        "score": 0.6667,
+        "weight": 0.5,
+        "weighted": 0.3333
+      },
+      "schema_compliance": {
+        "score": 1.0,
+        "weight": 0.1,
+        "weighted": 0.1
+      },
+      "security_isolation": {
+        "score": 1.0,
+        "weight": 0.1,
+        "weighted": 0.1
+      }
+    },
+    "logs": "=== 001-adr-compliance.py ===\n  \u2717 LINKS-001.json: actions[0] missing required 'status'\n[hook:001-adr-compliance] Running ADR compliance checks...\n  (17 file(s) changed relative to main)\n\n[003] ADR-001: Checking manifest statuses...\n  \u2713 All manifests have valid ADR-001 statuses\n\n[003] ADR-002: Checking dashboard volume mount :ro enforcement...\n  \u2713 kntic.yml not in change set \u2014 skipping ADR-002 mount check\n\n[003] ADR-003: Checking manifest schema and omission rule...\n\n[003] ADR-004: Checking GIA state file schema...\n  \u2713 GIA state file conforms to ADR-004 schema\n\n[003] ADR-005: Checking TD- manifest naming and MEMORY.MD entries...\n  \u2713 No TD- manifests in change set \u2014 skipping ADR-005 check\n\n[003] ADR-006: Checking ADR structure compliance...\n  \u2713 No ADR files in change set \u2014 skipping ADR-006 check\n\n[003] ADR-007: Checking proposal format compliance...\n  \u2713 No proposal files in change set \u2014 skipping ADR-007 check\n\n[hook:001-adr-compliance] FAILED \u2014 1 compliance issue(s) found."
+  }
 }

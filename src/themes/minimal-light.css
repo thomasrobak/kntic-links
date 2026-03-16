@@ -1,0 +1,176 @@
+/* minimal-light — clean light theme for KNTIC Links
+ *
+ * Mirror of minimal-dark in light mode. Off-white background,
+ * near-black text. Comfortable for daylight reading.
+ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  /* Backgrounds */
+  --bg-color: #f9f9f9;
+  --bg-secondary: #ffffff;
+
+  /* Text */
+  --text-primary: #111111;
+  --text-secondary: #555555;
+  --text-muted: #888888;
+
+  /* Accent — muted indigo */
+  --accent-color: #4f46e5;
+  --accent-hover: #3730a3;
+
+  /* Link cards */
+  --link-bg: var(--bg-secondary);
+  --link-bg-hover: #f3f3f3;
+  --link-border: #e5e5e5;
+  --link-radius: 10px;
+  --link-padding: 0.875rem 1.25rem;
+
+  /* Typography */
+  --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+
+  /* Avatar */
+  --avatar-radius: 50%;
+
+  /* Layout */
+  --page-max-width: 480px;
+
+  /* Footer */
+  --footer-opacity: 0.5;
+}
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 3rem 1rem 1rem;
+  line-height: 1.5;
+}
+
+/* ── Profile ─────────────────────────────────────────────────────── */
+
+.profile {
+  text-align: center;
+  margin-bottom: 2rem;
+  max-width: var(--page-max-width);
+  width: 100%;
+}
+
+.profile__avatar {
+  width: 88px;
+  height: 88px;
+  border-radius: var(--avatar-radius);
+  object-fit: cover;
+  margin-bottom: 0.75rem;
+  border: 2px solid var(--link-border);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.profile__name {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.profile__bio {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  max-width: 320px;
+  margin: 0 auto;
+}
+
+/* ── Links ───────────────────────────────────────────────────────── */
+
+.links {
+  list-style: none;
+  width: 100%;
+  max-width: var(--page-max-width);
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+
+.links__item {
+  display: block;
+  width: 100%;
+}
+
+.links__anchor {
+  display: block;
+  width: 100%;
+  padding: var(--link-padding);
+  background-color: var(--link-bg);
+  border: 1px solid var(--link-border);
+  border-radius: var(--link-radius);
+  color: var(--accent-color);
+  text-decoration: none;
+  text-align: center;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  transition: background-color 0.2s ease, color 0.2s ease,
+              border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.links__anchor:hover,
+.links__anchor:focus {
+  background-color: var(--link-bg-hover);
+  color: var(--accent-hover);
+  border-color: #d0d0d0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  outline: none;
+}
+
+.links__label {
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.links__icon {
+  margin-right: 0.4em;
+}
+
+.links__description {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-top: 0.2rem;
+}
+
+/* ── Footer ──────────────────────────────────────────────────────── */
+
+.footer {
+  margin-top: auto;
+  padding-top: 2rem;
+  padding-bottom: 1rem;
+  text-align: center;
+}
+
+.footer__link {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  opacity: var(--footer-opacity);
+  transition: opacity 0.2s ease;
+}
+
+.footer__link:hover {
+  opacity: 1;
+}

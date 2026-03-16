@@ -27,6 +27,10 @@ class PiAgentRunner:
             "4. Update the manifest status to 'ready_for_merge' once the task is complete.\n"
             "5. Adhere to security best practices (Least Privilege) for any infrastructure changes.\n"
             "6. Update .kntic/MEMORY.MD if you learned something new or changed the architecture.\n\n"
+            "Use the kntic-task-status skill to set the task status. "
+            "You MUST call .kntic/lib/skills/kntic-task-status/set-status.sh "
+            f"{manifest_path} ready_for_merge when done, or "
+            f".kntic/lib/skills/kntic-task-status/set-status.sh {manifest_path} needs_review if blocked.\n\n"
             f"Please proceed with the task defined in: {manifest_path}"
         )
         
@@ -62,7 +66,21 @@ class PiAgentRunner:
                 
                 time.sleep(2)
             
-            return process.returncode == 0
+            # Post-exit fallback: pi exited naturally — check if task reached terminal state
+            try:
+                if os.path.exists(manifest_path):
+                    with open(manifest_path, 'r') as f:
+                        data = json.load(f)
+                    final_status = data.get('status')
+                    if final_status in terminal_statuses:
+                        print(f"\n[🏁] Post-exit: Task status is '{final_status}'. Session succeeded.")
+                        return True
+                    else:
+                        print(f"\n[⚠️] Post-exit: Agent exited but task status is still '{final_status}' (not terminal). Session failed to finalize.")
+                        return False
+            except Exception as e:
+                print(f"\n[⚠️] Post-exit: Failed to read manifest for status check: {e}")
+                return False
             
         except Exception as e:
             print(f"[!] Runner Error: {e}")

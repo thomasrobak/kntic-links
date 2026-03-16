@@ -1,0 +1,210 @@
+/* developer — hacker / IDE aesthetic for KNTIC Links
+ *
+ * Monospace everywhere. Links styled as code blocks.
+ * KNTIC orange accent. Left border bar on links (VSCode-style).
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  /* Backgrounds */
+  --bg-color: #1e1e1e;
+  --bg-secondary: #252526;
+
+  /* Text */
+  --text-primary: #d4d4d4;
+  --text-secondary: #9cdcfe;
+  --text-muted: #6a9955;
+
+  /* Accent — KNTIC orange */
+  --accent-color: #FF4500;
+  --accent-hover: #ff6a33;
+
+  /* Link cards */
+  --link-bg: var(--bg-secondary);
+  --link-bg-hover: #2d2d30;
+  --link-border: #3e3e42;
+  --link-radius: 3px;
+  --link-padding: 0.75rem 1rem 0.75rem 1.15rem;
+
+  /* Typography */
+  --font-body: 'JetBrains Mono', Menlo, Monaco, 'Cascadia Code', 'Courier New', monospace;
+  --font-mono: 'JetBrains Mono', Menlo, Monaco, 'Cascadia Code', 'Courier New', monospace;
+
+  /* Avatar */
+  --avatar-radius: 4px;
+
+  /* Layout */
+  --page-max-width: 540px;
+
+  /* Footer */
+  --footer-opacity: 0.45;
+}
+
+/* ── Base ────────────────────────────────────────────────────────── */
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2.5rem 1rem 1rem;
+  line-height: 1.6;
+}
+
+/* ── Profile ─────────────────────────────────────────────────────── */
+
+.profile {
+  text-align: left;
+  margin-bottom: 1.5rem;
+  max-width: var(--page-max-width);
+  width: 100%;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--link-border);
+}
+
+.profile__avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: var(--avatar-radius);
+  object-fit: cover;
+  margin-bottom: 0.75rem;
+  border: 1px solid var(--link-border);
+}
+
+.profile__name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+  color: var(--accent-color);
+}
+
+/* File-path style decoration */
+.profile__name::before {
+  content: '~/';
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.profile__bio {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.profile__bio::before {
+  content: '/* ';
+}
+
+.profile__bio::after {
+  content: ' */';
+}
+
+/* ── Links ───────────────────────────────────────────────────────── */
+
+.links {
+  list-style: none;
+  width: 100%;
+  max-width: var(--page-max-width);
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.links__item {
+  display: block;
+  width: 100%;
+}
+
+.links__anchor {
+  display: block;
+  width: 100%;
+  padding: var(--link-padding);
+  background-color: var(--link-bg);
+  border: 1px solid var(--link-border);
+  border-left: 3px solid var(--accent-color);
+  border-radius: var(--link-radius);
+  color: var(--text-primary);
+  text-decoration: none;
+  text-align: left;
+  font-family: var(--font-mono);
+  transition: background-color 0.15s ease, border-left-color 0.15s ease;
+}
+
+.links__anchor:hover,
+.links__anchor:focus {
+  background-color: var(--link-bg-hover);
+  color: var(--text-primary);
+  border-left-color: var(--accent-hover);
+  outline: none;
+}
+
+/* Filename-style label prefix */
+.links__anchor::before {
+  content: '$ open ';
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+
+.links__label {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.links__icon {
+  margin-right: 0.4em;
+}
+
+.links__description {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 0.15rem;
+  padding-left: 5.2em;
+}
+
+.links__description::before {
+  content: '# ';
+}
+
+/* ── Footer ──────────────────────────────────────────────────────── */
+
+.footer {
+  margin-top: auto;
+  padding-top: 2rem;
+  padding-bottom: 1rem;
+  text-align: center;
+  max-width: var(--page-max-width);
+  width: 100%;
+  border-top: 1px solid var(--link-border);
+}
+
+.footer__link {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  opacity: var(--footer-opacity);
+  font-family: var(--font-mono);
+  transition: opacity 0.2s ease;
+}
+
+.footer__link:hover {
+  opacity: 1;
+  color: var(--accent-color);
+}
