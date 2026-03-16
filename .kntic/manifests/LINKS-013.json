@@ -1,17 +1,17 @@
 {
   "task_id": "LINKS-013",
-  "title": "`links reorder` — reorder links in links.yaml",
-  "status": "todo",
+  "title": "`links reorder` \u2014 reorder links in links.yaml",
+  "status": "merged",
   "priority": "medium",
   "description": "Implement the `links reorder` command. Allows moving individual links to a new position or re-specifying the full order by label. Works on the links array in links.yaml.",
   "requirements": {
     "features": [
       "Implement src/commands/reorder.js with the following interface:",
-      "  `links reorder` (no args) — print current link order with 1-based indices: '1. GitHub', '2. Twitter', etc. Hint: use links move to reorder.",
-      "  `links reorder move <label> <position>` — move the named link to the given 1-based position, shifting others accordingly. Example: `links reorder move Twitter 1` makes Twitter the first link.",
-      "  `links reorder up <label>` — move the named link one position up (lower index). No-op if already first, with message: '<label> is already at the top.'",
-      "  `links reorder down <label>` — move the named link one position down (higher index). No-op if already last.",
-      "  `links reorder set <label1> <label2> ...` — specify the complete new order by passing all labels as arguments. Validates that all existing labels are present (no omissions allowed — prevents accidental deletion). Errors if any label is missing or unknown.",
+      "  `links reorder` (no args) \u2014 print current link order with 1-based indices: '1. GitHub', '2. Twitter', etc. Hint: use links move to reorder.",
+      "  `links reorder move <label> <position>` \u2014 move the named link to the given 1-based position, shifting others accordingly. Example: `links reorder move Twitter 1` makes Twitter the first link.",
+      "  `links reorder up <label>` \u2014 move the named link one position up (lower index). No-op if already first, with message: '<label> is already at the top.'",
+      "  `links reorder down <label>` \u2014 move the named link one position down (higher index). No-op if already last.",
+      "  `links reorder set <label1> <label2> ...` \u2014 specify the complete new order by passing all labels as arguments. Validates that all existing labels are present (no omissions allowed \u2014 prevents accidental deletion). Errors if any label is missing or unknown.",
       "All subcommands: label matching is case-insensitive. If a label is not found, exit 1 with: 'No link with label <label> found.'",
       "After any mutation, write updated config via writeConfig() and print the new order summary.",
       "Register reorder command in src/cli.js"
@@ -36,6 +36,21 @@
       ".kntic/manifests/LINKS-013.json"
     ]
   },
-  "notes": "Move algorithm for `move <label> <pos>`: splice the item out, then insert at (pos-1). For `set`, validate all current labels appear in the args before rewriting — this prevents silent data loss. Position arg is 1-indexed for user-friendliness.",
-  "created_at": "2026-03-16T21:15:00Z"
+  "notes": "Move algorithm for `move <label> <pos>`: splice the item out, then insert at (pos-1). For `set`, validate all current labels appear in the args before rewriting \u2014 this prevents silent data loss. Position arg is 1-indexed for user-friendliness.",
+  "created_at": "2026-03-16T21:15:00Z",
+  "updated_at": "2026-03-16T22:15:07.663254",
+  "actions": [
+    {
+      "timestamp": "2026-03-16T21:15:01.031383Z",
+      "status": "ready_for_merge",
+      "files": [
+        ".kntic/MEMORY.MD",
+        ".kntic/gia/state.json",
+        ".kntic/manifests/LINKS-013.json",
+        ".pi/agent/sessions/--app--/2026-03-16T21-13-33-680Z_20d15519-1713-44e5-8cbd-5e6729b396e0.jsonl",
+        "src/cli.js",
+        "src/commands/reorder.js"
+      ]
+    }
+  ]
 }

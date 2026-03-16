@@ -13,6 +13,7 @@ import { registerQr } from './commands/qr.js';
 import { registerConfig } from './commands/config-cmd.js';
 import { registerOpen } from './commands/open-cmd.js';
 import { registerStatus } from './commands/status.js';
+import { registerReorder } from './commands/reorder.js';
 
 const require = createRequire(import.meta.url);
 const { version } = require('../package.json');
@@ -35,5 +36,6 @@ registerQr(program);
 registerConfig(program);
 registerOpen(program);
 registerStatus(program);
+registerReorder(program);
 
 program.parse();
