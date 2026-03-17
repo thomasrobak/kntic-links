@@ -1,0 +1,50 @@
+{
+  "task_id": "DOC-001",
+  "title": "Update README.md — all commands, hosted deploy, init flags, schema",
+  "status": "todo",
+  "priority": "medium",
+  "description": "The README was written before several major features were added. It is missing: links edit, links reorder, links register, hosted deploy flow, init one-shot flags and --edit mode, icon/description flags on add, username field in schema, .links.secret explanation, and the --verbose flag on deploy. Rewrite to be fully current.",
+  "requirements": {
+    "features": [
+      "Update the Command Reference table to include all current commands:",
+      "  links init [directory] — add: --name, --bio, --theme, --domain, --avatar, --link (repeatable), -e/--edit flags",
+      "  links add <label> <url> — add: --icon, --description, --from, --until, --update flags",
+      "  links remove <label>",
+      "  links list — --json flag",
+      "  links edit <label> — new: update any field in-place. --url, --label, --icon, --no-icon, --description, --no-description, --from, --no-from, --until, --no-until",
+      "  links reorder — new: show current order. Subcommands: move <label> <pos>, up <label>, down <label>, set <labels...>",
+      "  links deploy --self — unchanged",
+      "  links deploy — new hosted deploy path: requires links register first. --api flag (default https://api.kntic.link/v1). --verbose for debug output.",
+      "  links register — new: register with kntic.link hosted platform. --api flag. --force to overwrite existing key. Prompts for username if not in links.yaml. Handles username conflicts with suggestions.",
+      "  links theme list / links theme set <name>",
+      "  links qr — --out <file> for PNG, --link <label> for specific link",
+      "  links config / links open / links status",
+      "Add a 'Hosted Deploy' section after Quick Start explaining the two-step hosted flow:",
+      "  Step 1: links register — creates account, saves API key to .links.secret",
+      "  Step 2: links deploy — sends config to backend, page live at username.kntic.link",
+      "  Note: .links.secret is auto-added to .gitignore. Never commit it.",
+      "Update links.yaml Schema section to include: username (optional, set automatically by links register), icon (optional emoji per link), description (optional per link)",
+      "Remove the incorrect 'url' top-level field from the schema example (it doesn't exist — it's domain)",
+      "Update Quick Start to show both paths: --self (self-hosted) and the hosted path (register + deploy)",
+      "Keep the README tone: developer-first, direct, no fluff. Show commands, not adjectives.",
+      "Do not change: License section, Contributing section, Themes section (already accurate), Custom Themes section."
+    ],
+    "outputs": [
+      "README.md (updated)"
+    ]
+  },
+  "context_scope": {
+    "read_only": [
+      ".kntic/adrs/",
+      "src/commands/",
+      "src/config.js",
+      "package.json"
+    ],
+    "write_access": [
+      "README.md",
+      ".kntic/manifests/DOC-001.json"
+    ]
+  },
+  "notes": "The existing README structure is good — keep sections, just update content. The schema example currently has 'url: ...' as a top-level field which is wrong (should be 'domain'). Fix that. The hosted deploy section should be concise — the self-hosted path is still the primary story for open source users.",
+  "created_at": "2026-03-18T00:42:00Z"
+}
