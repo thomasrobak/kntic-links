@@ -1,14 +1,6 @@
 {
   "status": "pass",
-  "files_validated": [
-    ".kntic/MEMORY.MD",
-    ".kntic/manifests/LINKS-017.json",
-    ".kntic/manifests/LINKS-018.json",
-    ".kntic/manifests/LINKS-019.json",
-    "src/cli.js",
-    "src/commands/deploy.js",
-    "src/commands/init.js"
-  ],
+  "files_validated": [],
   "alignment_score": 1.0,
   "dimensions": {
     "bootstrap_integrity": {
@@ -32,8 +24,8 @@
       "weighted": 0.1
     }
   },
-  "change_delta": 7,
+  "change_delta": 1,
   "merge_threshold": 1.0,
   "drift_items": [],
-  "last_checked": "2026-03-17T21:34:48.008087+00:00"
+  "last_checked": "2026-03-17T21:34:48.733156+00:00"
 }
