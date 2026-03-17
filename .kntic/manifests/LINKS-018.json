@@ -1,23 +1,23 @@
 {
   "task_id": "LINKS-018",
-  "title": "`links register` — register with hosted platform, store API key",
-  "status": "todo",
+  "title": "`links register` \u2014 register with hosted platform, store API key",
+  "status": "ready_for_merge",
   "priority": "high",
-  "description": "Implement `links register` — authenticates the local project with the hosted kntic.link platform. POSTs the user's config to the backend registration endpoint, receives an API key, writes it to .links.secret, and guards it from being committed to git.",
+  "description": "Implement `links register` \u2014 authenticates the local project with the hosted kntic.link platform. POSTs the user's config to the backend registration endpoint, receives an API key, writes it to .links.secret, and guards it from being committed to git.",
   "requirements": {
     "features": [
       "Create src/commands/register.js implementing `links register [options]`",
       "  --api <url>: base URL of the kntic.link API. Default: 'https://api.kntic.link'. Must be a valid http/https URL.",
       "Read config via findConfig() + readConfig(). Require at minimum config.name. Exit 1 if no links.yaml found.",
-      "POST to <api>/register with JSON body: { name, bio, domain } (only include fields that are set). Use Node built-in fetch (Node 18+) — no axios.",
+      "POST to <api>/register with JSON body: { name, bio, domain } (only include fields that are set). Use Node built-in fetch (Node 18+) \u2014 no axios.",
       "On HTTP 200/201: parse response JSON, expect { api_key: string, username: string, page_url: string }.",
       "Write api_key to .links.secret in the same directory as links.yaml. Format: a single line containing only the raw API key.",
       "If .links.secret already exists: print 'A .links.secret file already exists. Use --force to overwrite.' and exit 1 unless --force is passed.",
-      "Git protection: after writing .links.secret, check if a .git directory exists in the same dir or any parent up to the git root. If found, check if .gitignore in that git root already contains '.links.secret'. If not, append '.links.secret' on a new line. If .gitignore does not exist, create it with '.links.secret' as the first line. Print: '✓ Added .links.secret to .gitignore'",
+      "Git protection: after writing .links.secret, check if a .git directory exists in the same dir or any parent up to the git root. If found, check if .gitignore in that git root already contains '.links.secret'. If not, append '.links.secret' on a new line. If .gitignore does not exist, create it with '.links.secret' as the first line. Print: '\u2713 Added .links.secret to .gitignore'",
       "On HTTP 4xx: print the error message from the response body if available, exit 1.",
       "On network error or non-JSON response: print clear error and exit 1.",
       "On success print:",
-      "  '✓ Registered successfully!'",
+      "  '\u2713 Registered successfully!'",
       "  '  Username: <username>'",
       "  '  Page URL: <page_url>'",
       "  '  API key saved to .links.secret'",
@@ -43,6 +43,13 @@
       ".kntic/manifests/LINKS-018.json"
     ]
   },
-  "notes": "Use Node 18+ built-in fetch — no external HTTP library. .links.secret goes next to links.yaml (use dirname(configPath)). Git root detection for .gitignore: walk up from configPath dir checking for .git — same logic pattern as findConfig() but looking for .git. The --api flag should be consistently named across register and deploy commands.",
-  "created_at": "2026-03-17T21:32:00Z"
+  "notes": "Use Node 18+ built-in fetch \u2014 no external HTTP library. .links.secret goes next to links.yaml (use dirname(configPath)). Git root detection for .gitignore: walk up from configPath dir checking for .git \u2014 same logic pattern as findConfig() but looking for .git. The --api flag should be consistently named across register and deploy commands.",
+  "created_at": "2026-03-17T21:32:00Z",
+  "updated_at": "2026-03-17T21:33:41.197109Z",
+  "actions": [
+    {
+      "timestamp": "2026-03-17T21:33:41.197109Z",
+      "status": "ready_for_merge"
+    }
+  ]
 }

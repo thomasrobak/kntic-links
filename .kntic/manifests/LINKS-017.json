@@ -1,7 +1,7 @@
 {
   "task_id": "LINKS-017",
-  "title": "`links init` refinements — one-shot flags, interactive mode, --edit",
-  "status": "todo",
+  "title": "`links init` refinements \u2014 one-shot flags, interactive mode, --edit",
+  "status": "merged",
   "priority": "high",
   "description": "Enhance `links init` with three modes: one-shot (all config via flags, no prompts), interactive (prompt for each field, all skippable), and edit (open existing or freshly scaffolded links.yaml in $EDITOR). Existing --force behaviour is preserved.",
   "requirements": {
@@ -9,22 +9,22 @@
       "ONE-SHOT MODE: if any of --name, --bio, --theme, --link are provided, run non-interactively. Create links.yaml from the provided flags and exit. No prompts.",
       "  --name <string>: sets the name field",
       "  --bio <string>: sets the bio field",
-      "  --theme <string>: sets the theme field (validate against listThemes() — exit 1 if unknown)",
+      "  --theme <string>: sets the theme field (validate against listThemes() \u2014 exit 1 if unknown)",
       "  --domain <string>: sets the domain field",
       "  --avatar <string>: sets the avatar field",
-      "  --link <label,url>: adds a link. Format is 'label,url' (comma-separated). Flag is repeatable: --link 'GitHub,https://github.com/you' --link 'Twitter,https://x.com/you'. Parse by splitting on first comma only. Validate url with validateUrl() — exit 1 if invalid.",
+      "  --link <label,url>: adds a link. Format is 'label,url' (comma-separated). Flag is repeatable: --link 'GitHub,https://github.com/you' --link 'Twitter,https://x.com/you'. Parse by splitting on first comma only. Validate url with validateUrl() \u2014 exit 1 if invalid.",
       "  If links.yaml already exists and --force is not passed, exit 1 with existing message.",
       "INTERACTIVE MODE: default when no one-shot flags are provided and --edit is not passed.",
       "  Use node:readline to prompt for each field sequentially: name (default: system username), bio (default: empty, skippable), theme (default: minimal-dark, show available options), domain (skippable), avatar (skippable).",
-      "  After profile fields: ask 'Add a link? (label,url or Enter to skip)' in a loop — repeat until user submits empty input. Each entry parsed same as --link flag. Validate each URL before accepting.",
+      "  After profile fields: ask 'Add a link? (label,url or Enter to skip)' in a loop \u2014 repeat until user submits empty input. Each entry parsed same as --link flag. Validate each URL before accepting.",
       "  Show current default in brackets: 'Name [openclaw]: '",
       "  On completion: write links.yaml and print success + next steps.",
       "EDIT MODE: `links init --edit` (alias: `-e`)",
-      "  If links.yaml exists: open it directly in $EDITOR (fallback: $VISUAL → nano → vi).",
+      "  If links.yaml exists: open it directly in $EDITOR (fallback: $VISUAL \u2192 nano \u2192 vi).",
       "  If links.yaml does not exist: scaffold it first (same as default init with system username default), then open it.",
       "  Uses child_process.spawnSync with inherited stdio.",
       "All three modes respect --force for overwrite protection.",
-      "Update src/commands/init.js in-place — no new files needed."
+      "Update src/commands/init.js in-place \u2014 no new files needed."
     ],
     "outputs": [
       "src/commands/init.js (updated)"
@@ -42,6 +42,25 @@
       ".kntic/manifests/LINKS-017.json"
     ]
   },
-  "notes": "readline prompts: use readline.createInterface({ input: process.stdin, output: process.stdout }). Wrap question() in a Promise for async/await usage. Close the interface when done or it will hang. --link parsing: split on first comma only — url may contain commas in theory. Interactive mode only triggers when zero one-shot flags are present AND --edit is absent.",
-  "created_at": "2026-03-17T21:32:00Z"
+  "notes": "readline prompts: use readline.createInterface({ input: process.stdin, output: process.stdout }). Wrap question() in a Promise for async/await usage. Close the interface when done or it will hang. --link parsing: split on first comma only \u2014 url may contain commas in theory. Interactive mode only triggers when zero one-shot flags are present AND --edit is absent.",
+  "created_at": "2026-03-17T21:32:00Z",
+  "updated_at": "2026-03-17T22:34:48.008548",
+  "actions": [
+    {
+      "timestamp": "2026-03-17T21:32:52.255283Z",
+      "status": "ready_for_merge",
+      "files": [
+        ".kntic/MEMORY.MD",
+        ".kntic/gia/state.json",
+        ".kntic/manifests/LINKS-017.json",
+        ".kntic/manifests/LINKS-018.json",
+        ".kntic/manifests/LINKS-019.json",
+        "src/cli.js",
+        "src/commands/deploy.js",
+        "src/commands/init.js",
+        "src/commands/register.js",
+        "src/secret.js"
+      ]
+    }
+  ]
 }

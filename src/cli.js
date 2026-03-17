@@ -15,6 +15,7 @@ import { registerOpen } from './commands/open-cmd.js';
 import { registerStatus } from './commands/status.js';
 import { registerReorder } from './commands/reorder.js';
 import { registerEdit } from './commands/edit.js';
+import { registerRegister } from './commands/register.js';
 
 const require = createRequire(import.meta.url);
 const { version } = require('../package.json');
@@ -39,5 +40,6 @@ registerOpen(program);
 registerStatus(program);
 registerReorder(program);
 registerEdit(program);
+registerRegister(program);
 
 program.parse();

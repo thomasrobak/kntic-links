@@ -1,7 +1,7 @@
 {
   "task_id": "LINKS-019",
-  "title": "`links deploy` update — hosted deploy via API key",
-  "status": "todo",
+  "title": "`links deploy` update \u2014 hosted deploy via API key",
+  "status": "ready_for_merge",
   "priority": "high",
   "description": "Update `links deploy` (without --self) to deploy to the hosted kntic.link platform using the API key from .links.secret. The --self path is unchanged. Add --api flag to both paths for consistency.",
   "requirements": {
@@ -11,15 +11,15 @@
       "  Read config via findConfig() + readConfig().",
       "  Look for .links.secret in the same directory as links.yaml. Read the API key (trim whitespace).",
       "  If .links.secret is missing or empty: print 'No API key found. Run: links register' and exit 1.",
-      "  Generate the HTML page using generatePage() (same as --self) — the backend stores the pre-rendered HTML.",
+      "  Generate the HTML page using generatePage() (same as --self) \u2014 the backend stores the pre-rendered HTML.",
       "  POST to <api>/deploy with: Authorization header 'Bearer <api_key>', Content-Type 'application/json', body: { html: <generated HTML string>, config: <config object> }.",
-      "  On HTTP 200/201: parse response, expect { page_url: string, updated_at: string }. Print: '✓ Deployed to <page_url>'",
+      "  On HTTP 200/201: parse response, expect { page_url: string, updated_at: string }. Print: '\u2713 Deployed to <page_url>'",
       "  On HTTP 401: print 'Invalid or expired API key. Run: links register --force' and exit 1.",
       "  On HTTP 4xx/5xx: print error from response body if available, exit 1.",
       "  On network error: print clear error and exit 1.",
-      "Remove the existing stub message ('Other deploy targets are not yet implemented') — hosted deploy is now implemented.",
+      "Remove the existing stub message ('Other deploy targets are not yet implemented') \u2014 hosted deploy is now implemented.",
       "--self path: unchanged in behaviour. --api flag is accepted but ignored when --self is used (no warning needed).",
-      "Add a src/secret.js helper module with two exports: readSecret(configDir) — reads and returns trimmed content of .links.secret or null if not found. secretPath(configDir) — returns the absolute path to .links.secret."
+      "Add a src/secret.js helper module with two exports: readSecret(configDir) \u2014 reads and returns trimmed content of .links.secret or null if not found. secretPath(configDir) \u2014 returns the absolute path to .links.secret."
     ],
     "outputs": [
       "src/commands/deploy.js (updated)",
@@ -43,6 +43,13 @@
       ".kntic/manifests/LINKS-019.json"
     ]
   },
-  "notes": "Extract secret reading into src/secret.js so both register.js and deploy.js share the same logic — don't duplicate. Use Node built-in fetch for the deploy POST. The HTML string can be large (up to ~50KB inlined CSS) — that's fine for a JSON POST. config object in the POST body allows the backend to store the canonical config server-side for future re-renders.",
-  "created_at": "2026-03-17T21:32:00Z"
+  "notes": "Extract secret reading into src/secret.js so both register.js and deploy.js share the same logic \u2014 don't duplicate. Use Node built-in fetch for the deploy POST. The HTML string can be large (up to ~50KB inlined CSS) \u2014 that's fine for a JSON POST. config object in the POST body allows the backend to store the canonical config server-side for future re-renders.",
+  "created_at": "2026-03-17T21:32:00Z",
+  "updated_at": "2026-03-17T21:34:42.014997Z",
+  "actions": [
+    {
+      "timestamp": "2026-03-17T21:34:42.014997Z",
+      "status": "ready_for_merge"
+    }
+  ]
 }
