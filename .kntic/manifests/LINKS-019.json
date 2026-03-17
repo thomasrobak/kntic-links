@@ -1,7 +1,7 @@
 {
   "task_id": "LINKS-019",
   "title": "`links deploy` update \u2014 hosted deploy via API key",
-  "status": "ready_for_merge",
+  "status": "merged",
   "priority": "high",
   "description": "Update `links deploy` (without --self) to deploy to the hosted kntic.link platform using the API key from .links.secret. The --self path is unchanged. Add --api flag to both paths for consistency.",
   "requirements": {
@@ -45,11 +45,15 @@
   },
   "notes": "Extract secret reading into src/secret.js so both register.js and deploy.js share the same logic \u2014 don't duplicate. Use Node built-in fetch for the deploy POST. The HTML string can be large (up to ~50KB inlined CSS) \u2014 that's fine for a JSON POST. config object in the POST body allows the backend to store the canonical config server-side for future re-renders.",
   "created_at": "2026-03-17T21:32:00Z",
-  "updated_at": "2026-03-17T21:34:42.014997Z",
+  "updated_at": "2026-03-17T22:34:49.352586",
   "actions": [
     {
       "timestamp": "2026-03-17T21:34:42.014997Z",
-      "status": "ready_for_merge"
+      "status": "ready_for_merge",
+      "files": [
+        ".kntic/gia/state.json",
+        ".kntic/manifests/LINKS-019.json"
+      ]
     }
   ]
 }
