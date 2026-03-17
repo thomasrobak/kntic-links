@@ -1,9 +1,9 @@
 {
   "status": "pass",
   "files_validated": [
-    ".kntic/manifests/BUG-008.json",
-    "package.json",
-    "src/commands/deploy.js"
+    ".kntic/manifests/DOC-001.json",
+    "README.md",
+    "package.json"
   ],
   "alignment_score": 1.0,
   "dimensions": {
@@ -31,5 +31,5 @@
   "change_delta": 3,
   "merge_threshold": 1.0,
   "drift_items": [],
-  "last_checked": "2026-03-17T23:34:24.164147+00:00"
+  "last_checked": "2026-03-17T23:42:39.198387+00:00"
 }

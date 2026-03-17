@@ -4,33 +4,34 @@
 [![npm version](https://img.shields.io/npm/v/@kntic/links)](https://www.npmjs.com/package/@kntic/links)
 [![Node >= 18](https://img.shields.io/badge/node-%3E%3D18-brightgreen)](https://nodejs.org)
 
-A CLI for building and deploying link-in-bio pages. No accounts, no tracking, no third-party servers. You own the HTML.
+A CLI for building and deploying link-in-bio pages. No tracking, no third-party JS. Self-host a single HTML file, or deploy to kntic.link in one command.
 
 ---
 
 ## Quick Start
 
-Five commands from zero to a deployed page:
+### Self-hosted (default)
 
 ```bash
-# 1. Install
 npm install -g @kntic/links
 
-# 2. Scaffold a new project
 links init my-page && cd my-page
-
-# 3. Add some links
 links add "GitHub" "https://github.com/you"
 links add "Blog"   "https://your-blog.dev"
-
-# 4. Build a self-contained HTML file
 links deploy --self
-
-# 5. Open it
 open dist/index.html
 ```
 
-That's it. `dist/index.html` is a single file — inline CSS, base64 avatar, no external requests. Drop it on any static host.
+`dist/index.html` is a single file — inline CSS, base64 avatar, zero external requests. Drop it on any static host.
+
+### Hosted (kntic.link)
+
+```bash
+links init my-page && cd my-page
+links add "GitHub" "https://github.com/you"
+links register          # create account, save API key
+links deploy            # page live at username.kntic.link
+```
 
 ---
 
@@ -48,17 +49,49 @@ Requires Node.js 18 or later.
 
 | Command | Description |
 |---------|-------------|
-| `links init [directory]` | Scaffold a new `links.yaml` project. `--force` to overwrite. |
-| `links add <label> <url>` | Add a link. `--from`/`--until` for scheduling, `--update` to replace. |
+| `links init [directory]` | Scaffold a new `links.yaml` project. `--force` to overwrite. One-shot flags: `--name`, `--bio`, `--theme`, `--domain`, `--avatar`, `--link "label,url"` (repeatable). `-e`/`--edit` opens the file in `$EDITOR` after scaffolding. |
+| `links add <label> <url>` | Add a link. `--icon <emoji>`, `--description <text>`, `--from`/`--until` for scheduling, `--update` to replace an existing link. |
 | `links remove <label>` | Remove a link by label (case-insensitive). |
 | `links list` | List all links. `--json` for machine-readable output. |
+| `links edit <label>` | Edit a link in-place. `--url`, `--label`, `--icon`, `--description`, `--from`, `--until`. Use `--no-icon`, `--no-description`, `--no-from`, `--no-until` to remove a field. |
+| `links reorder` | Print current link order. Subcommands: `move <label> <pos>`, `up <label>`, `down <label>`, `set <labels...>`. |
 | `links deploy --self` | Generate a self-contained HTML page to `dist/`. `--out <dir>` to change output, `--open` to open in browser. |
+| `links deploy` | Deploy to the hosted kntic.link platform. Requires `links register` first. `--api <url>` to override API endpoint. `--verbose` for debug output. |
+| `links register` | Register with kntic.link. Prompts for username if not in `links.yaml`. Saves API key to `.links.secret`. `--api <url>` to override endpoint. `--force` to overwrite existing key. |
 | `links theme list` | List available themes. |
 | `links theme set <name>` | Set the active theme in `links.yaml`. |
-| `links qr` | Generate a QR code for your page URL. |
+| `links qr` | Generate a QR code for your page URL. `--out <file>` to save as PNG. `--link <label>` for a specific link. |
 | `links config` | Open `links.yaml` in your `$EDITOR`. |
 | `links open` | Open your deployed page URL in the browser. `--local` for `dist/index.html`. |
 | `links status` | Show project config summary. |
+
+---
+
+## Hosted Deploy
+
+Two steps to go live on kntic.link:
+
+**1. Register**
+
+```bash
+links register
+```
+
+Creates an account on the hosted platform. If your `links.yaml` doesn't have a `username` field, you'll be prompted to pick one (lowercase alphanumeric + hyphens, 3–30 chars). If the name is taken, the server suggests alternatives.
+
+The API key is saved to `.links.secret` in the same directory as `links.yaml`. This file is automatically added to `.gitignore`. **Never commit `.links.secret`.**
+
+**2. Deploy**
+
+```bash
+links deploy
+```
+
+Sends your `links.yaml` config to the backend. Your page goes live at `username.kntic.link`. Run it again after any change to update.
+
+Use `--verbose` to print full response details on error.
+
+The self-hosted path (`links deploy --self`) still works exactly the same — no account needed.
 
 ---
 
@@ -67,12 +100,13 @@ Requires Node.js 18 or later.
 ```yaml
 # Required
 name: "Your Name"
-url: "https://your-site.com"
+domain: "https://your-site.com"
 
 # Optional
 bio: "A short bio line."
 avatar: "avatar.png"          # Path to image — gets base64-inlined on build
 theme: "minimal-dark"          # Any theme name from src/themes/
+username: "yourname"           # Set automatically by links register
 
 # Links
 links:
@@ -80,13 +114,19 @@ links:
     url: "https://github.com/you"
   - label: "Blog"
     url: "https://your-blog.dev"
-    scheduled_from: "2026-04-01"    # Optional: link becomes visible on this date
-    scheduled_until: "2026-12-31"   # Optional: link hidden after this date
+    icon: "📝"                     # Optional emoji displayed next to the link
+    description: "My dev blog"     # Optional short description
+    scheduled_from: "2026-04-01"   # Optional: link visible from this date
+    scheduled_until: "2026-12-31"  # Optional: link hidden after this date
 ```
 
 ### Scheduling
 
 Links support `scheduled_from` and `scheduled_until` fields (ISO 8601 date strings). The generator filters links at build time — only active links appear in the output HTML.
+
+### `.links.secret`
+
+Created by `links register`. Contains your API key for hosted deploys. Automatically added to `.gitignore`. One key per project. Use `links register --force` to regenerate.
 
 ---
 
