@@ -8,6 +8,7 @@
 import { mkdirSync, writeFileSync, copyFileSync, existsSync, statSync } from 'node:fs';
 import { resolve, dirname, basename, join } from 'node:path';
 import chalk from 'chalk';
+import { dump } from 'js-yaml';
 import { findConfig, readConfig } from '../config.js';
 import { generatePage } from '../generator.js';
 import { readSecret } from '../secret.js';
@@ -66,17 +67,7 @@ async function deployHosted(opts) {
     return;
   }
 
-  // 3. Generate HTML (same as --self)
-  let html;
-  try {
-    html = generatePage(config, { configDir });
-  } catch (err) {
-    console.error(chalk.red(`✗ Build failed: ${err.message}`));
-    process.exitCode = 1;
-    return;
-  }
-
-  // 4. POST to hosted API
+  // 3. POST config as YAML to hosted API
   const apiBase = opts.api.replace(/\/+$/, '');
   const endpoint = `${apiBase}/deploy`;
 
@@ -85,10 +76,10 @@ async function deployHosted(opts) {
     response = await fetch(endpoint, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${apiKey}`,
+        'Content-Type': 'application/yaml',
+        'X-API-Key': apiKey,
       },
-      body: JSON.stringify({ html, config }),
+      body: dump(config),
     });
   } catch (err) {
     console.error(chalk.red(`✗ Network error: ${err.message}`));
