@@ -18,8 +18,7 @@ import { userInfo } from 'node:os';
 import { createInterface } from 'node:readline';
 import { spawnSync } from 'node:child_process';
 
-import { writeConfig } from '../config.js';
-import { validateUrl } from '../config.js';
+import { writeConfig, validateUrl } from '../config.js';
 import { listThemes } from '../themes/loader.js';
 
 // ---------------------------------------------------------------------------

@@ -1,6 +1,10 @@
 {
   "status": "pass",
-  "files_validated": [],
+  "files_validated": [
+    ".kntic/manifests/BUG-002.json",
+    "src/commands/init.js",
+    "src/commands/register.js"
+  ],
   "alignment_score": 1.0,
   "dimensions": {
     "bootstrap_integrity": {
@@ -24,8 +28,8 @@
       "weighted": 0.1
     }
   },
-  "change_delta": 1,
+  "change_delta": 3,
   "merge_threshold": 1.0,
   "drift_items": [],
-  "last_checked": "2026-03-17T21:34:49.352172+00:00"
+  "last_checked": "2026-03-17T21:39:08.953448+00:00"
 }

@@ -62,7 +62,8 @@ export function registerRegister(program) {
       const urlCheck = validateUrl(apiUrl);
       if (!urlCheck.valid) {
         console.error(`Error: invalid --api URL — ${urlCheck.error}`);
-        process.exit(1);
+        process.exitCode = 1;
+        return;
       }
 
       // --- Find and read config ---
@@ -71,7 +72,8 @@ export function registerRegister(program) {
         configPath = findConfig();
       } catch {
         console.error('Error: links.yaml not found. Run "links init" first.');
-        process.exit(1);
+        process.exitCode = 1;
+        return;
       }
 
       let config;
@@ -79,12 +81,14 @@ export function registerRegister(program) {
         config = readConfig(configPath);
       } catch (err) {
         console.error(`Error: ${err.message}`);
-        process.exit(1);
+        process.exitCode = 1;
+        return;
       }
 
       if (!config.name || typeof config.name !== 'string' || config.name.trim().length === 0) {
         console.error('Error: config.name is required for registration.');
-        process.exit(1);
+        process.exitCode = 1;
+        return;
       }
 
       // --- Check existing .links.secret ---
@@ -93,7 +97,8 @@ export function registerRegister(program) {
 
       if (existsSync(secretPath) && !opts.force) {
         console.error('A .links.secret file already exists. Use --force to overwrite.');
-        process.exit(1);
+        process.exitCode = 1;
+        return;
       }
 
       // --- Build request body (only include set fields) ---
@@ -112,7 +117,8 @@ export function registerRegister(program) {
         });
       } catch (err) {
         console.error(`Error: network request failed — ${err.message}`);
-        process.exit(1);
+        process.exitCode = 1;
+        return;
       }
 
       // --- Handle response ---
@@ -121,18 +127,21 @@ export function registerRegister(program) {
         data = await response.json();
       } catch {
         console.error(`Error: unexpected non-JSON response from ${endpoint}`);
-        process.exit(1);
+        process.exitCode = 1;
+        return;
       }
 
       if (!response.ok) {
         const msg = data.error || data.message || JSON.stringify(data);
         console.error(`Error: registration failed (HTTP ${response.status}) — ${msg}`);
-        process.exit(1);
+        process.exitCode = 1;
+        return;
       }
 
       if (!data.api_key) {
         console.error('Error: response missing api_key field.');
-        process.exit(1);
+        process.exitCode = 1;
+        return;
       }
 
       // --- Write .links.secret ---
