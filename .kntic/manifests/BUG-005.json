@@ -1,0 +1,31 @@
+{
+  "task_id": "BUG-005",
+  "title": "deploy: surface actual backend error body on 401/4xx instead of canned message",
+  "status": "todo",
+  "priority": "high",
+  "description": "The hosted deploy command catches 401 and prints a hardcoded message without reading the response body. This hides the actual backend error and makes debugging impossible. Fix: always read and print the response body on any non-2xx response, including 401.",
+  "requirements": {
+    "features": [
+      "In src/commands/deploy.js, in the deployHosted() function: remove the early-return 401 special case that prints the canned message WITHOUT reading the body.",
+      "Replace with a unified error handler: for ANY non-2xx response, attempt to parse the JSON body, then print: 'Deploy failed (HTTP <status>): <data.error || data.message || JSON.stringify(data)>'",
+      "For 401 specifically: AFTER printing the actual backend message, also print the hint on a new line: 'Hint: run links register --force to get a new API key.'",
+      "This way the actual backend error is always visible, plus the hint is still shown for 401.",
+      "Also add a --verbose flag to the deploy command: when set, print the full raw response body regardless of status (useful for debugging unexpected responses)."
+    ],
+    "outputs": [
+      "src/commands/deploy.js (updated)"
+    ]
+  },
+  "context_scope": {
+    "read_only": [
+      ".kntic/adrs/",
+      "src/secret.js"
+    ],
+    "write_access": [
+      "src/commands/deploy.js",
+      ".kntic/manifests/BUG-005.json"
+    ]
+  },
+  "notes": "The 401 case currently returns before response.json() is called — that is the bug. Read the body first, THEN branch on status. The --verbose flag should print raw response body (JSON.stringify(data, null, 2)) before the error message when status is non-2xx.",
+  "created_at": "2026-03-18T00:08:00Z"
+}
