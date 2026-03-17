@@ -3,7 +3,7 @@ import { dirname, join, resolve } from 'node:path';
 import { createInterface } from 'node:readline';
 import { findConfig, readConfig, writeConfig, validateUrl } from '../config.js';
 
-const DEFAULT_API = 'https://api.kntic.link';
+const DEFAULT_API = 'https://api.kntic.link/v1';
 
 /** Username format: lowercase alphanumeric + hyphens, 3-30 chars, no leading/trailing hyphen. */
 const USERNAME_RE = /^[a-z0-9][a-z0-9-]{1,28}[a-z0-9]$/;

@@ -12,7 +12,7 @@ import { findConfig, readConfig } from '../config.js';
 import { generatePage } from '../generator.js';
 import { readSecret } from '../secret.js';
 
-const DEFAULT_API = 'https://api.kntic.link';
+const DEFAULT_API = 'https://api.kntic.link/v1';
 
 export function registerDeploy(program) {
   program
