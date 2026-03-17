@@ -1,0 +1,29 @@
+{
+  "task_id": "BUG-003",
+  "title": "Update default API base URL to https://api.kntic.link/v1",
+  "status": "todo",
+  "priority": "high",
+  "description": "The DEFAULT_API constant in both register.js and deploy.js must be updated from 'https://api.kntic.link' to 'https://api.kntic.link/v1'. This makes the default endpoints /v1/register and /v1/deploy.",
+  "requirements": {
+    "features": [
+      "In src/commands/register.js: change DEFAULT_API from 'https://api.kntic.link' to 'https://api.kntic.link/v1'",
+      "In src/commands/deploy.js: change DEFAULT_API from 'https://api.kntic.link' to 'https://api.kntic.link/v1'"
+    ],
+    "outputs": [
+      "src/commands/register.js (updated)",
+      "src/commands/deploy.js (updated)"
+    ]
+  },
+  "context_scope": {
+    "read_only": [
+      ".kntic/adrs/"
+    ],
+    "write_access": [
+      "src/commands/register.js",
+      "src/commands/deploy.js",
+      ".kntic/manifests/BUG-003.json"
+    ]
+  },
+  "notes": "Both files define their own DEFAULT_API constant — update both. The trailing-slash strip on opts.api (replace(/\\/+$/, '')) already handles any accidental trailing slash on the v1 path, so no other changes needed.",
+  "created_at": "2026-03-17T22:47:00Z"
+}
