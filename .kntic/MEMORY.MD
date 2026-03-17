@@ -1,7 +1,7 @@
 # MEMORY.MD — Persistent Working Memory
 
 >
-> **Last Updated:** 2026-03-17 (LINKS-019 completed)
+> **Last Updated:** 2026-03-17 (TEST-001 completed)
 
 ---
 
@@ -27,6 +27,7 @@
 | LINKS-014 | `links edit` — edit an existing link's properties | `src/commands/edit.js` — flag-driven editing: --label, --url, --icon, --description, --from, --until + --no-* variants to remove fields; case-insensitive lookup; rename collision detection; `src/cli.js` updated |
 | LINKS-015 | Favicon — inline SVG favicon in generated page | `src/generator.js` — extractAccentColor(css) helper; two-tier favicon: Strategy A reuses avatar base64 data URI, Strategy B generates 64x64 SVG letter favicon with theme accent color; both `<link rel="icon">` + `sizes="32x32"` fallback; all inlined, no extra files |
 | LINKS-019 | `links deploy` update — hosted deploy via API key | `src/secret.js` — readSecret(configDir), secretPath(configDir); `src/commands/deploy.js` — hosted deploy via POST to /deploy with Bearer token from .links.secret; --api flag (default https://api.kntic.link); --self path unchanged; HTTP 401/4xx/5xx/network error handling |
+| TEST-001 | Unit test suite — node:test, full coverage of pure logic, GIA hook | `test/config.test.js`, `test/utils.test.js`, `test/generator.test.js`, `test/secret.test.js`, `test/themes.test.js` — 55 tests covering all pure logic modules; `package.json` test script; `.kntic/hooks/gia/specific/001-unit-tests.sh` GIA hook |
 
 ### Active Services
 - **Dashboard** → `http://localhost:8000`

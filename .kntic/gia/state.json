@@ -1,9 +1,9 @@
 {
   "status": "pass",
   "files_validated": [
-    ".kntic/manifests/BUG-002.json",
-    "src/commands/init.js",
-    "src/commands/register.js"
+    ".kntic/MEMORY.MD",
+    ".kntic/manifests/TEST-001.json",
+    "package.json"
   ],
   "alignment_score": 1.0,
   "dimensions": {
@@ -31,5 +31,5 @@
   "change_delta": 3,
   "merge_threshold": 1.0,
   "drift_items": [],
-  "last_checked": "2026-03-17T21:39:08.953448+00:00"
+  "last_checked": "2026-03-17T21:54:54.195893+00:00"
 }

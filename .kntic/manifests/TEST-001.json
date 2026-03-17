@@ -1,22 +1,20 @@
 {
   "task_id": "TEST-001",
-  "title": "Unit test suite — node:test, full coverage of pure logic, GIA hook",
-  "status": "todo",
+  "title": "Unit test suite \u2014 node:test, full coverage of pure logic, GIA hook",
+  "status": "merged",
   "priority": "high",
   "description": "Add a complete unit test suite using Node's built-in node:test runner (zero new dependencies). Cover all pure logic modules. Also create a GIA hook that runs the full test suite after every task so regressions are caught at merge time.",
   "requirements": {
     "features": [
       "Add 'test' script to package.json: 'node --test test/**/*.test.js'",
       "Create test/ directory with the following test files:",
-
-      "FILE: test/config.test.js — tests for src/config.js",
+      "FILE: test/config.test.js \u2014 tests for src/config.js",
       "  validateUrl: valid http/https URLs pass; non-URLs, empty strings, ftp:// fail with correct error messages",
       "  validateDate: valid ISO dates (YYYY-MM-DD, full ISO 8601) pass; garbage strings fail",
       "  validateConfig: valid minimal config passes; missing name fails; invalid link fields fail; multiple errors are all collected (not short-circuited); empty string name fails",
       "  findConfig: finds links.yaml in cwd; finds links.yaml in parent dir; stops at .git boundary and throws; throws at filesystem root",
       "  readConfig/writeConfig round-trip: write a config object, read it back, assert deep equal",
-
-      "FILE: test/utils.test.js — tests for src/utils.js (isLinkActive)",
+      "FILE: test/utils.test.js \u2014 tests for src/utils.js (isLinkActive)",
       "  No dates: always returns true",
       "  Only scheduled_from in the past: returns true",
       "  Only scheduled_from in the future: returns false",
@@ -27,24 +25,19 @@
       "  Both dates, now after window: returns false",
       "  Bare date (YYYY-MM-DD) for scheduled_until: the entire day is active (test at 23:59:59 of that day)",
       "  Null/undefined link: returns false",
-
-      "FILE: test/generator.test.js — tests for src/generator.js",
+      "FILE: test/generator.test.js \u2014 tests for src/generator.js",
       "  filterScheduled: filters inactive links correctly, passes active ones through, handles empty array",
       "  extractAccentColor: extracts --accent-color from CSS string; returns fallback on missing",
       "  generatePage: output contains <!DOCTYPE html>; contains config.name (escaped); contains config.bio; contains all active link labels; does not contain inactive scheduled link labels; contains Powered by KNTIC Links footer; contains <link rel='icon'>",
       "  generatePage with XSS-candidate name/bio/label: output must have HTML-escaped values, no raw < > & ' \" in output",
-
-      "FILE: test/secret.test.js — tests for src/secret.js",
+      "FILE: test/secret.test.js \u2014 tests for src/secret.js",
       "  secretPath: returns correct absolute path",
       "  readSecret: returns key from valid file; returns null for missing file; returns null for empty file; trims whitespace",
-
-      "FILE: test/themes.test.js — tests for src/themes/loader.js",
+      "FILE: test/themes.test.js \u2014 tests for src/themes/loader.js",
       "  listThemes: returns array containing all 5 expected theme names",
       "  loadTheme: loads minimal-dark successfully; throws descriptive error for unknown theme",
-
       "Use node:test and node:assert/strict throughout. Use import { test, describe } from 'node:test'.",
       "For findConfig tests that need real filesystem: use node:os tmpdir() to create temp directories, write/delete files in test setup/teardown using test hooks (before/after).",
-
       "GIA HOOK: create .kntic/hooks/gia/specific/001-unit-tests.sh",
       "  Shebang: #!/usr/bin/env bash",
       "  set -euo pipefail",
@@ -95,6 +88,29 @@
       ".kntic/manifests/TEST-001.json"
     ]
   },
-  "notes": "node:test is built into Node 18+ — zero new dependencies. Test files use ES module syntax (package.json has type:module). For filesystem tests (findConfig), always clean up temp dirs in after() hooks even if the test fails. The GIA hook runs npm test from the repo root — ensure the script resolves the repo root correctly using: REPO_ROOT=$(cd \"$(dirname \"$0\")/../../..\" && pwd). Generator tests do not need to write to disk — generatePage() returns a string, just assert on the string content.",
-  "created_at": "2026-03-17T21:48:00Z"
+  "notes": "node:test is built into Node 18+ \u2014 zero new dependencies. Test files use ES module syntax (package.json has type:module). For filesystem tests (findConfig), always clean up temp dirs in after() hooks even if the test fails. The GIA hook runs npm test from the repo root \u2014 ensure the script resolves the repo root correctly using: REPO_ROOT=$(cd \"$(dirname \"$0\")/../../..\" && pwd). Generator tests do not need to write to disk \u2014 generatePage() returns a string, just assert on the string content.",
+  "created_at": "2026-03-17T21:48:00Z",
+  "updated_at": "2026-03-17T22:54:54.196304",
+  "actions": [
+    {
+      "timestamp": "2026-03-17T21:52:35.893435+00:00",
+      "status": "refactoring"
+    },
+    {
+      "timestamp": "2026-03-17T21:54:48.502140Z",
+      "status": "ready_for_merge",
+      "files": [
+        ".kntic/MEMORY.MD",
+        ".kntic/gia/state.json",
+        ".kntic/hooks/gia/specific/001-unit-tests.sh",
+        ".kntic/manifests/TEST-001.json",
+        "package.json",
+        "test/config.test.js",
+        "test/generator.test.js",
+        "test/secret.test.js",
+        "test/themes.test.js",
+        "test/utils.test.js"
+      ]
+    }
+  ]
 }

@@ -34,6 +34,7 @@
     "url": "https://github.com/thomasrobak/kntic-links/issues"
   },
   "scripts": {
+    "test": "node --test test/**/*.test.js",
     "prepublishOnly": "node -e \"import('./src/config.js').then(() => console.log('prepublish check passed'))\""
   },
   "dependencies": {
