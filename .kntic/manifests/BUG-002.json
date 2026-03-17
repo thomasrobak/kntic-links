@@ -1,0 +1,29 @@
+{
+  "task_id": "BUG-002",
+  "title": "Code review fixes — process.exit() inconsistency, duplicate imports in init.js",
+  "status": "todo",
+  "priority": "medium",
+  "description": "Two issues found in the LINKS-017/018/019 review. Primary: register.js uses process.exit() which bypasses finally blocks and is inconsistent with every other command. Secondary: init.js has two separate import statements from the same module.",
+  "requirements": {
+    "features": [
+      "FIX 1 — src/commands/register.js: replace all process.exit(1) calls with process.exitCode = 1; return; to match the pattern used consistently across every other command in the codebase. There are multiple occurrences — replace all of them. process.exit(0) (if any) should become return; only.",
+      "FIX 2 — src/commands/init.js: merge the two separate import statements from '../config.js' into one: import { writeConfig, validateUrl } from '../config.js';"
+    ],
+    "outputs": [
+      "src/commands/register.js (updated)",
+      "src/commands/init.js (updated)"
+    ]
+  },
+  "context_scope": {
+    "read_only": [
+      ".kntic/adrs/"
+    ],
+    "write_access": [
+      "src/commands/register.js",
+      "src/commands/init.js",
+      ".kntic/manifests/BUG-002.json"
+    ]
+  },
+  "notes": "register.js action handler is async — process.exitCode = 1; return; works correctly in async Commander actions. Verify no process.exit() calls remain in register.js after the fix.",
+  "created_at": "2026-03-17T21:38:00Z"
+}
