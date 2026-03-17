@@ -134,7 +134,7 @@ async function deployHosted(opts) {
   }
 
   // 7. Success
-  const pageUrl = data.page_url || '(unknown)';
+  const pageUrl = data.url || data.page_url || '(unknown)';
   console.log(chalk.green(`✓ Deployed to ${pageUrl}`));
 }
 

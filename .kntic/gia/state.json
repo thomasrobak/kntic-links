@@ -1,9 +1,7 @@
 {
   "status": "pass",
   "files_validated": [
-    ".kntic/MEMORY.MD",
-    ".kntic/gia/state.json",
-    ".kntic/manifests/BUG-007.json",
+    ".kntic/manifests/BUG-008.json",
     "package.json",
     "src/commands/deploy.js"
   ],
@@ -30,8 +28,8 @@
       "weighted": 0.1
     }
   },
-  "change_delta": 5,
+  "change_delta": 3,
   "merge_threshold": 1.0,
   "drift_items": [],
-  "last_checked": "2026-03-17T23:22:46.040344+00:00"
+  "last_checked": "2026-03-17T23:34:24.164147+00:00"
 }

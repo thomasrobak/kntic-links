@@ -1,13 +1,13 @@
 {
   "task_id": "BUG-008",
-  "title": "deploy: fix success output — backend returns 'url' not 'page_url'",
-  "status": "todo",
+  "title": "deploy: fix success output \u2014 backend returns 'url' not 'page_url'",
+  "status": "merged",
   "priority": "high",
   "description": "The hosted deploy success handler reads data.page_url but the backend returns { url: '...' }. Fix the field name and keep output as a one-liner.",
   "requirements": {
     "features": [
       "In deployHosted() in src/commands/deploy.js, change: const pageUrl = data.page_url || '(unknown)'; to: const pageUrl = data.url || data.page_url || '(unknown)';",
-      "Keep the success output as a single line: '✓ Deployed to <url>'"
+      "Keep the success output as a single line: '\u2713 Deployed to <url>'"
     ],
     "outputs": [
       "src/commands/deploy.js (updated)"
@@ -23,5 +23,18 @@
     ]
   },
   "notes": "Keep data.page_url as fallback for forward-compatibility in case the field name changes again.",
-  "created_at": "2026-03-18T00:34:00Z"
+  "created_at": "2026-03-18T00:34:00Z",
+  "updated_at": "2026-03-18T00:34:24.164671",
+  "actions": [
+    {
+      "timestamp": "2026-03-17T23:34:18.181222Z",
+      "status": "ready_for_merge",
+      "files": [
+        ".kntic/gia/state.json",
+        ".kntic/manifests/BUG-008.json",
+        "package.json",
+        "src/commands/deploy.js"
+      ]
+    }
+  ]
 }
