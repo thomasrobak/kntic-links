@@ -96,30 +96,53 @@ async function deployHosted(opts) {
     return;
   }
 
-  // 5. Handle response
-  let data;
+  // 5. Read body as text first (safe for any content type)
+  let rawBody;
   try {
-    data = await response.json();
-  } catch {
-    console.error(chalk.red(`✗ Unexpected non-JSON response (HTTP ${response.status})`));
+    rawBody = await response.text();
+  } catch (err) {
+    console.error(chalk.red(`✗ Failed to read response body (HTTP ${response.status}): ${err.message}`));
     process.exitCode = 1;
     return;
   }
 
+  // 6. Try to parse as JSON (may fail for proxies, HTML error pages, etc.)
+  let data;
+  try {
+    data = JSON.parse(rawBody);
+  } catch {
+    data = null;
+  }
+
   if (!response.ok) {
-    if (opts.verbose) {
-      console.error(chalk.dim(JSON.stringify(data, null, 2)));
+    let msg;
+    if (data && typeof data === 'object') {
+      msg = data.error || data.message || data.detail || rawBody;
+    } else if (rawBody.length === 0) {
+      msg = '(empty response body)';
+    } else {
+      // Plain text / HTML — show first 200 chars to keep output readable
+      msg = rawBody.length > 200 ? rawBody.slice(0, 200) + '…' : rawBody;
     }
-    const msg = data.error || data.message || JSON.stringify(data);
+
     console.error(chalk.red(`✗ Deploy failed (HTTP ${response.status}): ${msg}`));
     if (response.status === 401) {
       console.error(chalk.yellow('Hint: run links register --force to get a new API key.'));
     }
+    if (opts.verbose && rawBody.length > 0) {
+      console.error(chalk.dim(rawBody));
+    }
     process.exitCode = 1;
     return;
   }
 
-  // 6. Success
+  if (!data) {
+    console.error(chalk.red(`✗ Unexpected non-JSON success response (HTTP ${response.status})`));
+    process.exitCode = 1;
+    return;
+  }
+
+  // 7. Success
   const pageUrl = data.page_url || '(unknown)';
   console.log(chalk.green(`✓ Deployed to ${pageUrl}`));
 }

@@ -1,7 +1,7 @@
 {
   "status": "pass",
   "files_validated": [
-    ".kntic/manifests/BUG-005.json",
+    ".kntic/manifests/BUG-006.json",
     "package.json",
     "src/commands/deploy.js"
   ],
@@ -31,5 +31,5 @@
   "change_delta": 3,
   "merge_threshold": 1.0,
   "drift_items": [],
-  "last_checked": "2026-03-17T23:09:26.522312+00:00"
+  "last_checked": "2026-03-17T23:14:12.615760+00:00"
 }
