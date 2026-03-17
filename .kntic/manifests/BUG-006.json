@@ -1,0 +1,33 @@
+{
+  "task_id": "BUG-006",
+  "title": "deploy: handle non-JSON error responses — print raw text body",
+  "status": "todo",
+  "priority": "high",
+  "description": "When the backend (or a proxy like APISIX) returns a non-JSON error response (plain text, HTML, empty body), deploy.js currently hits the 'Unexpected non-JSON response' branch and swallows the body entirely. Fix: always try to print the raw response body text on error, regardless of content type.",
+  "requirements": {
+    "features": [
+      "In deployHosted() in src/commands/deploy.js, replace the current response handling block (steps 5+) with the following pattern:",
+      "  After receiving the response, if response.ok: try to parse as JSON and handle success as before.",
+      "  If NOT response.ok: read the body as text first (response.text()), then attempt JSON.parse() on the text. If JSON.parse succeeds, use data.error || data.message || data.detail || the raw text as the error message. If JSON.parse fails, use the raw text directly as the error message.",
+      "  This handles: FastAPI (returns JSON with 'detail' field), plain text errors from proxies, HTML error pages (show first 200 chars).",
+      "  Add 'data.detail' to the field fallback chain — FastAPI uses 'detail' not 'error' or 'message'.",
+      "  For 401: print error message first, then the hint on next line.",
+      "  For --verbose: print the full raw text body regardless.",
+      "  If body is empty string: print 'Deploy failed (HTTP <status>): (empty response body)'."
+    ],
+    "outputs": [
+      "src/commands/deploy.js (updated)"
+    ]
+  },
+  "context_scope": {
+    "read_only": [
+      ".kntic/adrs/"
+    ],
+    "write_access": [
+      "src/commands/deploy.js",
+      ".kntic/manifests/BUG-006.json"
+    ]
+  },
+  "notes": "The key insight: use response.text() first, then JSON.parse() optionally — NOT response.json() which throws on non-JSON. Also add data.detail to the field lookup chain since FastAPI error responses use {detail: string} not {error/message: string}.",
+  "created_at": "2026-03-18T00:13:00Z"
+}
