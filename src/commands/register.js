@@ -121,41 +121,58 @@ async function resolveUsername(takenName, suggestions, body, endpoint) {
       // Display conflict UI
       console.log(`✖ Username "${currentName}" is already taken.`);
       console.log('');
-      console.log('Suggestions:');
-      for (let i = 0; i < currentSuggestions.length; i++) {
-        console.log(`  ${i + 1}. ${currentSuggestions[i]}`);
-      }
-      const customOption = currentSuggestions.length + 1;
-      console.log(`  ${customOption}. Enter a different username`);
-      console.log('');
 
       let chosenUsername;
 
-      // Prompt for selection
-      // eslint-disable-next-line no-constant-condition
-      while (true) {
-        const answer = (
-          await ask(
-            rl,
-            `Pick a suggestion (1-${currentSuggestions.length}) or choose ${customOption} to type your own: `,
-          )
-        ).trim();
-
-        const num = parseInt(answer, 10);
-        if (Number.isNaN(num) || num < 1 || num > customOption) {
-          continue; // re-prompt on invalid input
+      if (currentSuggestions.length > 0) {
+        console.log('Suggestions:');
+        for (let i = 0; i < currentSuggestions.length; i++) {
+          console.log(`  ${i + 1}. ${currentSuggestions[i]}`);
         }
+        const customOption = currentSuggestions.length + 1;
+        console.log(`  ${customOption}. Enter a different username`);
+        console.log('');
 
-        if (num <= currentSuggestions.length) {
-          // User picked a suggestion
-          chosenUsername = currentSuggestions[num - 1];
-          break;
-        }
-
-        // User wants to type their own — inner prompt loop for format validation
+        // Prompt for selection
         // eslint-disable-next-line no-constant-condition
         while (true) {
-          const custom = (await ask(rl, 'Username: ')).trim();
+          const answer = (
+            await ask(
+              rl,
+              `Pick a suggestion (1-${currentSuggestions.length}) or choose ${customOption} to type your own: `,
+            )
+          ).trim();
+
+          const num = parseInt(answer, 10);
+          if (Number.isNaN(num) || num < 1 || num > customOption) {
+            continue; // re-prompt on invalid input
+          }
+
+          if (num <= currentSuggestions.length) {
+            // User picked a suggestion
+            chosenUsername = currentSuggestions[num - 1];
+            break;
+          }
+
+          // User wants to type their own — inner prompt loop for format validation
+          // eslint-disable-next-line no-constant-condition
+          while (true) {
+            const custom = (await ask(rl, 'Username: ')).trim();
+            const check = validateUsername(custom);
+            if (!check.valid) {
+              console.log(check.error);
+              continue;
+            }
+            chosenUsername = custom;
+            break;
+          }
+          break;
+        }
+      } else {
+        // No suggestions available — prompt directly for a new username
+        // eslint-disable-next-line no-constant-condition
+        while (true) {
+          const custom = (await ask(rl, 'Enter a different username: ')).trim();
           const check = validateUsername(custom);
           if (!check.valid) {
             console.log(check.error);
@@ -164,7 +181,6 @@ async function resolveUsername(takenName, suggestions, body, endpoint) {
           chosenUsername = custom;
           break;
         }
-        break;
       }
 
       // Retry registration with the chosen username
@@ -178,14 +194,17 @@ async function resolveUsername(takenName, suggestions, body, endpoint) {
       }
 
       // Check for username_taken again → loop
-      if (
+      const isTaken =
         !response.ok &&
         data &&
-        data.code === 'username_taken' &&
-        Array.isArray(data.suggestions)
-      ) {
+        (response.status === 409 ||
+          data.code === 'username_taken' ||
+          data.message === 'username_taken' ||
+          data.error === 'username_taken');
+
+      if (isTaken) {
         currentName = chosenUsername;
-        currentSuggestions = data.suggestions;
+        currentSuggestions = Array.isArray(data.suggestions) ? data.suggestions : [];
         continue;
       }
 
@@ -258,11 +277,33 @@ export function registerRegister(program) {
         return;
       }
 
+      // --- Prompt for username if not set or invalid ---
+      let username = config.username;
+      if (!username || !validateUsername(username).valid) {
+        const rl = createInterface({ input: process.stdin, output: process.stdout });
+        try {
+          // eslint-disable-next-line no-constant-condition
+          while (true) {
+            const input = (
+              await ask(rl, 'Username (3-30 chars, lowercase, hyphens ok): ')
+            ).trim();
+            const check = validateUsername(input);
+            if (!check.valid) {
+              console.log(check.error);
+              continue;
+            }
+            username = input;
+            break;
+          }
+        } finally {
+          rl.close();
+        }
+      }
+
       // --- Build request body (only include set fields) ---
-      const body = { name: config.name };
+      const body = { name: config.name, username };
       if (config.bio) body.bio = config.bio;
       if (config.domain) body.domain = config.domain;
-      if (config.username) body.username = config.username;
 
       // --- POST to registration endpoint ---
       const endpoint = `${apiUrl.replace(/\/+$/, '')}/register`;
@@ -278,16 +319,20 @@ export function registerRegister(program) {
       // --- Handle username_taken conflict ---
       let confirmedUsername = data.username || null;
 
-      if (
+      const isUsernameTaken =
         !response.ok &&
         data &&
-        data.code === 'username_taken' &&
-        Array.isArray(data.suggestions)
-      ) {
+        (response.status === 409 ||
+          data.code === 'username_taken' ||
+          data.message === 'username_taken' ||
+          data.error === 'username_taken');
+
+      if (isUsernameTaken) {
+        const suggestions = Array.isArray(data.suggestions) ? data.suggestions : [];
         try {
           const result = await resolveUsername(
             body.username || config.name,
-            data.suggestions,
+            suggestions,
             body,
             endpoint,
           );

@@ -1,29 +1,27 @@
 {
   "task_id": "BUG-004",
   "title": "register: prompt for missing username, fix 409 username_taken detection",
-  "status": "todo",
+  "status": "merged",
   "priority": "high",
-  "description": "Two bugs in links register. (1) No username in links.yaml → 422 because body has no username field. Fix: prompt interactively before calling the API. (2) 409 username_taken detection checks data.code === 'username_taken' but the API returns the string in data.message or data.error with no code/suggestions fields — so the conflict flow is never entered and it falls through to the generic error handler.",
+  "description": "Two bugs in links register. (1) No username in links.yaml \u2192 422 because body has no username field. Fix: prompt interactively before calling the API. (2) 409 username_taken detection checks data.code === 'username_taken' but the API returns the string in data.message or data.error with no code/suggestions fields \u2014 so the conflict flow is never entered and it falls through to the generic error handler.",
   "requirements": {
     "features": [
-      "FIX 1 — prompt for username when not set in config:",
+      "FIX 1 \u2014 prompt for username when not set in config:",
       "  In the action handler, after reading config, check if config.username is set and passes validateUsername(). If not, prompt the user: 'Username (3-30 chars, lowercase, hyphens ok): '",
       "  Validate the input with validateUsername(). If invalid, print the error and re-prompt in a loop until a valid username is entered.",
       "  Use a readline interface (same ask() helper pattern). Close it in a finally block.",
       "  Set body.username to the prompted value before the first API call.",
-      "  Do NOT prompt if config.username is already set and valid — use it directly.",
-
-      "FIX 2 — broaden 409 / username_taken detection:",
+      "  Do NOT prompt if config.username is already set and valid \u2014 use it directly.",
+      "FIX 2 \u2014 broaden 409 / username_taken detection:",
       "  The current check is: response.status 4xx AND data.code === 'username_taken' AND Array.isArray(data.suggestions)",
       "  Change to detect username_taken if: response.status === 409 OR (any 4xx AND (data.code === 'username_taken' OR data.message === 'username_taken' OR data.error === 'username_taken'))",
-      "  The suggestions array may not always be present — handle missing/empty suggestions gracefully: if data.suggestions is not an array or is empty, pass an empty array [] to resolveUsername() so the UI still works (user will just see only the 'Enter a different username' option)",
+      "  The suggestions array may not always be present \u2014 handle missing/empty suggestions gracefully: if data.suggestions is not an array or is empty, pass an empty array [] to resolveUsername() so the UI still works (user will just see only the 'Enter a different username' option)",
       "  In resolveUsername(): if currentSuggestions is empty, skip the 'Suggestions:' section entirely and go straight to the 'Enter a different username' prompt without listing numbered suggestions",
-
-      "Also update validateConfig() in src/config.js to accept an optional 'username' string field (same validation as other optional string fields — must be a string if present, no further format validation needed at config level since format is enforced at registration time)"
+      "Also update validateConfig() in src/config.js to accept an optional 'username' string field (same validation as other optional string fields \u2014 must be a string if present, no further format validation needed at config level since format is enforced at registration time)"
     ],
     "outputs": [
       "src/commands/register.js (updated)",
-      "src/config.js (updated — username field accepted)"
+      "src/config.js (updated \u2014 username field accepted)"
     ]
   },
   "context_scope": {
@@ -38,6 +36,19 @@
       ".kntic/manifests/BUG-004.json"
     ]
   },
-  "notes": "For FIX 1: the username prompt readline interface can be the same one reused by resolveUsername() if it gets called — but to keep it simple, open a fresh rl for the initial prompt and close it before the API call. resolveUsername() opens its own rl internally. For FIX 2: the real-world API may never send suggestions — the CLI must work correctly even when suggestions: [] or suggestions is absent from the 409 response.",
-  "created_at": "2026-03-18T00:00:00Z"
+  "notes": "For FIX 1: the username prompt readline interface can be the same one reused by resolveUsername() if it gets called \u2014 but to keep it simple, open a fresh rl for the initial prompt and close it before the API call. resolveUsername() opens its own rl internally. For FIX 2: the real-world API may never send suggestions \u2014 the CLI must work correctly even when suggestions: [] or suggestions is absent from the 409 response.",
+  "created_at": "2026-03-18T00:00:00Z",
+  "updated_at": "2026-03-17T23:58:38.639615",
+  "actions": [
+    {
+      "timestamp": "2026-03-17T22:58:32.761721Z",
+      "status": "ready_for_merge",
+      "files": [
+        ".kntic/gia/state.json",
+        ".kntic/manifests/BUG-004.json",
+        "package.json",
+        "src/commands/register.js"
+      ]
+    }
+  ]
 }
