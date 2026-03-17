@@ -1,8 +1,12 @@
 import { existsSync, writeFileSync, readFileSync, mkdirSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
-import { findConfig, readConfig, validateUrl } from '../config.js';
+import { createInterface } from 'node:readline';
+import { findConfig, readConfig, writeConfig, validateUrl } from '../config.js';
 
 const DEFAULT_API = 'https://api.kntic.link';
+
+/** Username format: lowercase alphanumeric + hyphens, 3-30 chars, no leading/trailing hyphen. */
+const USERNAME_RE = /^[a-z0-9][a-z0-9-]{1,28}[a-z0-9]$/;
 
 /**
  * Walk up from `startDir` looking for a .git directory.
@@ -44,6 +48,159 @@ function ensureGitignore(configDir) {
   }
 
   console.log('✓ Added .links.secret to .gitignore');
+}
+
+/** Wrap readline.question in a Promise. */
+function ask(rl, query) {
+  return new Promise((res) => rl.question(query, (answer) => res(answer)));
+}
+
+/**
+ * Validate a username string against the format rules.
+ * @param {string} name
+ * @returns {{ valid: boolean, error?: string }}
+ */
+function validateUsername(name) {
+  if (!USERNAME_RE.test(name)) {
+    return {
+      valid: false,
+      error:
+        'Username must be 3-30 characters, lowercase alphanumeric and hyphens only, no leading/trailing hyphen.',
+    };
+  }
+  return { valid: true };
+}
+
+/**
+ * POST to the /register endpoint with the given body.
+ * @param {string} endpoint — full URL to /register
+ * @param {object} body — request body
+ * @returns {{ response: Response, data: object }}
+ */
+async function postRegister(endpoint, body) {
+  const response = await fetch(endpoint, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+
+  let data;
+  try {
+    data = await response.json();
+  } catch {
+    throw new Error(`unexpected non-JSON response from ${endpoint}`);
+  }
+
+  return { response, data };
+}
+
+/**
+ * Resolve a username conflict interactively.
+ *
+ * When the API returns username_taken with suggestions, this function
+ * prompts the user to pick a suggestion or type their own username,
+ * then retries registration until it succeeds or a non-username_taken
+ * error occurs.
+ *
+ * @param {string} takenName — the username that was taken
+ * @param {string[]} suggestions — available username suggestions from the API
+ * @param {object} body — the original request body (mutated with new username)
+ * @param {string} endpoint — the /register endpoint URL
+ * @returns {{ data: object, username: string }} — successful response data and confirmed username
+ * @throws {Error} on non-username_taken API errors or network failures
+ */
+async function resolveUsername(takenName, suggestions, body, endpoint) {
+  const rl = createInterface({ input: process.stdin, output: process.stdout });
+
+  try {
+    let currentName = takenName;
+    let currentSuggestions = suggestions;
+
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
+      // Display conflict UI
+      console.log(`✖ Username "${currentName}" is already taken.`);
+      console.log('');
+      console.log('Suggestions:');
+      for (let i = 0; i < currentSuggestions.length; i++) {
+        console.log(`  ${i + 1}. ${currentSuggestions[i]}`);
+      }
+      const customOption = currentSuggestions.length + 1;
+      console.log(`  ${customOption}. Enter a different username`);
+      console.log('');
+
+      let chosenUsername;
+
+      // Prompt for selection
+      // eslint-disable-next-line no-constant-condition
+      while (true) {
+        const answer = (
+          await ask(
+            rl,
+            `Pick a suggestion (1-${currentSuggestions.length}) or choose ${customOption} to type your own: `,
+          )
+        ).trim();
+
+        const num = parseInt(answer, 10);
+        if (Number.isNaN(num) || num < 1 || num > customOption) {
+          continue; // re-prompt on invalid input
+        }
+
+        if (num <= currentSuggestions.length) {
+          // User picked a suggestion
+          chosenUsername = currentSuggestions[num - 1];
+          break;
+        }
+
+        // User wants to type their own — inner prompt loop for format validation
+        // eslint-disable-next-line no-constant-condition
+        while (true) {
+          const custom = (await ask(rl, 'Username: ')).trim();
+          const check = validateUsername(custom);
+          if (!check.valid) {
+            console.log(check.error);
+            continue;
+          }
+          chosenUsername = custom;
+          break;
+        }
+        break;
+      }
+
+      // Retry registration with the chosen username
+      body.username = chosenUsername;
+
+      let response, data;
+      try {
+        ({ response, data } = await postRegister(endpoint, body));
+      } catch (err) {
+        throw new Error(`network request failed — ${err.message}`);
+      }
+
+      // Check for username_taken again → loop
+      if (
+        !response.ok &&
+        data &&
+        data.code === 'username_taken' &&
+        Array.isArray(data.suggestions)
+      ) {
+        currentName = chosenUsername;
+        currentSuggestions = data.suggestions;
+        continue;
+      }
+
+      // Non-username_taken error → throw
+      if (!response.ok) {
+        const msg = data.error || data.message || JSON.stringify(data);
+        throw new Error(`registration failed (HTTP ${response.status}) — ${msg}`);
+      }
+
+      // Success
+      return { data, username: chosenUsername };
+    }
+  } finally {
+    rl.close();
+  }
 }
 
 /**
@@ -105,33 +262,43 @@ export function registerRegister(program) {
       const body = { name: config.name };
       if (config.bio) body.bio = config.bio;
       if (config.domain) body.domain = config.domain;
+      if (config.username) body.username = config.username;
 
       // --- POST to registration endpoint ---
       const endpoint = `${apiUrl.replace(/\/+$/, '')}/register`;
-      let response;
+      let response, data;
       try {
-        response = await fetch(endpoint, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(body),
-        });
+        ({ response, data } = await postRegister(endpoint, body));
       } catch (err) {
-        console.error(`Error: network request failed — ${err.message}`);
+        console.error(`Error: ${err.message}`);
         process.exitCode = 1;
         return;
       }
 
-      // --- Handle response ---
-      let data;
-      try {
-        data = await response.json();
-      } catch {
-        console.error(`Error: unexpected non-JSON response from ${endpoint}`);
-        process.exitCode = 1;
-        return;
-      }
+      // --- Handle username_taken conflict ---
+      let confirmedUsername = data.username || null;
 
-      if (!response.ok) {
+      if (
+        !response.ok &&
+        data &&
+        data.code === 'username_taken' &&
+        Array.isArray(data.suggestions)
+      ) {
+        try {
+          const result = await resolveUsername(
+            body.username || config.name,
+            data.suggestions,
+            body,
+            endpoint,
+          );
+          data = result.data;
+          confirmedUsername = result.username;
+        } catch (err) {
+          console.error(`Error: ${err.message}`);
+          process.exitCode = 1;
+          return;
+        }
+      } else if (!response.ok) {
         const msg = data.error || data.message || JSON.stringify(data);
         console.error(`Error: registration failed (HTTP ${response.status}) — ${msg}`);
         process.exitCode = 1;
@@ -147,12 +314,18 @@ export function registerRegister(program) {
       // --- Write .links.secret ---
       writeFileSync(secretPath, data.api_key, 'utf8');
 
+      // --- Write confirmed username to links.yaml ---
+      if (confirmedUsername) {
+        config.username = confirmedUsername;
+        writeConfig(configPath, config);
+      }
+
       // --- Git protection ---
       ensureGitignore(configDir);
 
       // --- Success output ---
       console.log('✓ Registered successfully!');
-      if (data.username) console.log(`  Username: ${data.username}`);
+      if (confirmedUsername) console.log(`  Username: ${confirmedUsername}`);
       if (data.page_url) console.log(`  Page URL: ${data.page_url}`);
       console.log('  API key saved to .links.secret');
     });

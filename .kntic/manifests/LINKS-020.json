@@ -1,15 +1,15 @@
 {
   "task_id": "LINKS-020",
-  "title": "`links register` — username conflict handling with suggestions loop",
-  "status": "todo",
+  "title": "`links register` \u2014 username conflict handling with suggestions loop",
+  "status": "merged",
   "priority": "high",
   "description": "Handle the case where the chosen username is already taken during registration. When the backend returns a username_taken error with suggestions, present them interactively, let the user pick or type their own, and retry until registration succeeds. Write the final confirmed username back to links.yaml.",
   "requirements": {
     "features": [
       "Detect username_taken response: when POST /register returns HTTP 409 (or any 4xx with a field 'code: \"username_taken\"' in the response JSON), enter the conflict resolution flow instead of exiting.",
-      "The response body for username_taken must include: { code: 'username_taken', suggestions: string[] } — suggestions is an array of pre-checked available usernames.",
+      "The response body for username_taken must include: { code: 'username_taken', suggestions: string[] } \u2014 suggestions is an array of pre-checked available usernames.",
       "Display the conflict UI:",
-      "  '✖ Username \"<name>\" is already taken.'",
+      "  '\u2716 Username \"<name>\" is already taken.'",
       "  ''",
       "  'Suggestions:'",
       "  '  1. <suggestion[0]>'",
@@ -19,12 +19,12 @@
       "  ''",
       "  Prompt: 'Pick a suggestion (1-<N>) or choose <N+1> to type your own: '",
       "If user picks a numbered suggestion (1 to N): set the chosen username and retry POST /register with body including username: <chosen>.",
-      "If user picks N+1 (type their own): prompt 'Username: ', read input, validate format client-side (lowercase alphanumeric and hyphens only, 3-30 chars, no leading/trailing hyphen — regex: /^[a-z0-9][a-z0-9-]{1,28}[a-z0-9]$/), retry POST /register with that username.",
+      "If user picks N+1 (type their own): prompt 'Username: ', read input, validate format client-side (lowercase alphanumeric and hyphens only, 3-30 chars, no leading/trailing hyphen \u2014 regex: /^[a-z0-9][a-z0-9-]{1,28}[a-z0-9]$/), retry POST /register with that username.",
       "If the custom username fails format validation: print the format error and re-prompt (do not call the API with an invalid format).",
-      "If the retry is also taken: loop — show the new suggestions from the new response, prompt again. No limit on retries.",
+      "If the retry is also taken: loop \u2014 show the new suggestions from the new response, prompt again. No limit on retries.",
       "On any non-username_taken error during retry: exit 1 with the error message as normal.",
       "On success (any iteration): write api_key to .links.secret as before. Additionally update config.username in links.yaml to the confirmed username via writeConfig(). Print success message including the confirmed username and page_url.",
-      "Extract the interactive prompt logic into a helper function resolveUsername(initialName, apiBase) within register.js — keeps the action handler readable.",
+      "Extract the interactive prompt logic into a helper function resolveUsername(initialName, apiBase) within register.js \u2014 keeps the action handler readable.",
       "Use node:readline for all prompts (same pattern as init.js interactive mode). Always close the readline interface in a finally block."
     ],
     "outputs": [
@@ -43,6 +43,20 @@
       ".kntic/manifests/LINKS-020.json"
     ]
   },
-  "notes": "Username format regex: /^[a-z0-9][a-z0-9-]{1,28}[a-z0-9]$/ — enforces 3-30 chars, lowercase, hyphens allowed in the middle only. The username field in links.yaml is optional (not in the original schema) — writeConfig will add it. Update validateConfig in config.js if needed to accept an optional username string field. Readline interface must be closed in finally to prevent process hang. The retry loop calls the same POST /register endpoint each time with the new username in the body.",
-  "created_at": "2026-03-17T21:58:00Z"
+  "notes": "Username format regex: /^[a-z0-9][a-z0-9-]{1,28}[a-z0-9]$/ \u2014 enforces 3-30 chars, lowercase, hyphens allowed in the middle only. The username field in links.yaml is optional (not in the original schema) \u2014 writeConfig will add it. Update validateConfig in config.js if needed to accept an optional username string field. Readline interface must be closed in finally to prevent process hang. The retry loop calls the same POST /register endpoint each time with the new username in the body.",
+  "created_at": "2026-03-17T21:58:00Z",
+  "updated_at": "2026-03-17T23:01:42.685937",
+  "actions": [
+    {
+      "timestamp": "2026-03-17T22:01:36.934678Z",
+      "status": "ready_for_merge",
+      "files": [
+        ".kntic/MEMORY.MD",
+        ".kntic/gia/state.json",
+        ".kntic/manifests/LINKS-020.json",
+        "src/commands/register.js",
+        "src/config.js"
+      ]
+    }
+  ]
 }

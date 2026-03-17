@@ -2,8 +2,9 @@
   "status": "pass",
   "files_validated": [
     ".kntic/MEMORY.MD",
-    ".kntic/manifests/TEST-001.json",
-    "package.json"
+    ".kntic/manifests/LINKS-020.json",
+    "src/commands/register.js",
+    "src/config.js"
   ],
   "alignment_score": 1.0,
   "dimensions": {
@@ -28,8 +29,8 @@
       "weighted": 0.1
     }
   },
-  "change_delta": 3,
+  "change_delta": 4,
   "merge_threshold": 1.0,
   "drift_items": [],
-  "last_checked": "2026-03-17T21:54:54.195893+00:00"
+  "last_checked": "2026-03-17T22:01:42.685546+00:00"
 }

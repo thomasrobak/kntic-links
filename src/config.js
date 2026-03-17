@@ -55,7 +55,7 @@ export function validateConfig(config) {
   }
 
   // --- top-level optional string fields ---
-  for (const field of ['bio', 'avatar', 'domain']) {
+  for (const field of ['bio', 'avatar', 'domain', 'username']) {
     if (config[field] !== undefined && config[field] !== null && typeof config[field] !== 'string') {
       errors.push(`links.yaml: field '${field}' must be a string`);
     }

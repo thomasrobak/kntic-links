@@ -28,6 +28,7 @@
 | LINKS-015 | Favicon — inline SVG favicon in generated page | `src/generator.js` — extractAccentColor(css) helper; two-tier favicon: Strategy A reuses avatar base64 data URI, Strategy B generates 64x64 SVG letter favicon with theme accent color; both `<link rel="icon">` + `sizes="32x32"` fallback; all inlined, no extra files |
 | LINKS-019 | `links deploy` update — hosted deploy via API key | `src/secret.js` — readSecret(configDir), secretPath(configDir); `src/commands/deploy.js` — hosted deploy via POST to /deploy with Bearer token from .links.secret; --api flag (default https://api.kntic.link); --self path unchanged; HTTP 401/4xx/5xx/network error handling |
 | TEST-001 | Unit test suite — node:test, full coverage of pure logic, GIA hook | `test/config.test.js`, `test/utils.test.js`, `test/generator.test.js`, `test/secret.test.js`, `test/themes.test.js` — 55 tests covering all pure logic modules; `package.json` test script; `.kntic/hooks/gia/specific/001-unit-tests.sh` GIA hook |
+| LINKS-020 | `links register` — username conflict handling with suggestions loop | `src/commands/register.js` — resolveUsername() helper with interactive readline loop; detects username_taken (code field + suggestions array); displays numbered suggestions + custom entry option; client-side format validation (USERNAME_RE); retry loop until success; writes confirmed username to links.yaml via writeConfig(); `src/config.js` — validateConfig accepts optional `username` string field |
 
 ### Active Services
 - **Dashboard** → `http://localhost:8000`
