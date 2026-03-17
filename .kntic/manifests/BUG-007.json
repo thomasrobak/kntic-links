@@ -1,0 +1,34 @@
+{
+  "task_id": "BUG-007",
+  "title": "deploy: fix auth header, content-type and request body to match backend API",
+  "status": "todo",
+  "priority": "high",
+  "description": "The hosted deploy request does not match what the backend expects. Three things are wrong: (1) auth header is 'Authorization: Bearer' but backend requires 'X-API-Key', (2) Content-Type is 'application/json' but backend requires 'application/yaml', (3) body is a JSON envelope {html, config} but backend expects raw YAML of the config. The backend handles HTML generation itself.",
+  "requirements": {
+    "features": [
+      "In deployHosted() in src/commands/deploy.js:",
+      "FIX 1 — Auth header: change from 'Authorization: `Bearer ${apiKey}`' to 'X-API-Key: apiKey'",
+      "FIX 2 — Content-Type: change from 'application/json' to 'application/yaml'",
+      "FIX 3 — Request body: instead of JSON.stringify({ html, config }), serialize config to YAML using js-yaml's dump() function and send the raw YAML string as the body. Import { dump } from 'js-yaml' at the top of the file.",
+      "FIX 4 — Remove the generatePage() call entirely from deployHosted() — the backend generates the HTML itself from the YAML config. Remove the html variable and the import of generatePage if it is no longer used in deployHosted (it is still used in deploySelf, so only remove the call, not the import).",
+      "The resulting fetch call should look like:",
+      "  fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/yaml', 'X-API-Key': apiKey }, body: dump(config) })"
+    ],
+    "outputs": [
+      "src/commands/deploy.js (updated)"
+    ]
+  },
+  "context_scope": {
+    "read_only": [
+      ".kntic/adrs/",
+      "src/secret.js",
+      "src/config.js"
+    ],
+    "write_access": [
+      "src/commands/deploy.js",
+      ".kntic/manifests/BUG-007.json"
+    ]
+  },
+  "notes": "js-yaml is already a dependency — just import dump from it. generatePage() is still needed in deploySelf() so do not remove the import. Only the deployHosted() function changes.",
+  "created_at": "2026-03-18T00:21:00Z"
+}
