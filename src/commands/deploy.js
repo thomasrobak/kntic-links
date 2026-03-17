@@ -22,6 +22,7 @@ export function registerDeploy(program) {
     .option('--out <dir>', 'Output directory (--self only)', './dist')
     .option('--open', 'Open the generated page in a browser after build (--self only)')
     .option('--api <url>', 'Base URL of the kntic.link API', DEFAULT_API)
+    .option('--verbose', 'Print full response body on error (useful for debugging)')
     .action(async (opts) => {
       if (opts.self) {
         await deploySelf(opts);
@@ -96,12 +97,6 @@ async function deployHosted(opts) {
   }
 
   // 5. Handle response
-  if (response.status === 401) {
-    console.error(chalk.red('Invalid or expired API key. Run: links register --force'));
-    process.exitCode = 1;
-    return;
-  }
-
   let data;
   try {
     data = await response.json();
@@ -112,8 +107,14 @@ async function deployHosted(opts) {
   }
 
   if (!response.ok) {
+    if (opts.verbose) {
+      console.error(chalk.dim(JSON.stringify(data, null, 2)));
+    }
     const msg = data.error || data.message || JSON.stringify(data);
     console.error(chalk.red(`✗ Deploy failed (HTTP ${response.status}): ${msg}`));
+    if (response.status === 401) {
+      console.error(chalk.yellow('Hint: run links register --force to get a new API key.'));
+    }
     process.exitCode = 1;
     return;
   }

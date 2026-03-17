@@ -1,7 +1,7 @@
 {
   "task_id": "BUG-005",
   "title": "deploy: surface actual backend error body on 401/4xx instead of canned message",
-  "status": "todo",
+  "status": "merged",
   "priority": "high",
   "description": "The hosted deploy command catches 401 and prints a hardcoded message without reading the response body. This hides the actual backend error and makes debugging impossible. Fix: always read and print the response body on any non-2xx response, including 401.",
   "requirements": {
@@ -26,6 +26,19 @@
       ".kntic/manifests/BUG-005.json"
     ]
   },
-  "notes": "The 401 case currently returns before response.json() is called — that is the bug. Read the body first, THEN branch on status. The --verbose flag should print raw response body (JSON.stringify(data, null, 2)) before the error message when status is non-2xx.",
-  "created_at": "2026-03-18T00:08:00Z"
+  "notes": "The 401 case currently returns before response.json() is called \u2014 that is the bug. Read the body first, THEN branch on status. The --verbose flag should print raw response body (JSON.stringify(data, null, 2)) before the error message when status is non-2xx.",
+  "created_at": "2026-03-18T00:08:00Z",
+  "updated_at": "2026-03-18T00:09:26.523318",
+  "actions": [
+    {
+      "timestamp": "2026-03-17T23:09:20.281865Z",
+      "status": "ready_for_merge",
+      "files": [
+        ".kntic/gia/state.json",
+        ".kntic/manifests/BUG-005.json",
+        "package.json",
+        "src/commands/deploy.js"
+      ]
+    }
+  ]
 }
