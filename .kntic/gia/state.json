@@ -1,9 +1,9 @@
 {
   "status": "pass",
   "files_validated": [
-    ".kntic/manifests/BUG-009.json",
-    "package.json",
-    "src/themes/neon-noir.css"
+    ".kntic/manifests/DOC-001.json",
+    "README.md",
+    "package.json"
   ],
   "alignment_score": 1.0,
   "dimensions": {
@@ -31,5 +31,5 @@
   "change_delta": 3,
   "merge_threshold": 1.0,
   "drift_items": [],
-  "last_checked": "2026-03-18T10:29:44.990458+00:00"
+  "last_checked": "2026-03-18T11:51:55.665785+00:00"
 }

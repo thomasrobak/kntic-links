@@ -47,10 +47,24 @@
   },
   "notes": "The existing README structure is good \u2014 keep sections, just update content. The schema example currently has 'url: ...' as a top-level field which is wrong (should be 'domain'). Fix that. The hosted deploy section should be concise \u2014 the self-hosted path is still the primary story for open source users.",
   "created_at": "2026-03-18T00:42:00Z",
-  "updated_at": "2026-03-18T00:42:39.198770",
+  "updated_at": "2026-03-18T12:51:55.666309",
   "actions": [
     {
       "timestamp": "2026-03-17T23:42:32.997359Z",
+      "status": "ready_for_merge",
+      "files": [
+        ".kntic/gia/state.json",
+        ".kntic/manifests/DOC-001.json",
+        "README.md",
+        "package.json"
+      ]
+    },
+    {
+      "timestamp": "2026-03-18T11:51:07.919951+00:00",
+      "status": "refactoring"
+    },
+    {
+      "timestamp": "2026-03-18T11:51:49.793510Z",
       "status": "ready_for_merge",
       "files": [
         ".kntic/gia/state.json",

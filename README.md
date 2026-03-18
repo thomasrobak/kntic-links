@@ -132,7 +132,7 @@ Created by `links register`. Contains your API key for hosted deploys. Automatic
 
 ## Themes
 
-Five built-in themes ship with Links:
+Ten built-in themes ship with Links:
 
 | Theme | Description |
 |-------|-------------|
@@ -141,6 +141,11 @@ Five built-in themes ship with Links:
 | `terminal` | Green-on-black with cursor blink and scanlines. |
 | `glass` | Glassmorphism with backdrop-filter blur and purple/blue gradient. |
 | `developer` | IDE-inspired aesthetic with KNTIC orange and left border bar. |
+| `brutalist` | Stark white, black borders, no border-radius, bold sans-serif. |
+| `gradient-wave` | Animated dark gradient background, white cards, soft rounded. |
+| `newspaper` | Sepia tones, serif type, thin rules, masthead heading. |
+| `neon-noir` | Near-black with neon cyan/magenta accents and glow on hover. |
+| `soft-paper` | Warm off-white, dusty rose accent, generous radius, subtle shadows. |
 
 ```bash
 # List themes
