@@ -1,0 +1,48 @@
+{
+  "task_id": "LINKS-021",
+  "title": "5 new themes — brutalist, gradient-wave, newspaper, neon-noir, soft-paper",
+  "description": "Add 5 new CSS themes to src/themes/. Each must implement the full custom property contract defined in src/themes/README.md. All existing themes (minimal-dark, minimal-light, terminal, glass, developer) remain unchanged.",
+  "status": "todo",
+  "priority": "medium",
+  "requirements": {
+    "features": [
+      "src/themes/brutalist.css — stark white background (#ffffff), black borders (#000000), no border-radius (--link-radius: 0), bold sans-serif (system-ui or Arial Black), high contrast black text, no shadows, no hover glow — purely flat and structural",
+      "src/themes/gradient-wave.css — dark background with a slow CSS keyframe animated gradient (e.g. hsl-shift or position shift on a linear-gradient), clean white card (--bg-secondary: rgba(255,255,255,0.95)), soft rounded links, no monospace — vibrant but not loud",
+      "src/themes/newspaper.css — warm sepia/off-white background (#f5f0e8), dark brown text (#2c1a0e), serif font stack (Georgia, 'Times New Roman', serif) for body, thin 1px solid rules as link borders, name displayed in a larger masthead-style heading via --font-body override, muted amber accent",
+      "src/themes/neon-noir.css — near-black background (#0a0a0f), neon cyan accent (#00e5ff) with magenta secondary, subtle box-shadow glow on link cards on hover (box-shadow: 0 0 12px var(--accent-color)), sans-serif body, link borders colored with accent, clearly distinct from terminal (no monospace, no green, no cursor — pure neon aesthetic)",
+      "src/themes/soft-paper.css — warm off-white background (#faf8f5), soft muted palette (dusty rose or sage accents), generous border-radius (--link-radius: 16px), subtle drop shadows on link cards, approachable and non-technical feel — targets non-developer users"
+    ],
+    "files_to_create": [
+      "src/themes/brutalist.css",
+      "src/themes/gradient-wave.css",
+      "src/themes/newspaper.css",
+      "src/themes/neon-noir.css",
+      "src/themes/soft-paper.css"
+    ],
+    "outputs": [
+      "All 5 theme files implement every token listed in src/themes/README.md custom property contract",
+      "No hardcoded colours outside :root blocks",
+      "Running `links theme list` shows all 10 themes (5 existing + 5 new)"
+    ]
+  },
+  "context_scope": {
+    "read_only": [
+      "src/themes/README.md",
+      "src/themes/loader.js",
+      "src/themes/minimal-dark.css",
+      "src/themes/terminal.css",
+      "src/themes/glass.css"
+    ],
+    "write_access": [
+      "src/themes/brutalist.css",
+      "src/themes/gradient-wave.css",
+      "src/themes/newspaper.css",
+      "src/themes/neon-noir.css",
+      "src/themes/soft-paper.css",
+      ".kntic/MEMORY.MD",
+      ".kntic/manifests/LINKS-021.json"
+    ]
+  },
+  "notes": "Follow the token contract strictly — every token must be present in :root. Use the minimal-dark.css file as a structural reference. gradient-wave.css should use CSS @keyframes for the background animation directly in the theme file (no JS). neon-noir must be clearly distinct from terminal — no monospace font, no green/amber palette.",
+  "created_at": "2026-03-18T10:27:00Z"
+}
