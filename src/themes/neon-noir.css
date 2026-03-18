@@ -1,6 +1,6 @@
 /* neon-noir — KNTIC Links theme
  *
- * Near-black background with neon cyan and magenta accents.
+ * Near-black background with neon cyan accent and magenta highlight glow.
  * Glowing box-shadows on hover. Sans-serif — no monospace, no green.
  * Distinct from terminal: pure neon aesthetic.
  */
@@ -26,6 +26,7 @@
   /* Accent — neon cyan */
   --accent-color: #00e5ff;
   --accent-hover: #ff2d95;
+  --accent-hover-rgb: 255, 45, 149;
 
   /* Link cards */
   --link-bg: var(--bg-secondary);
@@ -81,7 +82,7 @@ body {
   object-fit: cover;
   margin-bottom: 0.75rem;
   border: 2px solid var(--accent-color);
-  box-shadow: 0 0 12px rgba(0, 229, 255, 0.3);
+  box-shadow: 0 0 8px rgba(var(--accent-hover-rgb), 0.2);
 }
 
 .profile__name {
@@ -126,7 +127,7 @@ body {
   text-decoration: none;
   text-align: center;
   transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-  box-shadow: 0 0 4px rgba(0, 229, 255, 0.1);
+  box-shadow: 0 0 4px rgba(var(--accent-hover-rgb), 0.1);
 }
 
 .links__anchor:hover,
@@ -134,7 +135,7 @@ body {
   background-color: var(--link-bg-hover);
   color: var(--accent-hover);
   border-color: var(--accent-hover);
-  box-shadow: 0 0 12px var(--accent-color), 0 0 24px rgba(255, 45, 149, 0.15);
+  box-shadow: 0 0 12px rgba(var(--accent-hover-rgb), 0.6), 0 0 24px rgba(var(--accent-hover-rgb), 0.2);
   outline: none;
 }
 

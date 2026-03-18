@@ -1,7 +1,7 @@
 {
   "task_id": "BUG-009",
   "title": "neon-noir: unify hover glow color to match accent-hover",
-  "status": "todo",
+  "status": "merged",
   "priority": "medium",
   "description": "The neon-noir hover glow mixes two hardcoded colors (cyan + magenta rgba). Tom wants the glow to use only the accent-hover color (#ff2d95) so the glow matches the highlight color consistently.",
   "requirements": {
@@ -27,5 +27,18 @@
     ]
   },
   "notes": "CSS custom properties can't be used directly inside rgba() in older syntax, but rgba(var(--accent-hover-rgb), 0.6) works in all modern browsers. The accent-hover-rgb variable holds just the comma-separated RGB values: '255, 45, 149'. The accent-hover hex (#ff2d95) stays as-is for the border-color and text color on hover.",
-  "created_at": "2026-03-18T10:29:00Z"
+  "created_at": "2026-03-18T10:29:00Z",
+  "updated_at": "2026-03-18T11:29:44.990792",
+  "actions": [
+    {
+      "timestamp": "2026-03-18T10:29:39.533850Z",
+      "status": "ready_for_merge",
+      "files": [
+        ".kntic/gia/state.json",
+        ".kntic/manifests/BUG-009.json",
+        "package.json",
+        "src/themes/neon-noir.css"
+      ]
+    }
+  ]
 }
