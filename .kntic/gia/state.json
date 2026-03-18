@@ -1,9 +1,8 @@
 {
   "status": "pass",
   "files_validated": [
-    ".kntic/manifests/DOC-001.json",
-    "README.md",
-    "package.json"
+    ".kntic/manifests/LINKS-022.json",
+    "src/commands/deploy.js"
   ],
   "alignment_score": 1.0,
   "dimensions": {
@@ -28,8 +27,8 @@
       "weighted": 0.1
     }
   },
-  "change_delta": 3,
+  "change_delta": 2,
   "merge_threshold": 1.0,
   "drift_items": [],
-  "last_checked": "2026-03-18T11:51:55.665785+00:00"
+  "last_checked": "2026-03-18T12:04:40.255424+00:00"
 }

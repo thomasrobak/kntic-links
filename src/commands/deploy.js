@@ -136,6 +136,12 @@ async function deployHosted(opts) {
   // 7. Success
   const pageUrl = data.url || data.page_url || '(unknown)';
   console.log(chalk.green(`✓ Deployed to ${pageUrl}`));
+
+  // 8. Truncation warning — tier limit reached
+  if (data.truncated === true) {
+    console.log(chalk.yellow(`⚠ Only ${data.links_included} of ${data.links_submitted} links included (tier limit reached).`));
+    console.log(chalk.yellow('Upgrade to Pro to publish all your links: https://kntic.link/upgrade'));
+  }
 }
 
 // ---------------------------------------------------------------------------

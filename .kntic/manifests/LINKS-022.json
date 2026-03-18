@@ -1,18 +1,18 @@
 {
   "task_id": "LINKS-022",
-  "title": "deploy: handle truncated response — warn user when tier link limit is reached",
-  "status": "todo",
+  "title": "deploy: handle truncated response \u2014 warn user when tier link limit is reached",
+  "status": "merged",
   "priority": "medium",
   "description": "The backend may return a truncated flag in the deploy response when the user's tier limit is exceeded. The CLI should reflect this clearly in the output so the user knows not all their links are live.",
   "requirements": {
     "features": [
       "In deployHosted() in src/commands/deploy.js, after the success line, check if data.truncated === true.",
       "If truncated, print a yellow warning block after the success line:",
-      "  '⚠ Only X of Y links included (tier limit reached).'",
+      "  '\u26a0 Only X of Y links included (tier limit reached).'",
       "  'Upgrade to Pro to publish all your links: https://kntic.link/upgrade'",
       "  Where X = data.links_included and Y = data.links_submitted.",
-      "If truncated is false or absent, print nothing extra — clean success output as before.",
-      "The success line itself ('✓ Deployed to <url>') always prints first, regardless of truncation."
+      "If truncated is false or absent, print nothing extra \u2014 clean success output as before.",
+      "The success line itself ('\u2713 Deployed to <url>') always prints first, regardless of truncation."
     ],
     "outputs": [
       "src/commands/deploy.js (updated)"
@@ -27,6 +27,18 @@
       ".kntic/manifests/LINKS-022.json"
     ]
   },
-  "notes": "Use chalk.yellow for the warning lines. links_included and links_submitted may be absent if truncated is false — only access them when data.truncated === true.",
-  "created_at": "2026-03-18T12:05:00Z"
+  "notes": "Use chalk.yellow for the warning lines. links_included and links_submitted may be absent if truncated is false \u2014 only access them when data.truncated === true.",
+  "created_at": "2026-03-18T12:05:00Z",
+  "updated_at": "2026-03-18T13:04:40.255842",
+  "actions": [
+    {
+      "timestamp": "2026-03-18T12:04:33.825316Z",
+      "status": "ready_for_merge",
+      "files": [
+        ".kntic/gia/state.json",
+        ".kntic/manifests/LINKS-022.json",
+        "src/commands/deploy.js"
+      ]
+    }
+  ]
 }
