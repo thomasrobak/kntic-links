@@ -1,0 +1,190 @@
+/* gradient-wave — KNTIC Links theme
+ *
+ * Dark background with a slow animated CSS gradient.
+ * Clean white cards, soft rounded links. Vibrant but not loud.
+ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  /* Backgrounds */
+  --bg-color: #1a1035;
+  --bg-secondary: rgba(255, 255, 255, 0.95);
+
+  /* Text */
+  --text-primary: #ffffff;
+  --text-secondary: #444444;
+  --text-muted: #888888;
+
+  /* Accent — warm coral */
+  --accent-color: #2d2058;
+  --accent-hover: #1a1035;
+
+  /* Link cards */
+  --link-bg: var(--bg-secondary);
+  --link-bg-hover: rgba(255, 255, 255, 1);
+  --link-border: rgba(255, 255, 255, 0.25);
+  --link-radius: 14px;
+  --link-padding: 0.875rem 1.25rem;
+
+  /* Typography */
+  --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+
+  /* Avatar */
+  --avatar-radius: 50%;
+
+  /* Layout */
+  --page-max-width: 480px;
+
+  /* Footer */
+  --footer-opacity: 0.5;
+}
+
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  background: linear-gradient(135deg, #1a1035, #2d1b69, #0f3460, #1a1035, #4a1942);
+  background-size: 400% 400%;
+  animation: gradient-shift 15s ease infinite;
+  color: var(--text-primary);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 3rem 1rem 1rem;
+  line-height: 1.5;
+}
+
+/* ── Profile ─────────────────────────────────────────────────────── */
+
+.profile {
+  text-align: center;
+  margin-bottom: 2rem;
+  max-width: var(--page-max-width);
+  width: 100%;
+}
+
+.profile__avatar {
+  width: 88px;
+  height: 88px;
+  border-radius: var(--avatar-radius);
+  object-fit: cover;
+  margin-bottom: 0.75rem;
+  border: 2px solid var(--link-border);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.profile__name {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.profile__bio {
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  opacity: 0.8;
+  max-width: 320px;
+  margin: 0 auto;
+}
+
+/* ── Links ───────────────────────────────────────────────────────── */
+
+.links {
+  list-style: none;
+  width: 100%;
+  max-width: var(--page-max-width);
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+
+.links__item {
+  display: block;
+  width: 100%;
+}
+
+.links__anchor {
+  display: block;
+  width: 100%;
+  padding: var(--link-padding);
+  background-color: var(--link-bg);
+  border: 1px solid var(--link-border);
+  border-radius: var(--link-radius);
+  color: var(--accent-color);
+  text-decoration: none;
+  text-align: center;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+}
+
+.links__anchor:hover,
+.links__anchor:focus {
+  background-color: var(--link-bg-hover);
+  color: var(--accent-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.25);
+  outline: none;
+}
+
+.links__label {
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.links__icon {
+  margin-right: 0.4em;
+}
+
+.links__description {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-top: 0.2rem;
+}
+
+/* ── Footer ──────────────────────────────────────────────────────── */
+
+.footer {
+  margin-top: auto;
+  padding-top: 2rem;
+  padding-bottom: 1rem;
+  text-align: center;
+}
+
+.footer__link {
+  font-size: 0.7rem;
+  color: var(--text-primary);
+  text-decoration: none;
+  opacity: var(--footer-opacity);
+  transition: opacity 0.2s ease;
+}
+
+.footer__link:hover {
+  opacity: 1;
+}

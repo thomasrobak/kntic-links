@@ -1,7 +1,7 @@
 # MEMORY.MD — Persistent Working Memory
 
 >
-> **Last Updated:** 2026-03-17 (TEST-001 completed)
+> **Last Updated:** 2026-03-18 (LINKS-021 completed)
 
 ---
 
@@ -30,6 +30,7 @@
 | TEST-001 | Unit test suite — node:test, full coverage of pure logic, GIA hook | `test/config.test.js`, `test/utils.test.js`, `test/generator.test.js`, `test/secret.test.js`, `test/themes.test.js` — 55 tests covering all pure logic modules; `package.json` test script; `.kntic/hooks/gia/specific/001-unit-tests.sh` GIA hook |
 | LINKS-020 | `links register` — username conflict handling with suggestions loop | `src/commands/register.js` — resolveUsername() helper with interactive readline loop; detects username_taken (code field + suggestions array); displays numbered suggestions + custom entry option; client-side format validation (USERNAME_RE); retry loop until success; writes confirmed username to links.yaml via writeConfig(); `src/config.js` — validateConfig accepts optional `username` string field |
 | BUG-007 | deploy: fix auth header, content-type and request body to match backend API | `src/commands/deploy.js` — deployHosted() corrected to use `X-API-Key` header, YAML content type, raw YAML body via `dump(config)`; removed `generatePage()` call from hosted path (backend generates HTML); added `import { dump } from 'js-yaml'` |
+| LINKS-021 | 5 new themes — brutalist, gradient-wave, newspaper, neon-noir, soft-paper | `src/themes/brutalist.css` (stark white, black borders, no radius, bold sans-serif), `src/themes/gradient-wave.css` (animated dark gradient bg, white cards, soft rounded), `src/themes/newspaper.css` (sepia, serif, thin rules, masthead heading), `src/themes/neon-noir.css` (near-black, neon cyan/magenta, glow hover, sans-serif), `src/themes/soft-paper.css` (warm off-white, dusty rose, 16px radius, subtle shadows) — all 17 tokens, 10 total themes |
 
 ### Active Services
 - **Dashboard** → `http://localhost:8000`
