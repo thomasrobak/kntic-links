@@ -6,6 +6,8 @@
 
 A CLI for building and deploying link-in-bio pages. No tracking, no third-party JS. Self-host a single HTML file, or deploy to kntic.link in one command.
 
+Find more information on [kntic.link](https://kntic.link)
+
 ---
 
 ## Quick Start
